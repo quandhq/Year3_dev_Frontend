@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 const UseFetch = (url) => {
    console.log("useFetch start!!!")
-   let [humidity, getHumidity] = useState([])
+   const [humidity, getHumidity] = useState([])
    const getSensors = async () => {
       const response = await fetch(url,{
       'method':'GET',
@@ -11,8 +11,10 @@ const UseFetch = (url) => {
          }
       });
       const new_sensors = await response.json()
+      let new_sensors_humidity = new_sensors.map((new_sensor)=>{return new_sensor.humidity})
       console.log(new_sensors)
-      getHumidity(new_sensors)
+      console.log(new_sensors_humidity)
+      getHumidity(new_sensors_humidity)
       // if(new_sensors)
       // {
       //    console.log("Fetch data successfull!!")

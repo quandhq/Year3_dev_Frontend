@@ -1,7 +1,7 @@
 import './App.css';
-import Main from './Year3/Main';
-import Navbar from './Year3/Navbar';
-import Footer from './Year3/Footer';
+import MainTemperature from './Year3/Main/MainTemperature';
+import Navbar from './Year3/Main/Navbar';
+import Footer from './Year3/Main/Footer';
 
 
 
@@ -13,7 +13,7 @@ function App() {
         </section>
 
         <section>
-          <Main/>
+          <MainTemperature/>
         </section>
 
         <section>
