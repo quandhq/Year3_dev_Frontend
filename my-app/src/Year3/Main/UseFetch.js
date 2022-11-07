@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const UseFetch = (url) => {
+const useFetch = (url) => {
    console.log("useFetch start!!!")
    const [humidity, getHumidity] = useState([])
    const getSensors = async () => {
@@ -23,9 +23,9 @@ const UseFetch = (url) => {
 
    useEffect(() => {
       getSensors();
-   }, [humidity]);
+   });
 
    return {humidity};
 };
 
-export default UseFetch;
+export default useFetch;

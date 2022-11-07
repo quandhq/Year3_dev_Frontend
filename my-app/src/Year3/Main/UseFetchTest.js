@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 
 
-const UseFetchTest = (url) => 
+const useFetchTest = (url) => 
 {
    let [loading, setLoading] = useState(true);
    let [data, setData] = useState([]);
@@ -26,4 +26,4 @@ const UseFetchTest = (url) =>
    return {loading, data};
 };
 
-export default UseFetchTest;
+export default useFetchTest;

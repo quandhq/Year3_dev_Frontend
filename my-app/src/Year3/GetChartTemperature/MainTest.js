@@ -1,12 +1,13 @@
-import UseFetchTest from "../Main/UseFetchTest";
-import UseFetch from "../Main/UseFetch";
-
+import useFetch from "../Main/useFetch";
+import useFetch1 from "../Main/useFetch1";
+import useFetchTest from "../Main/useFetchTest";
 // let url = 'https://course-api.com/javascript-store-products';
-let url = 'http://127.0.0.1:8000/api/get/2012/12/12/';
 
-const MainTest = () => 
+const url = 'http://127.0.0.1:8000/api/get/2012/12/12/';
+
+const MainTest = (url) => 
 {
-   let {loading, data} = UseFetch(url);
+   let {loading, data} = useFetch1(url);
    console.log(data);
 
 

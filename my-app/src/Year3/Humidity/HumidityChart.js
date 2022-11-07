@@ -2,11 +2,7 @@ import Chart from 'chart.js/auto';
 import { Bar, Line } from "react-chartjs-2";
 import React, { useState, useEffect } from "react";
 
-//This is AC:0B:FB:CE:AD:1F 
-
- 
- 
-function TemperatureChart({data,time}){
+function HumidityChart({data, time}){
   console.log(data); 
   const [chartData, setChartData] = useState({
     labels: [],
@@ -14,22 +10,23 @@ function TemperatureChart({data,time}){
   });
  
   const [chartOptions, setChartOptions] = useState({});
-
-
  
   useEffect(() => {
-    console.count("this is TEMPER!!!!")
+    console.count("this is HUMIDITY!!!!")
+
     let new_time = time.map((t)=>{
       let unixTimestamp = t;
       let date = new Date(unixTimestamp * 1000);
       return date.getHours().toString() + ":" + date.getMinutes().toString() + ":" + date.getSeconds().toString();
     })
-   
+
+    
+
     setChartData({
-      labels: new_time.reverse() ,
+      labels: new_time.reverse(),
       datasets: [
         {
-          label: "Temperature",
+          label: "Humidity",
           data: data.reverse(),
           borderColor: "rgb(53, 162, 235)",
           backgroundColor: "rgba(53, 162, 235, 0.4)",
@@ -42,7 +39,7 @@ function TemperatureChart({data,time}){
     //         y: {
     //             title: {
     //               display: true,
-    //               text: 'Temp',
+    //               text: 'Humidity',
     //               font: {
     //                     family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
     //                     size: 20,
@@ -80,7 +77,7 @@ function TemperatureChart({data,time}){
     //   },
       
     // });
-  }, [data,time]);
+  }, [data, ]);
 
 
   useEffect(() => {
@@ -102,7 +99,7 @@ function TemperatureChart({data,time}){
             y: {
                 title: {
                   display: true,
-                  text: '°C',
+                  text: '%',
                   font: {
                         family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
                         size: 20,
@@ -136,7 +133,6 @@ function TemperatureChart({data,time}){
         title: {
           display: true,
          //  text: mac,
-         // text: "hehe",
           size: 10,
         },
       },
@@ -151,11 +147,10 @@ function TemperatureChart({data,time}){
      <div style={{ position: "relative", margin: "auto", width: "50%"  }}>
        <Line options={chartOptions} data={chartData}  />
     </div>
-
     
     </>
     
   );
 }
  
-export default TemperatureChart;
+export default HumidityChart;
