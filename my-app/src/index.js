@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-// Bootstrap CSS
-import "bootstrap/dist/css/bootstrap.min.css";
-// Bootstrap Bundle JS
-import "bootstrap/dist/js/bootstrap.bundle.min";
+// // Bootstrap CSS package that already installed
+// import "bootstrap/dist/css/bootstrap.min.css";
+// // Bootstrap Bundle JS that already installed too
+// import "bootstrap/dist/js/bootstrap.bundle.min";
 
-import "./my_css.css";      //import our own css stylesheet
-import "./index.css";
+import "./my_css.css";      //import our own css stylesheet, alter css setting for our own here
+import "./index.css";       //default react css
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

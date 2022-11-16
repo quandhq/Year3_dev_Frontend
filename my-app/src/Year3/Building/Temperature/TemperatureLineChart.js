@@ -1,18 +1,12 @@
 import Chart from 'chart.js/auto';
-import {Line } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
 import React, { useState, useEffect } from "react";
 
-function LineChartHum1({data, id}) {
-//   let mac = "";
-//   if(id===1)
-//   { 
-//     mac = "AC:0B:FB:CE:AD:1F";
-//   }
-//   else if(id===2)
-//   {
-//     mac = "4C:75:25:06:A1:E7";
-//   }
+//This is AC:0B:FB:CE:AD:1F 
 
+ 
+ 
+function TemperatureLineChart({data,time,id}){
   console.log(data); 
   const [chartData, setChartData] = useState({
     labels: [],
@@ -20,31 +14,22 @@ function LineChartHum1({data, id}) {
   });
  
   const [chartOptions, setChartOptions] = useState({});
+
+
  
   useEffect(() => {
-    console.count("this is HUMIDITY!!!!")
-    let today = new Date();
-    console.count(today)
-    console.count("This is today from HUMIDIITY")
-    
-    let new_labels = [...chartData.labels]
-    if(chartData.labels.length < 15)
-    {
-      new_labels.push(today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds());
-    }
-    else
-    {
-      new_labels.shift();
-      new_labels.push(today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds());
-    }
-
-    
-
+    console.count("this is TEMPER!!!!")
+    let new_time = time.map((t)=>{
+      let unixTimestamp = t;
+      let date = new Date(unixTimestamp * 1000);
+      return date.getHours().toString() + ":" + date.getMinutes().toString() + ":" + date.getSeconds().toString();
+    })
+   
     setChartData({
-      labels: new_labels ,
+      labels: new_time.reverse() ,
       datasets: [
         {
-          label: "Humidity",
+          label: `Temperature ${id}`,
           data: data.reverse(),
           borderColor: "rgb(53, 162, 235)",
           backgroundColor: "rgba(53, 162, 235, 0.4)",
@@ -57,7 +42,7 @@ function LineChartHum1({data, id}) {
     //         y: {
     //             title: {
     //               display: true,
-    //               text: 'Humidity',
+    //               text: 'Temp',
     //               font: {
     //                     family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
     //                     size: 20,
@@ -95,7 +80,7 @@ function LineChartHum1({data, id}) {
     //   },
       
     // });
-  }, [data, ]);
+  }, [data,time]);
 
 
   useEffect(() => {
@@ -117,7 +102,7 @@ function LineChartHum1({data, id}) {
             y: {
                 title: {
                   display: true,
-                  text: '%',
+                  text: '°C',
                   font: {
                         family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
                         size: 20,
@@ -143,17 +128,18 @@ function LineChartHum1({data, id}) {
       },
       
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           position: "top",
         },
         title: {
           display: true,
-          text: mac,
+         //  text: mac,
+         // text: "hehe",
           size: 10,
         },
       },
-      
     });
   }, []);
  
@@ -161,13 +147,15 @@ function LineChartHum1({data, id}) {
      <>
       
      
-     <div style={{ position: "relative", margin: "auto", width: "50%"  }}>
+     <div style={{ position: "relative", margin: "auto", width: "100%", height: "100%"}}>
+        {/* height:'100px',width:'200px' */}
        <Line options={chartOptions} data={chartData}  />
     </div>
+
     
     </>
     
   );
 }
  
-export default LineChartHum1;
+export default TemperatureLineChart;

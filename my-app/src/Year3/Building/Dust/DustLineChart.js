@@ -2,7 +2,7 @@ import Chart from 'chart.js/auto';
 import { Bar, Line } from "react-chartjs-2";
 import React, { useState, useEffect } from "react";
 
-function HumidityChart({data, time}){
+function DustLineChart({data, time,id}){
   console.log(data); 
   const [chartData, setChartData] = useState({
     labels: [],
@@ -12,7 +12,7 @@ function HumidityChart({data, time}){
   const [chartOptions, setChartOptions] = useState({});
  
   useEffect(() => {
-    console.count("this is HUMIDITY!!!!")
+    console.count("this is Co2!!!!")
 
     let new_time = time.map((t)=>{
       let unixTimestamp = t;
@@ -26,7 +26,7 @@ function HumidityChart({data, time}){
       labels: new_time.reverse(),
       datasets: [
         {
-          label: "Humidity",
+          label: `Dust ${id}`,
           data: data.reverse(),
           borderColor: "rgb(53, 162, 235)",
           backgroundColor: "rgba(53, 162, 235, 0.4)",
@@ -144,7 +144,7 @@ function HumidityChart({data, time}){
      <>
       
      
-     <div style={{ position: "relative", margin: "auto", width: "50%"  }}>
+     <div style={{ position: "relative", margin: "auto", width: "100%", height: "100%"  }}>
        <Line options={chartOptions} data={chartData}  />
     </div>
     
@@ -153,4 +153,4 @@ function HumidityChart({data, time}){
   );
 }
  
-export default HumidityChart;
+export default DustLineChart;

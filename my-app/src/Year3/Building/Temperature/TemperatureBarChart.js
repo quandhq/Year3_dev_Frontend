@@ -1,12 +1,33 @@
+import React from 'react';
 import Chart from 'chart.js/auto';
-import { Bar, Line } from "react-chartjs-2";
-import React, { useState, useEffect } from "react";
+// import {
+//   Chart as ChartJS,
+//   CategoryScale,
+//   LinearScale,
+//   BarElement,
+//   Title,
+//   Tooltip,
+//   Legend,
+// } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+
+import { useState, useEffect } from "react";
+
+// ChartJS.register(
+//   CategoryScale,
+//   LinearScale,
+//   BarElement,
+//   Title,
+//   Tooltip,
+//   Legend
+// );
+
 
 //This is AC:0B:FB:CE:AD:1F 
 
  
  
-function TemperatureChart({data,time}){
+function TemperatureBarChart({data,time,id}){
   console.log(data); 
   const [chartData, setChartData] = useState({
     labels: [],
@@ -29,7 +50,7 @@ function TemperatureChart({data,time}){
       labels: new_time.reverse() ,
       datasets: [
         {
-          label: "Temperature",
+          label: `Temperature ${id}`,
           data: data.reverse(),
           borderColor: "rgb(53, 162, 235)",
           backgroundColor: "rgba(53, 162, 235, 0.4)",
@@ -140,7 +161,6 @@ function TemperatureChart({data,time}){
           size: 10,
         },
       },
-      
     });
   }, []);
  
@@ -148,8 +168,9 @@ function TemperatureChart({data,time}){
      <>
       
      
-     <div style={{ position: "relative", margin: "auto", width: "50%"  }}>
-       <Line options={chartOptions} data={chartData}  />
+     <div style={{ position: "relative", margin: "auto", width: "100%", height: "100%"}}>
+        {/* height:'100px',width:'200px' */}
+       <Bar options={chartOptions} data={chartData}  />
     </div>
 
     
@@ -158,4 +179,4 @@ function TemperatureChart({data,time}){
   );
 }
  
-export default TemperatureChart;
+export default TemperatureBarChart;
