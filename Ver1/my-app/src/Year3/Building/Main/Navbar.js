@@ -14,13 +14,13 @@ import About from "./About";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-   let navigate = useNavigate()
+   // let navigate = useNavigate()
    return(
          <div>
             <nav class="navbar navbar-expand-lg bg-light sticky-top"> 
                <div class="container-fluid">
                   <a class="navbar-brand" href="https://lienminh.garena.vn/">
-                     <img src={process.env.PUBLIC_URL + '/image/yasuo_55.jpg'} alt="NOT FOUND" class="rounded" width="60" height="48" />
+                     <img src={process.env.PUBLIC_URL + '/image/black.png'} alt="NOT FOUND" class="rounded" width="60" height="48" />
                   </a>
                   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                      <span class="navbar-toggler-icon"></span>
@@ -41,13 +41,13 @@ const Navbar = () => {
                               Down for more
                            </a>
                            <ul class="dropdown-menu">
-                              <li><Link class="dropdown-item" to="temperature">Temp</Link></li>
+                              {/* <li><Link class="dropdown-item" to="temperature">Temp</Link></li>
                               <li><Link class="dropdown-item" to="humidity">Hum</Link></li>
                               <li><Link class="dropdown-item" to="co2">Co2</Link></li>
                               <li><Link class="dropdown-item" to="dust">Dust</Link></li>
                               <li><Link class="dropdown-item" to="about">Something else here</Link></li>
                               <li><button class="btn btn-warning dropdown-item" onClick={()=> navigate("./") }>Go back one</button></li>
-                              <li><button class="btn btn-warning dropdown-item" onClick={()=> navigate("../") }>Go back two</button></li>
+                              <li><button class="btn btn-warning dropdown-item" onClick={()=> navigate("../") }>Go back two</button></li> */}
                            </ul>
                         </li>
                      </ul>
@@ -59,7 +59,7 @@ const Navbar = () => {
                </div>
             </nav> 
 
-            <Outlet/>
+            {/* <Outlet/> */}
 
             {/* <Routes>
               <Route path="/building1" element={<About/>}/>          

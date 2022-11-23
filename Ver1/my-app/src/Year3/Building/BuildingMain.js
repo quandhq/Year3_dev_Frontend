@@ -3,6 +3,8 @@ import Footer from "./Main/Footer"
 import { BrowserRouter, Link, Routes, Route, Outlet } from "react-router-dom";
 import Test1 from "./Test1";
 import Test2 from "./Test2";
+import Main from "./Main/Main";
+
 const BuildingMain = () => 
 {
    return(
@@ -20,6 +22,9 @@ const BuildingMain = () =>
       <div>   
          <section>
             <Navbar/>         
+         </section>
+         <section>
+            <Main/>
          </section>
          <section>
             <Footer/>

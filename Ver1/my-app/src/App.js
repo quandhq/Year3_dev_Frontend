@@ -37,7 +37,7 @@ function App() {
     // </Routes>
     // </BrowserRouter>
     <div>
-      <FarmMain/>
+      <BuildingMain/>
     </div>
   );
 }
