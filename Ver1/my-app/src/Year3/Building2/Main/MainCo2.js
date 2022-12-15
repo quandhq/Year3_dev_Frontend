@@ -1,24 +1,17 @@
 import useFetch from "./useFetch";
 import useFetch1 from "./useFetch1";
 import useFetchTest from "./useFetchTest";
-import TemperatureChart from "../Temperature/TemperatureLineChart";
-import TemperatureBarChart from "../Temperature/TemperatureBarChart";
-import HumidityLineChart from "../Humidity/HumidityLineChart";
-import HumidityBarChart from "../Humidity/HumidityBarChart";
 import Co2BarChart from "../Co2/Co2BarChart";
-import DustBarChart from "../Dust/DustBarChart";
-import LightBarChart from "../Light/LightBarChart";
-import SoundBarChart from "../Sound/SoundBarChart";
-
+import Co2LineChart from "../Co2/Co2LineChart";
 import { useState } from "react";
 
-const Main = () => 
+const MainCo2 = () => 
 {
   const [id, setId] = useState(1);
   console.log(id)
   let url = `http://127.0.0.1:8000/api/get/${id}`;
   //Mỗi lần fetch lại data mới thì cái sensros sẽ bị thay đổi state nên là sẽ re-render lại cái SensorsList chứa cái state này nhưng cái  
-  const {temperature,humidity,co2,dust,sound,light,time} = useFetch1(url);    //cái này là object destructor
+  const {temperature,humidity,co2,dust,time} = useFetch1(url);    //cái này là object destructor
   const clickHandler = () => {alert("Not that fun but kind of")};
 
   return (
@@ -28,18 +21,10 @@ const Main = () =>
           <div className='row'>
             <div className='col-5'>
               <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'>
-                <h1>This is node {id}</h1>
-                <h2>Available measuremet</h2>
-                <h2>... chỗ này là để hiển thị các thông số có thể đo của node này ...</h2>
-                <ul>
-                  <li>1: ...</li>
-                  <li>2: ...</li>
-                  <li>3: ...</li>
-                  <li>4: ...</li>
-                </ul>
+                <Co2LineChart data={co2} time={time} id={id}/>
               </div>
-                <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'>
-                  <div className="room">
+              <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'>
+                <div className="room">
                     <img src={process.env.PUBLIC_URL + '/image/room.png'} alt="NOT FOUND ROOM" />
                     <button value={1} className="btn-room btn-room-1" onClick={(event_object) => {setId(event_object.target.value);alert(`${event_object.target.value}`)}}>1</button>
                     <button value={2} className="btn-room btn-room-2" onClick={(event_object) => {setId(event_object.target.value);alert(`${event_object.target.value}`)}}>2</button>
@@ -49,15 +34,19 @@ const Main = () =>
                   </div>
               </div>
               <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'>
-                <h1>Heat map here</h1>
-                <h2>... hiển thị heatmap chỗ này ...</h2>
-              </div>
-              <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'>
                 <span>
                   <button type="button" class="btn btn-warning" onClick={clickHandler}>
-                    Click to set parameter!
+                    Click here for st fun!
                   </button>
                 </span>
+              </div>
+              <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'>
+                <img src={process.env.PUBLIC_URL + '/image/funny-cat-dog-tweets-cover_800.png'} alt="NOT FOUND"/> 
+              </div>
+              <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'><p>Lorem ipsum dolor sit amet consectetur 
+                adipisicing elit. Nostrum repudiandae, qui voluptatum ut provident, 
+                fugit voluptate totam at dolore harum, veniam natus obcaecati commodi
+                 consequuntur sequi quasi! Odio, nostrum nisi.</p>
               </div> 
               {/* <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'><MainTest/></div> */}
               {/* <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'><MainTest/></div> */}
@@ -65,28 +54,20 @@ const Main = () =>
 
             <div className='col-7'>
               <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'>
-               <h2>Temperature</h2>
-                <TemperatureBarChart data={temperature} time={time} id={id}/>
+                <Co2LineChart data={co2} time={time} id={id}/>
               </div>
               <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'>
-               <h2>Humidity</h2>
-                <HumidityBarChart data={humidity} time={time} id={id}/>
-              </div>
-              <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'>
-               <h2>Co2</h2>
                 <Co2BarChart data={co2} time={time} id={id}/>
               </div>
-              <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'>
-               <h2>Dust</h2>
-                <DustBarChart data={dust} time={time} id={id}/>
+              <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'><p>Lorem ipsum dolor sit amet consectetur 
+                adipisicing elit. Nostrum repudiandae, qui voluptatum ut provident, 
+                fugit voluptate totam at dolore harum, veniam natus obcaecati commodi
+                consequuntur sequi quasi! Odio, nostrum nisi.</p>
               </div>
-              <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'>
-               <h2>Sound</h2>
-                <SoundBarChart data={sound} time={time} id={id}/>
-              </div>
-              <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'>
-               <h2>Light</h2>
-                <LightBarChart data={light} time={time} id={id}/>
+              <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'><p>Lorem ipsum dolor sit amet consectetur 
+                adipisicing elit. Nostrum repudiandae, qui voluptatum ut provident, 
+                fugit voluptate totam at dolore harum, veniam natus obcaecati commodi
+                consequuntur sequi quasi! Odio, nostrum nisi.</p>
               </div>
             </div>
           </div>
@@ -95,4 +76,4 @@ const Main = () =>
    );
 };
 
-export default Main;
+export default MainCo2;

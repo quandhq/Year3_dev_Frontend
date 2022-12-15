@@ -5,13 +5,13 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import BuildingMain from '../../Building/BuildingMain'
+import BuildingMain from '../../Building1/BuildingMain'
 
-import MainHumidity from "../../Building/Main/MainHumidity";
-import MainTemperature from "../../Building/Main/MainTemperature";
-import MainCo2 from "../../Building/Main/MainCo2";
-import MainDust from "../../Building/Main/MainDust";
-import About from "../../Building/Main/About";
+import MainHumidity from "../../Building1/Main/MainHumidity";
+import MainTemperature from "../../Building1/Main/MainTemperature";
+import MainCo2 from "../../Building1/Main/MainCo2";
+import MainDust from "../../Building1/Main/MainDust";
+import About from "../../Building1/Main/About";
 import Footer from "./Footer";
 import Test from "./Test";
 import { useState } from "react";

@@ -3,15 +3,23 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Link
+  Link,
+  Outlet
 } from "react-router-dom";
+import MainHumidity from "./MainHumidity";
+import MainTemperature from "./MainTemperature";
+import MainCo2 from "./MainCo2";
+import MainDust from "./MainDust";
+import About from "./About";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+   // let navigate = useNavigate()
    return(
          <div>
             <nav class="navbar navbar-expand-lg bg-light sticky-top"> 
                <div class="container-fluid">
-                  <a class="navbar-brand" href="https://google.com.vn/">
+                  <a class="navbar-brand" href="https://lienminh.garena.vn/">
                      <img src={process.env.PUBLIC_URL + '/image/black.png'} alt="NOT FOUND" class="rounded" width="60" height="48" />
                   </a>
                   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,15 +38,17 @@ const Navbar = () => {
                         </li> */}
                         <li class="nav-item dropdown">
                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Nothing to see here
+                              Down for more
                            </a>
-                           {/* <ul class="dropdown-menu">
-                              <li><Link class="dropdown-item" to="/temperature">Temp</Link></li>
-                              <li><Link class="dropdown-item" to="/humidity">Hum</Link></li>
-                              <li><Link class="dropdown-item" to="/co2">Co2</Link></li>
-                              <li><Link class="dropdown-item" to="/dust">Dust</Link></li>
-                              <li><Link class="dropdown-item" to="/about">Something else here</Link></li>
-                           </ul> */}
+                           <ul class="dropdown-menu">
+                              {/* <li><Link class="dropdown-item" to="temperature">Temp</Link></li>
+                              <li><Link class="dropdown-item" to="humidity">Hum</Link></li>
+                              <li><Link class="dropdown-item" to="co2">Co2</Link></li>
+                              <li><Link class="dropdown-item" to="dust">Dust</Link></li>
+                              <li><Link class="dropdown-item" to="about">Something else here</Link></li>
+                              <li><button class="btn btn-warning dropdown-item" onClick={()=> navigate("./") }>Go back one</button></li>
+                              <li><button class="btn btn-warning dropdown-item" onClick={()=> navigate("../") }>Go back two</button></li> */}
+                           </ul>
                         </li>
                      </ul>
                      <form class="d-flex" role="search">
@@ -49,12 +59,15 @@ const Navbar = () => {
                </div>
             </nav> 
 
+            {/* <Outlet/> */}
+
             {/* <Routes>
-              <Route path="/temperature" element={<MainTemperature/>}/>
-              <Route path="/humidity" element={<MainHumidity/>}/>
-              <Route path="/co2" element={<MainCo2/>}/>
-              <Route path="/dust" element={<MainDust/>}/>
-              <Route path="/about" element={<About/>}/>
+              <Route path="/building1" element={<About/>}/>          
+              <Route path="/building1/temperature" element={<MainTemperature/>}/>
+              <Route path="/building1/humidity" element={<MainHumidity/>}/>
+              <Route path="/building1/co2" element={<MainCo2/>}/>
+              <Route path="/building1/dust" element={<MainDust/>}/>
+              <Route path="/building1/about" element={<About/>}/>
             </Routes> */}
          </div>
    );
