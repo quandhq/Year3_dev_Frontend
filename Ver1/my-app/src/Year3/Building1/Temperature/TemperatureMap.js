@@ -11,14 +11,14 @@ const generateData = (data, resolutionX, resolutionY) =>
 {
    let series = [];
    let count = 0;
-   for(let i=1; i<=resolutionX;++i)
+   for(let i=1; i<=resolutionY;++i)
    {
       let serie = {name: "", data : []};
-      serie.name = `.`;
+      serie.name = `${i}`;
       serie.data = [];
-      for(let j=1;j<=resolutionY;++j)
+      for(let j=1;j<=resolutionX;++j)
       {
-         serie.data.push({x:`.`, y: data[count]}); //add 4 {x, y} to serie.data  for each i
+         serie.data.push({x:`${j}`, y: data[count]}); //add 4 {x, y} to serie.data  for each i
          ++count;
       }
       series.push(serie);
@@ -58,7 +58,7 @@ const TemperatureMap = ({data, resolutionX, resolutionY}) => {
                               radius: 0,
                               useFillColorAsStroke: true, //delete space between cells
                               colorScale: {
-                                ranges: [{from: 22,to: 35,name: 'temp',color: '#FF0000'},
+                                ranges: [{from: 340,to: 540,name: 'temp',color: '#FF0000'},
                                       // {from: 6,to: 20,name: 'medium',color: '#128FD9'},
                                       // {from: 21,to: 45,name: 'high',color: '#FFB200'},
                                       // {from: 46,to: 55,name: 'extreme',color: '#FF0000'}
@@ -66,7 +66,49 @@ const TemperatureMap = ({data, resolutionX, resolutionY}) => {
                                   }
                                 }
                               },
-                            }
+
+                        xaxis: {
+                          labels: {
+                            show: true,
+                            rotate: 0,
+                            rotateAlways: false,
+                            hideOverlappingLabels: true,
+                            showDuplicates: false,
+                            trim: false,
+                            minHeight: undefined,
+                            maxHeight: 40,
+                            style: {
+                                colors: [],
+                                fontSize: '5px',
+                                fontFamily: 'Helvetica, Arial, sans-serif',
+                                fontWeight: 400,
+                                cssClass: 'apexcharts-xaxis-label',
+                                },
+                              },
+                            },
+                              
+                              
+                        yaxis: {
+                          labels: {
+                            show: true,
+                            rotate: 0,
+                            rotateAlways: false,
+                            hideOverlappingLabels: true,
+                            showDuplicates: false,
+                            trim: false,
+                            minHeight: undefined,
+                            maxHeight: 40,
+                            style: {
+                                colors: [],
+                                fontSize: '3px',
+                                fontFamily: 'Helvetica, Arial, sans-serif',
+                                fontWeight: 400,
+                                cssClass: 'apexcharts-xaxis-label',
+                                },
+                              },
+                            },
+
+                          }
       }
     );
     

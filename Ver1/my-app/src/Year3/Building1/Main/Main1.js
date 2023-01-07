@@ -113,7 +113,7 @@ const Main1 = () =>
             <div className='col-7'>
               <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'>
                <h2>Temperature</h2>
-                <TemperatureMap data={data} resolutionX={resolutionX} resolutionY={resolutionY}/>
+                <TemperatureMap data={data} resolutionX={100} resolutionY={80}/>
               </div>
 
 
