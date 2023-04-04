@@ -2,11 +2,6 @@ import React, {useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useState } from "react";
 
-
-const resolutionX = 6
-const resolutionY = 4
-
-
 const generateData = (data, resolutionX, resolutionY) => 
 {
    let series = [];
@@ -18,7 +13,7 @@ const generateData = (data, resolutionX, resolutionY) =>
       serie.data = [];
       for(let j=1;j<=resolutionX;++j)
       {
-         serie.data.push({x:`${j}`, y: data[count]}); //add 4 {x, y} to serie.data  for each i
+         serie.data.push({x:`${j}`, y: data[count]}); 
          ++count;
       }
       series.push(serie);
@@ -118,6 +113,9 @@ const TemperatureMap = ({data, resolutionX, resolutionY}) => {
 
     console.log("???????????????????????????????????????????????????????????????????");
     console.log(data)
+    console.log("..........................................................................................");
+    console.log(resolutionX)
+    console.log(resolutionY)
     console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     console.log(state.series);
     console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");

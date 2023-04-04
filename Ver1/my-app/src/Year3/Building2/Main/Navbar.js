@@ -1,17 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link,
-  Outlet
-} from "react-router-dom";
-import MainHumidity from "./MainHumidity";
-import MainTemperature from "./MainTemperature";
-import MainCo2 from "./MainCo2";
-import MainDust from "./MainDust";
-import About from "./About";
-import { useNavigate } from "react-router-dom";
+
 
 const Navbar = () => {
    // let navigate = useNavigate()

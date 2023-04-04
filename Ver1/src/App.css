@@ -1,0 +1,26 @@
+h1 {
+text-align: center;
+}
+
+h2 {
+text-align: center;
+
+}
+
+.room_image
+{
+height: 400px;
+display: block;
+margin-left: auto;
+margin-right: auto;
+width: auto;
+}
+
+.sub-content {
+background-color: white;
+text-align: center;
+padding-left: 5%;
+padding-right: 5%;
+padding-top: 5%;
+padding-bottom: 5%;
+}

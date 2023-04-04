@@ -8,7 +8,6 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import BuildingMain from './Year3/Building1/BuildingMain';
 import FarmMain from './Year3/Farm/FarmMain';
 import BarChart from './Year3/Building1/Main/BarChart';
 import Main1 from './Year3/Building1/Main/Main1';

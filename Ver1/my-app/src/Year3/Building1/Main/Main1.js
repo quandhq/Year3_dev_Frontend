@@ -45,7 +45,7 @@ const Main1 = () =>
   //Mỗi lần fetch lại data mới thì cái sensor sẽ bị thay đổi state nên là sẽ re-render lại cái SensorsList chứa cái state này nhưng cái  
   const {temperature,humidity,co2,dust,sound,light,time} = useFetch1(url);    //cái này là object destructor, fetch data for chart 
   const {data, resolutionX, resolutionY} = useFetch3(url_2);
-  const clickHandler = () => {alert("Not that fun but kind of")};
+  const clickHandler = () => {alert("TEST SETUP")};
   const options = [1,2,3,4,5];
 
   const OnChangeSetlevel = (e) => {
@@ -113,7 +113,7 @@ const Main1 = () =>
             <div className='col-7'>
               <div className='row mx-1 my-1 rounded text-center border bg-light sub-content'>
                <h2>Temperature</h2>
-                <TemperatureMap data={data} resolutionX={100} resolutionY={80}/>
+                <TemperatureMap data={data} resolutionX={resolutionX} resolutionY={resolutionY}/>
               </div>
 
 
