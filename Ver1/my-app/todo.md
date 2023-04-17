@@ -1,2 +1,0 @@
-- Determine what kind of data need to draw --> What API need?
-- Beautify UI 
