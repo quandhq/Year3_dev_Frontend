@@ -3,6 +3,7 @@ import { tokens } from "../../theme";
 import { mockTransactions } from "../../data/mockData";
 import Header from "../../components/Header";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
+import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOutlined';
 import BarChart from "../../components/BarChart";
 import LineChart from "../../components/LineChart";
 import { LineChartApex } from "../../components/ApexChart/LineChartApex";
@@ -14,9 +15,10 @@ import Control  from "../../components/GaugeChart/Control";
 const Dashboard = ({image}) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [id, setId] = useState(1); 
-    const chart_data_api = `http://127.0.0.1:8000/api/get/${id}`   
-    const {temperature,humidity,co2,dust,sound,light,time} = useFetch(chart_data_api);    //cái này là object destructor, fetch data for chart 
+    const [id, setId] = useState(1);
+    const [option, setOption] = useState(1);
+    const [api, setApi] = useState(`http://127.0.0.1:8000/api/get/secondly_data/${id}`);
+    const {temperature,humidity,co2,dust,sound,light,time} = useFetch(api);    //cái này là object destructor, fetch data for chart 
 
     return (
         <Box m="20px">
@@ -24,7 +26,6 @@ const Dashboard = ({image}) => {
             <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Header title="Dashboard" subtitle="Welcome to your dashboard" />
             
-
                 <Box>
                     <Button
                         sx={{
@@ -40,6 +41,49 @@ const Dashboard = ({image}) => {
                     </Button>
                 </Box>
             </Box>   
+
+            {/* data chase back option */}
+            <Box display="flex"  alignItems="center">
+                <Header title="Data options" variant="h3"/>
+
+                <Box mb="30px" ml="5px">
+                    <Button
+                        sx={{
+                        backgroundColor: colors.blueAccent[700],
+                        color: colors.grey[100],
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        padding: "2px 5px",
+                        }}
+                        onClick={()=>{
+                            setApi(`http://127.0.0.1:8000/api/get/daily_data/${id}`)
+                            setOption(2);
+                        }}
+                    >
+                        <HistoryToggleOffOutlinedIcon sx={{ mr: "10px" }} />
+                        Day
+                    </Button>
+                </Box>
+
+                <Box mb="30px" ml="5px">
+                    <Button
+                        sx={{
+                        backgroundColor: colors.blueAccent[700],
+                        color: colors.grey[100],
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        padding: "2px 5px",
+                        }}
+                        onClick={()=>{
+                            setApi(`http://127.0.0.1:8000/api/get/secondly_data/${id}`)
+                            setOption(1);
+                        }}
+                    >
+                        <HistoryToggleOffOutlinedIcon sx={{ mr: "10px" }} />
+                        Second
+                    </Button>
+                </Box>
+            </Box>
 
             {/* GRID & CHARTS , GRID for whole page, 12 columns*/}
             <Box
@@ -93,7 +137,7 @@ const Dashboard = ({image}) => {
                     </Typography> */}
 
                     <Box height="400px" mt="0px">   
-                        <LineChartApex nameChart={'Temperature level'} id={id} time={time} value={temperature}/>
+                        <LineChartApex nameChart={'Temperature level'} id={id} time={time} value={temperature} option={option}/>
 
                         {/* <BarChart isDashboard={true}/> */}
                     </Box>
@@ -114,7 +158,7 @@ const Dashboard = ({image}) => {
 
                     <Box height="400px" mt="0px">
                         {/* <BarChart isDashboard={true} /> */}
-                        <LineChartApex nameChart={'Humidity level'} id={id} time={time} value={humidity}/>
+                        <LineChartApex nameChart={'Humidity level'} id={id} time={time} value={humidity} option={option}/>
                     </Box>
                 </Box>
 
@@ -160,7 +204,7 @@ const Dashboard = ({image}) => {
 
                     <Box height="400px" mt="0px">
                         {/* <BarChart isDashboard={true} /> */}
-                        <LineChartApex nameChart={'CO2 level'} id={id} time={time} value={co2}/>
+                        <LineChartApex nameChart={'CO2 level'} id={id} time={time} value={co2} option={option}/>
                     </Box>
 
                 </Box>
@@ -181,7 +225,7 @@ const Dashboard = ({image}) => {
 
                     <Box height="400px" mt="0px">
                         {/* <BarChart isDashboard={true} /> */}
-                        <LineChartApex nameChart={'Light level'} id={id} time={time} value={light}/>
+                        <LineChartApex nameChart={'Light level'} id={id} time={time} value={light} option={option}/>
                     </Box>
 
                 </Box>

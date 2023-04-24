@@ -48,7 +48,7 @@ const Control = React.memo(() => {
                 fontWeight: "bold",
                 padding: "10px 20px",
                 }}
-                onClick={Increase}
+                onClick={Decrease}
             >
                         {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
                         -

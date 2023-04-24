@@ -16,6 +16,7 @@ import Geography from "./scenes/geography";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import room1 from "./images/room1.svg";
+import Welcome from "./scenes/welcome";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -32,6 +33,7 @@ function App() {
               <Topbar/>
 
               <Routes>
+                <Route path="" element={<Welcome />} />
                 <Route path="/landing1/dashboard" element={<Dashboard image={room1}/>} />
                 <Route path="/landing" element={<Landing />} />
                 <Route path="/team" element={<Team />} />
