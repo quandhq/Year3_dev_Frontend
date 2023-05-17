@@ -1,4 +1,4 @@
-import { Box, IconButton, useTheme } from "@mui/material";
+import { Box, IconButton, useTheme, Typography } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
@@ -13,6 +13,7 @@ const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+  const username = localStorage.getItem("username");
 
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
@@ -31,25 +32,39 @@ const Topbar = () => {
 
       {/* ICONS */}
       <Box display="flex">
-        <IconButton onClick={colorMode.toggleColorMode}>
-          {theme.palette.mode === "dark" ? (
-            <DarkModeOutlinedIcon />
-          ) : (
-            <LightModeOutlinedIcon />
-          )}
-        </IconButton>
+			<IconButton onClick={colorMode.toggleColorMode}>
+				{theme.palette.mode === "dark" ? (
+				<DarkModeOutlinedIcon />
+				) : (
+				<LightModeOutlinedIcon />
+				)}
+			</IconButton>
 
-        <IconButton>
-          <NotificationsOutlinedIcon />
-        </IconButton>
+			{/* <IconButton>
+				<NotificationsOutlinedIcon />
+			</IconButton> */}
 
-        <IconButton>
-          <SettingsOutlinedIcon />
-        </IconButton>
-        
-        <IconButton>
-          <PersonOutlinedIcon />
-        </IconButton>
+			{/* <IconButton>
+				<SettingsOutlinedIcon />
+			</IconButton> */}
+			
+			<Box display="flex" alignItems="center"> {/* Wrap the icon and text in a Box component */}
+				<IconButton>
+					<PersonOutlinedIcon />
+				</IconButton>
+
+				<Typography variant="h5" color={colors.greenAccent[400]} display="inline">
+					Hi {username}
+				</Typography>
+			</Box>
+
+			{/* <IconButton>
+				<PersonOutlinedIcon/>
+			</IconButton>
+
+			<Typography variant="h5" color={colors.greenAccent[400]} display="inline">
+			Hello
+			</Typography> */}
       </Box>
     </Box>
   );

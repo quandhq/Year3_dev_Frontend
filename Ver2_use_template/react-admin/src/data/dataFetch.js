@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
 
-const useFetch = (url) => {
+const useFetch = (url,) => {
    console.log(url)
    console.count("useFetch start!!!")
    const [humidity, getHumidity] = useState([])

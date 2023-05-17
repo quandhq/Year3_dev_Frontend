@@ -8,17 +8,19 @@ import BarChart from "../../components/BarChart";
 import LineChart from "../../components/LineChart";
 import { LineChartApex } from "../../components/ApexChart/LineChartApex";
 import { BarChartApex } from "../../components/ApexChart/BarChartApex";
-import useFetch from "../../data/dataFetch";
-import { useState } from "react";
+import useFetch from "../../data/dataFetchTestAuthentication";
+import { useState, useContext } from "react";
 import Control  from "../../components/GaugeChart/Control";
+import { UserContext } from "../../App";
 
 const Dashboard = ({image}) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const callbackSetSignIn = useContext(UserContext);
     const [id, setId] = useState(1);
     const [option, setOption] = useState(1);
     const [api, setApi] = useState(`http://127.0.0.1:8000/api/get/secondly_data/${id}`);
-    const {temperature,humidity,co2,dust,sound,light,time} = useFetch(api);    //cái này là object destructor, fetch data for chart 
+    const {temperature,humidity,co2,dust,sound,light,time} = useFetch(api, callbackSetSignIn);    //cái này là object destructor, fetch data for chart 
 
     return (
         <Box m="20px">

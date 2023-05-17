@@ -3,6 +3,14 @@ import ReactApexChart from "react-apexcharts";
 
 // Reference: https://apexcharts.com/react-chart-demos/line-charts/basic/
 
+/* 
+  * props meaning:- nameChart: to show the nameChart on the chart
+                  - id: the id of the sensor node
+                  - time: the x-axis of the chart
+                  - vlaue: the y-axis of the chart
+                  - option: + "1" determines that this is secondly data chart
+                            + "2" determines that this is daily data chart
+ */
 export const LineChartApex = ({ nameChart, id, time, value, option }) => {
   const [data, setData] = useState({
     options: {
