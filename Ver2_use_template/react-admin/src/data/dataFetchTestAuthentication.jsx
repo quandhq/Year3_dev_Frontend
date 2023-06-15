@@ -4,18 +4,15 @@
 import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
 
 const useFetch = (url,callbackSetSignIn) => {
-   console.log(url)
-   console.count("useFetch start!!!")
-   const [humidity, getHumidity] = useState([])
-   const [temperature, getTemperature] = useState([])
-   const [time, getTime] = useState([])
-   const [co2, getCo2] = useState([])
-   const [dust, getDust] = useState([])
-   const [light, getLight] = useState([])
-   const [sound, getSound] = useState([])
+    console.log(url)
+    console.count("useFetch start!!!")
+    const [co2, getCo2] = useState([])
+    const [hum, getHum] = useState([])
+    const [temp, getTemp] = useState([])
+    const [time, getTime] = useState([])
 
-    //get the access-token and the refresh-token on the local storage
-   const token = {access_token: null, refresh_token: null}
+        //get the access-token and the refresh-token on the local storage
+    const token = {access_token: null, refresh_token: null}
     if(localStorage.getItem("access") !== null && localStorage.getItem("refresh") !== null)
     {
             token.access_token = localStorage.getItem("access"); 
@@ -23,7 +20,7 @@ const useFetch = (url,callbackSetSignIn) => {
     }
     else
     {
-            throw new Error("There is no access token and refresh token ....");
+        throw new Error("There is no access token and refresh token ....");
     }
 
    /*
@@ -108,13 +105,10 @@ const useFetch = (url,callbackSetSignIn) => {
         {
                 console.log(new_sensors);
                 console.log(new_sensors.humidity);
-                getTemperature(new_sensors.temperature);
-                getHumidity(new_sensors.humidity);
+                getTemp(new_sensors.temp);
+                getHum(new_sensors.hum);
                 getTime(new_sensors.time)
                 getCo2(new_sensors.co2)
-                getDust(new_sensors.dust)
-                getSound(new_sensors.sound)
-                getLight(new_sensors.light)
         }
         else
         {
@@ -156,9 +150,9 @@ const useFetch = (url,callbackSetSignIn) => {
 
    useEffect(() => {
         setTimeout(() => {getSensors()}, 500);
-   },[temperature,humidity,co2,dust,sound,light,time]);        
+   },[co2,temp,hum,time]);        
 
-   return {temperature,humidity,co2,dust,sound,light,time};
+   return {co2,temp,hum,time};
 };
 
 export default useFetch;

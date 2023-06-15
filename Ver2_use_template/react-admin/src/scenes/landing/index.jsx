@@ -45,7 +45,7 @@ const Landing = () => {
                 <Header title="Landing" subtitle="Welcome to Landing page" />
             
 
-                <Box>
+                {/* <Box>
                     <Button
                         sx={{
                         backgroundColor: colors.blueAccent[700],
@@ -58,7 +58,7 @@ const Landing = () => {
                         <DownloadOutlinedIcon sx={{ mr: "10px" }} />
                         Download 
                     </Button>
-                </Box>
+                </Box> */}
             </Box>   
 
             {/* GRID & CHARTS , GRID for whole page, 12 columns*/}

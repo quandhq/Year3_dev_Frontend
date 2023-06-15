@@ -89,7 +89,10 @@ export const LineChartApex = ({ nameChart, id, time, value, option }) => {
 
     return (
       <div id="chart">
-        <ReactApexChart options={data.options} series={data.series} type="line" height="200%"/>
+        <ReactApexChart options={data.options} 
+                        series={data.series} 
+                        type="line" 
+                        height="200%"/>
       </div>
     );
 };

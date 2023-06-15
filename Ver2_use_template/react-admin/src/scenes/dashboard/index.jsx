@@ -12,6 +12,10 @@ import useFetch from "../../data/dataFetchTestAuthentication";
 import { useState, useContext } from "react";
 import Control  from "../../components/GaugeChart/Control";
 import { UserContext } from "../../App";
+import ProgressCircle from "../../components/ProgressCircle";
+import ControlPanel from "../../components/ControlPanel/ControlPanel";
+import MultipleYAxis from "../../components/ApexChart/MixChartApex";
+
 
 const Dashboard = ({image}) => {
     const theme = useTheme();
@@ -19,8 +23,8 @@ const Dashboard = ({image}) => {
     const callbackSetSignIn = useContext(UserContext);
     const [id, setId] = useState(1);
     const [option, setOption] = useState(1);
-    const [api, setApi] = useState(`http://127.0.0.1:8000/api/get/secondly_data/${id}`);
-    const {temperature,humidity,co2,dust,sound,light,time} = useFetch(api, callbackSetSignIn);    //cái này là object destructor, fetch data for chart 
+    const [api, setApi] = useState(`http://127.0.0.1:8000/api/get/secondly_data/${id}`); 
+    const {co2, temp, hum, time} = useFetch(api, callbackSetSignIn);    //cái này là object destructor, fetch data for chart 
 
     return (
         <Box m="20px">
@@ -28,7 +32,7 @@ const Dashboard = ({image}) => {
             <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Header title="Dashboard" subtitle="Welcome to your dashboard" />
             
-                <Box>
+                {/* <Box>
                     <Button
                         sx={{
                         backgroundColor: colors.blueAccent[700],
@@ -41,7 +45,7 @@ const Dashboard = ({image}) => {
                         <DownloadOutlinedIcon sx={{ mr: "10px" }} />
                         Download Reports
                     </Button>
-                </Box>
+                </Box> */}
             </Box>   
 
             {/* data chase back option */}
@@ -87,18 +91,27 @@ const Dashboard = ({image}) => {
                 </Box>
             </Box>
 
+            {/* Control Panel */}
+            <Box alignItems="center">
+                <Box width="40%">
+                    <ControlPanel/>
+                </Box>
+                {/* <Control/> */}
+            </Box>
+
             {/* GRID & CHARTS , GRID for whole page, 12 columns*/}
             <Box
                 display="grid"
                 gridTemplateColumns="repeat(12, 1fr)"
                 gridAutoRows="140px"
-                gap="20px"
+                gap="10px"
             >
-                {/* Row 1  */}
+            {/* Row 1  */}
+                {/* Row 1: Part 1 */}
                 <Box
-                gridColumn="span 4"
-                gridRow="span 2"
-                backgroundColor={colors.primary[400]}
+                    gridColumn="span 5"
+                    gridRow="span 4"
+                    backgroundColor={colors.primary[400]}
                 >
                     {/* <Typography
                         variant="h5"
@@ -107,16 +120,17 @@ const Dashboard = ({image}) => {
                     >
                         Temperature
                     </Typography> */}
-
+                    
                     <Box 
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    height="400px" 
-                    mt="-20px"
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        height="1000px" 
+                        // height="100%"
+                        mt="-160px"
                     >
                         <img
-                        alt="profile-user"
+                        alt="profile-room"
                         width="100%"
                         height="100%"
                         src={image}
@@ -124,116 +138,154 @@ const Dashboard = ({image}) => {
                         />
                     </Box>
                 </Box>
-
+                {/* Row 1: Part 2*/}
                 <Box
-                gridColumn="span 4"
-                gridRow="span 2"
-                backgroundColor={colors.primary[400]}
+                gridColumn="span 7"
+                gridRow="span 4"
+                // backgroundColor={colors.primary[400]}
                 >
-                    {/* <Typography
-                        variant="h5"
-                        fontWeight="600"
-                        sx={{ padding: "30px 30px 0 30px" }}
+                    <Box
+                        display="grid"
+                        gridTemplateColumns="repeat(12, 1fr)"
+                        gridAutoRows="140px"
+                        gap="10px"
                     >
-                        Sales Quantity
-                    </Typography> */}
+                    {/* Row1: Part2 : Row 1 */}
+                        {/* Row1: Part2 : Row 1: Part 1 */}
+                        <Box
+                            gridColumn="span 6"
+                            gridRow="span 2"
+                            backgroundColor={colors.primary[400]}
+                        >
+                            <Box height="400px" mt="0px">   
+                                <MultipleYAxis nameChart={'Temperature and Humidity level'} 
+                                                id={id} 
+                                                time={time} 
+                                                temperature={temp} 
+                                                humidity={hum} 
+                                                option={option}
+                                />
+                            </Box>
+                        </Box>
 
-                    <Box height="400px" mt="0px">   
-                        <LineChartApex nameChart={'Temperature level'} id={id} time={time} value={temperature} option={option}/>
+                        {/* Row 1: Part2: Row 1: Part2 */}
+                        <Box
+                            gridColumn="span 6"
+                            gridRow="span 2"
+                            backgroundColor={colors.primary[400]}
+                        >
+                            <Box height="400px" mt="0px">   
+                                <LineChartApex nameChart={'Co2 level'} 
+                                                id={id} 
+                                                time={time} 
+                                                value={co2} 
+                                                option={option}/>
+                            </Box>
+                        </Box>
 
-                        {/* <BarChart isDashboard={true}/> */}
+                    {/* Row1: Part2: Row 2 */}
+                        {/* Row1: Part2: Row 2: Part 1 */}
+
+                        <Box
+                            gridColumn="span 7"
+                            gridRow="span 2"
+                            backgroundColor={colors.primary[400]}
+                            display="flex"
+                            // alignItems="stretch"  // Ensures the inner Control component stretches to fill the height
+                        >
+                            {/* <ControlPanel/> */}
+                            <Box flex={1}
+                                ml={5}
+                                justifyContent="flex-end"
+                                >
+                                <Header style={{ height: '100%' }} title="Fan speed Control" variant="h4"/>
+                            </Box>
+                            <Box flex={3} ml={0}
+                            justifyContent="center"
+                            alignItems="center">
+                                <Control style={{ width: '100%', height: '100%' }} />
+                            </Box>
+                        </Box>
+
+                        {/* Row1: Part2: Row 2: Part 2 */}
+                        <Box
+                            marginLeft="10%"
+                            gridColumn="span 5"
+                            gridRow="span 2"
+                            backgroundColor={colors.primary[400]}
+                            display="flex"
+                            justifyContent="center"
+                        >
+                            <Header title="Fan Speed" variant="h5"/>
+                            <Box
+                                justifyContent="center"
+                                alignItems="center"
+                                mt={5}
+                            >
+                                <ProgressCircle/>
+                            </Box>
+                        </Box>
                     </Box>
                 </Box>
 
-                <Box
-                gridColumn="span 4"
-                gridRow="span 2"
-                backgroundColor={colors.primary[400]}
-                >
-                    {/* <Typography
-                        variant="h5"
-                        fontWeight="600"
-                        sx={{ padding: "30px 30px 0 30px" }}
-                    >
-                        Sales Quantity
-                    </Typography> */}
-
-                    <Box height="400px" mt="0px">
-                        {/* <BarChart isDashboard={true} /> */}
-                        <LineChartApex nameChart={'Humidity level'} id={id} time={time} value={humidity} option={option}/>
-                    </Box>
-                </Box>
-
-                {/* Row 2 */}
-                <Box
-                gridColumn="span 4"
-                gridRow="span 2"
-                backgroundColor={colors.primary[400]}
-                >
-                    {/* 3 columns and 2 row for chart */}
-                    <Typography
-                        variant="h5"
-                        fontWeight="600"
-                        sx={{ padding: "30px 30px 0 30px" }}
-                    >
-                        Control
-                    </Typography>
-
-                    <Box 
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    height="400px" 
-                    mt="-100px"
-                    >
-                        <Control/>
-                    </Box>
-                </Box>
-
-                <Box
-                gridColumn="span 4"
-                gridRow="span 2"
-                backgroundColor={colors.primary[400]}
-                >
-                    {/* 3 columns and 2 row for chart */}
-                    {/* <Typography
-                        variant="h5"
-                        fontWeight="600"
-                        sx={{ padding: "30px 30px 0 30px" }}
-                    >
-                        Sales Quantity
-                    </Typography> */}
-
-                    <Box height="400px" mt="0px">
-                        {/* <BarChart isDashboard={true} /> */}
-                        <LineChartApex nameChart={'CO2 level'} id={id} time={time} value={co2} option={option}/>
-                    </Box>
-
-                </Box>
-
-                <Box
-                gridColumn="span 4"
-                gridRow="span 2"
-                backgroundColor={colors.primary[400]}
-                >
-                    {/* 3 columns and 2 row for chart */}
-                    {/* <Typography
-                        variant="h5"
-                        fontWeight="600"
-                        sx={{ padding: "30px 30px 0 30px" }}
-                    >
-                        Sales Quantity
-                    </Typography> */}
-
-                    <Box height="400px" mt="0px">
-                        {/* <BarChart isDashboard={true} /> */}
-                        <LineChartApex nameChart={'Light level'} id={id} time={time} value={light} option={option}/>
-                    </Box>
-
-                </Box>
+                
             </Box> 
         </Box>
     )
 }
 
 export default Dashboard;
+
+
+
+/*
+<Box
+gridColumn="span 4"
+gridRow="span 2"
+backgroundColor={colors.primary[400]}
+>
+    <Typography
+        variant="h5"
+        fontWeight="600"
+        sx={{ padding: "30px 30px 0 30px" }}
+    >
+        Control
+    </Typography>
+
+    <Box 
+    display="flex"
+    justifyContent="center"
+    alignItems="center"
+    height="400px" 
+    mt="-100px"
+    >
+        <Control/>
+    </Box>
+</Box>
+
+<Box
+gridColumn="span 4"
+gridRow="span 2"
+backgroundColor={colors.primary[400]}
+>
+    
+
+    <Box height="400px" mt="0px">
+        <LineChartApex nameChart={'CO2 level'} id={id} time={time} value={co2} option={option}/>
+    </Box>
+
+</Box>
+
+<Box
+gridColumn="span 4"
+gridRow="span 2"
+backgroundColor={colors.primary[400]}
+>
+
+    <Box height="400px" mt="0px">
+        <LineChartApex nameChart={'Co2 level again'} id={id} time={time} value={co2} option={option}/>
+    </Box>
+
+</Box>
+ 
+ */
