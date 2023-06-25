@@ -18,12 +18,14 @@ import MultipleYAxis from "../../components/ApexChart/MixChartApex";
 
 
 const Dashboard = ({image}) => {
+    const backend_host = "27.71.227.1"
+    
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const callbackSetSignIn = useContext(UserContext);
     const [id, setId] = useState(1);
     const [option, setOption] = useState(1);
-    const [api, setApi] = useState(`http://127.0.0.1:8000/api/get/secondly_data/${id}`); 
+    const [api, setApi] = useState(`http://${backend_host}/api/get/secondly_data/${id}`); 
     const {co2, temp, hum, time} = useFetch(api, callbackSetSignIn);    //cái này là object destructor, fetch data for chart 
 
     return (
@@ -62,7 +64,7 @@ const Dashboard = ({image}) => {
                         padding: "2px 5px",
                         }}
                         onClick={()=>{
-                            setApi(`http://127.0.0.1:8000/api/get/daily_data/${id}`)
+                            setApi(`http://${backend_host}/api/get/daily_data/${id}`)
                             setOption(2);
                         }}
                     >
@@ -81,7 +83,7 @@ const Dashboard = ({image}) => {
                         padding: "2px 5px",
                         }}
                         onClick={()=>{
-                            setApi(`http://127.0.0.1:8000/api/get/secondly_data/${id}`)
+                            setApi(`http://${backend_host}/api/get/secondly_data/${id}`)
                             setOption(1);
                         }}
                     >

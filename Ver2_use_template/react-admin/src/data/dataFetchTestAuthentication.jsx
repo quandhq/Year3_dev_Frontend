@@ -4,6 +4,9 @@
 import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
 
 const useFetch = (url,callbackSetSignIn) => {
+
+    const backend_host = "27.71.227.1"
+
     console.log(url)
     console.count("useFetch start!!!")
     const [co2, getCo2] = useState([])
@@ -30,7 +33,7 @@ const useFetch = (url,callbackSetSignIn) => {
    const verifyAccessToken  = async () =>
    {
         //call the API to verify access-token
-        const verify_access_token_API_endpoint = "http://localhost:8000/api/token/verify"
+        const verify_access_token_API_endpoint = `http://${backend_host}:8000/api/token/verify`
         const verify_access_token_API_data = 
         {
             "token": token.access_token,
@@ -45,7 +48,8 @@ const useFetch = (url,callbackSetSignIn) => {
             "body": JSON.stringify(verify_access_token_API_data),
 
         }
-        const verify_access_token_API_response = await fetch(verify_access_token_API_endpoint, verify_access_token_API_option);
+        const verify_access_token_API_response = await fetch(verify_access_token_API_endpoint, 
+                                                            verify_access_token_API_option,);
         if(verify_access_token_API_response.status !== 200)
         {
             return false;
@@ -59,7 +63,7 @@ const useFetch = (url,callbackSetSignIn) => {
     const verifyRefreshToken  = async () =>
     {
         //call the API to verify access-token
-        const verify_refresh_token_API_endpoint = "http://localhost:8000/api/token/refresh"
+        const verify_refresh_token_API_endpoint = `http://${backend_host}:8000/api/token/refresh`
         const verify_refresh_token_API_data = 
         {
             "refresh": token.refresh_token,
@@ -74,7 +78,8 @@ const useFetch = (url,callbackSetSignIn) => {
             "body": JSON.stringify(verify_refresh_token_API_data),
 
         }
-        const verify_refresh_token_API_response = await fetch(verify_refresh_token_API_endpoint, verify_refresh_token_API_option);
+        const verify_refresh_token_API_response = await fetch(verify_refresh_token_API_endpoint, 
+                                                                verify_refresh_token_API_option,);
         const verify_refresh_token_API_response_data = await verify_refresh_token_API_response.json();
         if(verify_refresh_token_API_response.status !== 200)
         {

@@ -21,7 +21,7 @@ import SignIn from "./scenes/sign_in";
 
 export const  UserContext = createContext();
 function App() {
-  const [isSignIn, setIsSignin] = useState(true)			//set true for debungging
+  const [isSignIn, setIsSignin] = useState(false)			//set true for debungging
   const [theme, colorMode] = useMode();
 //   const [isSidebar, setIsSidebar] = useState(true);
   return (
