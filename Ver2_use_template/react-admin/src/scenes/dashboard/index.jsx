@@ -29,6 +29,7 @@ const Dashboard = ({image}) => {
     const {co2, temp, hum, time} = useFetch(api, callbackSetSignIn);    //cái này là object destructor, fetch data for chart 
 
     return (
+        <div>
         <Box m="20px">
             {/* HEADER */}
             <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -48,7 +49,8 @@ const Dashboard = ({image}) => {
                         Download Reports
                     </Button>
                 </Box> */}
-            </Box>   
+            </Box>
+               
 
             {/* data chase back option */}
             <Box display="flex"  alignItems="center">
@@ -72,6 +74,7 @@ const Dashboard = ({image}) => {
                         Day
                     </Button>
                 </Box>
+                
 
                 <Box mb="30px" ml="5px">
                     <Button
@@ -202,12 +205,15 @@ const Dashboard = ({image}) => {
                                 >
                                 <Header style={{ height: '100%' }} title="Fan speed Control" variant="h4"/>
                             </Box>
+                            
                             <Box flex={3} ml={0}
                             justifyContent="center"
                             alignItems="center">
-                                <Control style={{ width: '100%', height: '100%' }} />
+                                <Control/>
                             </Box>
                         </Box>
+                        
+
 
                         {/* Row1: Part2: Row 2: Part 2 */}
                         <Box
@@ -233,6 +239,7 @@ const Dashboard = ({image}) => {
                 
             </Box> 
         </Box>
+        </div>
     )
 }
 

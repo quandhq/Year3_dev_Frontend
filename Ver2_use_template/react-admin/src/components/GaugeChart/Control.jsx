@@ -1,13 +1,15 @@
 import React from "react";
 import GaugeChart from "react-gauge-chart";
 import { useState } from "react";
+import { memo } from "react";
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import Header from "../Header";
 import { json } from "react-router-dom";
 
-const Control = React.memo(() => 
+const Control = () =>
 {
+    console.log("This is from Control component")
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [speed, setSpeed] = useState(0);
@@ -118,6 +120,5 @@ const Control = React.memo(() =>
         </Box>
     );
 }
-)
 
-export default Control;
+export default React.memo(Control);

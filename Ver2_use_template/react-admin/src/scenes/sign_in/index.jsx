@@ -31,7 +31,9 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-  const backend_host = "27.71.227.1";
+  // const backend_host = "27.71.227.1";
+  const backend_host = "localhost:8000"
+
 
 	const callbackSetIsSignIn = useContext(UserContext);
 	/*
@@ -41,7 +43,7 @@ export default function SignIn() {
     const getAuthentication  = async (username, password) =>
     {
         //call the API to get user authentication
-        const get_authentication_API_endpoint = `http://${backend_host}:8000/api/token`;
+        const get_authentication_API_endpoint = `http://${backend_host}/api/token`;
         const get_authentication_API_data = 
         {
             "username": username, 

@@ -5,7 +5,9 @@ import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
 
 const useFetch = (url,callbackSetSignIn) => {
 
-    const backend_host = "27.71.227.1"
+    // const backend_host = "27.71.227.1"
+    const backend_host = "localhost:8000"
+
 
     console.log(url)
     console.count("useFetch start!!!")
@@ -33,7 +35,7 @@ const useFetch = (url,callbackSetSignIn) => {
    const verifyAccessToken  = async () =>
    {
         //call the API to verify access-token
-        const verify_access_token_API_endpoint = `http://${backend_host}:8000/api/token/verify`
+        const verify_access_token_API_endpoint = `http://${backend_host}/api/token/verify`
         const verify_access_token_API_data = 
         {
             "token": token.access_token,
@@ -63,7 +65,7 @@ const useFetch = (url,callbackSetSignIn) => {
     const verifyRefreshToken  = async () =>
     {
         //call the API to verify access-token
-        const verify_refresh_token_API_endpoint = `http://${backend_host}:8000/api/token/refresh`
+        const verify_refresh_token_API_endpoint = `http://${backend_host}/api/token/refresh`
         const verify_refresh_token_API_data = 
         {
             "refresh": token.refresh_token,
