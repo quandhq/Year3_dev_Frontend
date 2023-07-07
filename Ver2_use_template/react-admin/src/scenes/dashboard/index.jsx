@@ -17,7 +17,7 @@ import ControlPanel from "../../components/ControlPanel/ControlPanel";
 import MultipleYAxis from "../../components/ApexChart/MixChartApex";
 
 
-const Dashboard = ({image}) => {
+const Dashboard = () => {
     const backend_host = "27.71.227.1"
     
     const theme = useTheme();
@@ -138,7 +138,7 @@ const Dashboard = ({image}) => {
                         alt="profile-room"
                         width="100%"
                         height="100%"
-                        src={image}
+                        src={`../../smartfarm/assets/room1.svg`}
                         // style={{ cursor: "pointer", borderRadius: "50%" }}
                         />
                     </Box>

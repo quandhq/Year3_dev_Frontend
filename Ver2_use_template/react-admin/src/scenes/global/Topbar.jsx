@@ -34,8 +34,8 @@ const Topbar = () => {
 					alt="profile-user"
 					//   width="200px"
 					//   height="100px"
-					style={{ maxWidth: '100%', maxHeight: '100%' }}
-					src={`../../assets/logo-dai-hoc-bach-khoa.png`}
+					style={{ maxWidth: '120%', maxHeight: '120%' }}
+					src={`../../smartfarm/assets/logo_lab.png`}
 					// style={{ cursor: "pointer", borderRadius: "50%" }}
 					/>
 				</Box>

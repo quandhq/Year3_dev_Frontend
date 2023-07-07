@@ -121,7 +121,7 @@ const Landing = () => {
                         alt="profile-user"
                         width="150%"
                         height="150%"
-                        src={`../../assets/room1.svg`}
+                        src={`../../smartfarm/assets/room1.svg`}
                         // style={{ cursor: "pointer", borderRadius: "50%" }}
                         />
                     </Box>
@@ -180,7 +180,7 @@ const Landing = () => {
                         alt="profile-user"
                         width="150%"
                         height="150%"
-                        src={`../../assets/room1.svg`}
+                        src={`../../smartfarm/assets/room1.svg`}
                         // style={{ cursor: "pointer", borderRadius: "50%" }}
                         />
                     </Box>

@@ -15,7 +15,6 @@ import Landing from "./scenes/landing";
 import Geography from "./scenes/geography";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
-import room1 from "./images/room1.svg";
 import Welcome from "./scenes/welcome";
 import SignIn from "./scenes/sign_in";
 
@@ -43,7 +42,7 @@ function App() {
 
 					<Routes>
 						<Route path="" element={<Welcome />} />
-						<Route path="/landing1/dashboard" element={<Dashboard image={room1}/>} />
+						<Route path="/landing1/dashboard" element={<Dashboard/>} />
 						<Route path="/landing" element={<Landing />} />
 						{/* <Route path="/team" element={<Team />} /> */}
 						{/* <Route path="/contacts" element={<Contacts />} /> */}
