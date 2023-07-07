@@ -23,7 +23,7 @@ const Welcome = ({image}) => {
                         fontWeight="800"
                         sx={{ padding: "30px 30px 0 30px" }}
                     >
-                        Welcome
+                        Hello there 
                 </Typography>
             </Box>    
         </Box>
