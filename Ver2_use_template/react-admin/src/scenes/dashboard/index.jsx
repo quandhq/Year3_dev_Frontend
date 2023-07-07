@@ -206,9 +206,12 @@ const Dashboard = () => {
                                 <Header style={{ height: '100%' }} title="Fan speed Control" variant="h4"/>
                             </Box>
                             
-                            <Box flex={3} ml={0}
-                            justifyContent="center"
-                            alignItems="center">
+                            <Box 
+                                justifyContent="center"
+                                alignItems="center"
+                                mr="50px"
+                                mt="20px"
+                            >
                                 <Control/>
                             </Box>
                         </Box>

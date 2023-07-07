@@ -31,7 +31,9 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-  const backend_host = "27.71.227.1";
+  // const backend_host = "27.71.227.1";
+  const backend_host = "localhost:8000";
+
 
 
 
