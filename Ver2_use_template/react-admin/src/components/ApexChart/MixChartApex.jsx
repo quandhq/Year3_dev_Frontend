@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
+import useFetch from "../../data/dataFetch";
 
 // Reference: https://apexcharts.com/react-chart-demos/mixed-charts/multiple-yaxis/#
 // TODO: Update chart (DONE)
@@ -43,15 +44,19 @@ const MultipleYAxis = ({ nameChart, id, time, temperature, humidity, option }) =
         /* create a function that converse unix time stamp t into a string that show hour, minutes and second and
         map that function to all members of array time */
         let new_data = null;
-        if(option === 1)
+        if(option === "now")
         {   
-            let new_time = time.map((t)=>{
-                                      let unixTimestamp = t;
-                                      let date = new Date(unixTimestamp * 1000);
-                                      return date.getHours().toString() + 
-                                      ":" + date.getMinutes().toString() + 
-                                      ":" + date.getSeconds().toString();
-                                    });
+            let new_time = null;
+            if(time)
+            {
+                new_time = time.map((t)=>{
+                                          let unixTimestamp = t;
+                                          let date = new Date(unixTimestamp * 1000);
+                                          return date.getHours().toString() + 
+                                          ":" + date.getMinutes().toString() + 
+                                          ":" + date.getSeconds().toString();
+                                        });
+            }
 
             new_data = {
                 options: {
@@ -59,7 +64,7 @@ const MultipleYAxis = ({ nameChart, id, time, temperature, humidity, option }) =
                             text: nameChart
                         },
                         xaxis: {
-                            categories: new_time
+                            categories: new_time ? new_time : []
                         },
                         yaxis: [
                             {
@@ -86,15 +91,23 @@ const MultipleYAxis = ({ nameChart, id, time, temperature, humidity, option }) =
                 }]
             }
         }
-        else if(option === 2)
+        else if(option === "day")
         {
-            let new_time = time.map((t)=>{
-                let unixTimestamp = t;
-                let date = new Date(unixTimestamp * 1000);
-                return date.getDate().toString() + 
-                "/" + date.getMonth().toString() + 
-                "/" + date.getFullYear().toString();
-              });
+            let new_time = null;
+            if(time)
+            {
+                new_time = time;
+            }
+            // if(time)
+            // {
+            //     new_time = time.map((t)=>{
+            //         let unixTimestamp = t;
+            //         let date = new Date(unixTimestamp * 1000);
+            //         return date.getDate().toString() + 
+            //         "/" + date.getMonth().toString() + 
+            //         "/" + date.getFullYear().toString();
+            //       });
+            // }
 
             new_data = {
                 options: {
@@ -102,7 +115,7 @@ const MultipleYAxis = ({ nameChart, id, time, temperature, humidity, option }) =
                             text: nameChart
                         },
                         xaxis: {
-                            categories: new_time
+                            categories: new_time ? new_time : []
                         },
                         yaxis: [
                             {

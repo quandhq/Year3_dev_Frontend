@@ -36,45 +36,29 @@ const Control = () =>
 
                 <Box
                     display="flex" 
-                    justifyContent="space-between" 
+                    justifyContent="center" 
                     alignItems="center"
-                    height="10">
+                    height="50%"
+                    gap="5px">
                     <Button
                         sx={{
                         backgroundColor: colors.blueAccent[700],
                         color: colors.grey[100],
                         fontSize: "14px",
                         fontWeight: "bold",
-                        padding: "10px 20px",
                         }}
                         onClick={Increase}
                     >
                                 {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
                                 +
                     </Button>
-                    <Button
-                        sx={{
-                        backgroundColor: colors.blueAccent[700],
-                        color: colors.grey[100],
-                        fontSize: "14px",
-                        fontWeight: "bold",
-                        padding: "10px 20px",
-                        }}
-                        onClick={Decrease}
-                    >
-                                {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
-                                -
-                    </Button>
-                </Box>
 
-                <Box display="flex" justifyContent="center" alignItems="center">
                     <Button
                         sx={{
                         backgroundColor: colors.blueAccent[700],
                         color: colors.grey[100],
                         fontSize: "14px",
                         fontWeight: "bold",
-                        padding: "10px 20px",
                         }}
                         onClick={
                             async(e) => {
@@ -100,6 +84,24 @@ const Control = () =>
                         {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
                         Send
                     </Button>
+
+                    <Button
+                        sx={{
+                        backgroundColor: colors.blueAccent[700],
+                        color: colors.grey[100],
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        }}
+                        onClick={Decrease}
+                    >
+                                {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
+                                -
+                    </Button>
+                    
+                </Box>
+
+                <Box display="flex" justifyContent="center" alignItems="center">
+                    
                 {/* <button className="col" onClick={
                                                 async(e) => {
                                                     const url_sending_set_point = `http://127.0.0.1:8000/api/set/${speed}`;

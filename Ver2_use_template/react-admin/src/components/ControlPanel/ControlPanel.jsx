@@ -43,18 +43,23 @@ const ControlPanel = () => {
       renderCell: (row_information) => {
         return (
           <Box
-            width="80%"
-            // height="10%"
-            m="0 auto"
-            p="5px"
-            display="flex"
+            // width="80%"
+            // height="30%"
+            // mb="50px"
+            // p="10px"
+            display="center"
             justifyContent="center"
             backgroundColor=""
-            borderRadius="4px"
+            borderRadius="10px"
           >
             <TextField
               // label="Set Point label"
-              height="10px"
+              sx={{
+                width: { md: 60 },
+                "& .MuiInputBase-root": {
+                    height: 40
+                }
+              }}
               name="Set Point name"
               defaultValue={0}
               onChange={(event)=>{
@@ -124,7 +129,7 @@ const ControlPanel = () => {
           <Box
             width="60%"
             m="0 auto"
-            p="5px"
+            p="2px"
             display="flex"
             justifyContent="center"
             backgroundColor={colors.greenAccent[600]}
@@ -141,7 +146,7 @@ const ControlPanel = () => {
                     }
                   }}
             > 
-              <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
+              <Typography color={colors.grey[100]} sx={{ ml: "0px" }} variant="h6">
                 Send
               </Typography>
             </Button>
@@ -161,9 +166,10 @@ const ControlPanel = () => {
       // >
       //   {params.colDef.headerName}
       // </Box>
-      <div style={{ textAlign: 'center' }}>
-        {params.colDef.headerName}
-      </div>
+      // <div style={{ textAlign: 'center', height: "50%"}}>
+      //   {params.colDef.headerName}
+      // </div>
+      <h1></h1>
     );
   };
 
@@ -174,9 +180,14 @@ const ControlPanel = () => {
       </Box>
 
       <Box
-        m="-10px 10px 10px 10px"
-        height="20vh"
+        m="-5px 30px 30px 20px"
+        height="25vh"       //set height of all component
         sx={{
+          width: { md: 500 },
+                "& .MuiInputBase-root": {
+                    height: 35
+                },
+
           "& .MuiDataGrid-root": {
             border: "none",
           },
@@ -191,7 +202,7 @@ const ControlPanel = () => {
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.primary[400],
+            // backgroundColor: colors.primary[400],
           },
           // "& .MuiDataGrid-footerContainer": {
           //   borderTop: "none",

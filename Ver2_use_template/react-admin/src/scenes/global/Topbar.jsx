@@ -11,6 +11,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import PhoneIcon from '@mui/icons-material/Phone';
+import PeopleIcon from '@mui/icons-material/People';
+import HomeIcon from '@mui/icons-material/Home';
 
 
 const Topbar = () => {
@@ -48,7 +51,7 @@ const Topbar = () => {
 					paddingLeft="5%">
 					<Link to="/landing">
 						<IconButton>
-							<HomeOutlinedIcon/>
+							<HomeIcon/>
 							<Typography variant="h5" 
 										color={colors.grey[100]} 
 										display="inline"
@@ -59,19 +62,41 @@ const Topbar = () => {
 					</Link>
 				</Box>
 
-			{/* SEARCH BAR */}
-			{/* <Box
-				// display="flex"
-				backgroundColor={colors.primary[400]}
-				// borderRadius="3px"
-				justifyContent="left"
-			>
-				<InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
+				{/* About us */}
+				<Box display="flex"
+					justifyContent="center"
+					alignItems="center"
+					paddingLeft="5%">
+					<Link to="/about">
+						<IconButton>
+							<PeopleIcon/>
+							<Typography variant="h5" 
+										color={colors.grey[100]} 
+										display="inline"
+										paddingLeft="5%">
+								About
+							</Typography>
+						</IconButton>	
+					</Link>
+				</Box>
 
-				<IconButton type="button" sx={{ p: 1 }}>
-				<SearchIcon />
-				</IconButton>
-			</Box> */}
+				{/* Contact */}
+				<Box display="flex"
+					justifyContent="center"
+					alignItems="center"
+					paddingLeft="5%">
+					<Link to="/contact">
+						<IconButton>
+							<PhoneIcon/>
+							<Typography variant="h5" 
+										color={colors.grey[100]} 
+										display="inline"
+										paddingLeft="5%">
+								Contact
+							</Typography>
+						</IconButton>	
+					</Link>
+				</Box>
 		</Box>
 
 		{/* ICONS */}

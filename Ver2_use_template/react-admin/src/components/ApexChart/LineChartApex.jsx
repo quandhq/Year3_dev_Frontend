@@ -32,15 +32,19 @@ export const LineChartApex = ({ nameChart, id, time, value, option }) => {
   useEffect(() => {
     let new_data;
     //option = 1 is the case that we call secondly data API
-    if(option === 1)
+    if(option === "now")
     {
-      let new_time = time.map((t)=>{
-                                      let unixTimestamp = t;
-                                      let date = new Date(unixTimestamp * 1000);
-                                      return date.getHours().toString() + 
-                                      ":" + date.getMinutes().toString() + 
-                                      ":" + date.getSeconds().toString();
-                                    });
+      let new_time = null;
+            if(time)
+            {
+                new_time = time.map((t)=>{
+                                          let unixTimestamp = t;
+                                          let date = new Date(unixTimestamp * 1000);
+                                          return date.getHours().toString() + 
+                                          ":" + date.getMinutes().toString() + 
+                                          ":" + date.getSeconds().toString();
+                                        });
+            }
       /* new value to set for data of useState */
       new_data = {
         options: {
@@ -58,22 +62,30 @@ export const LineChartApex = ({ nameChart, id, time, value, option }) => {
       };
     }
     //option = 2 is the case that we call daily data API
-    else if(option === 2)
+    else if(option === "day")
     {
-      let new_time = time.map((t)=>{
-                                    let unixTimestamp = t;
-                                    let date = new Date(unixTimestamp * 1000);
-                                    return date.getDate().toString() + 
-                                    "/" + date.getMonth().toString() + 
-                                    "/" + date.getFullYear().toString();
-                                  });
+      let new_time = null;
+            if(time)
+            {
+                new_time = time;
+            }
+            // if(time)
+            // {
+            //     new_time = time.map((t)=>{
+            //         let unixTimestamp = t;
+            //         let date = new Date(unixTimestamp * 1000);
+            //         return date.getDate().toString() + 
+            //         "/" + date.getMonth().toString() + 
+            //         "/" + date.getFullYear().toString();
+            //       });
+            // }
       new_data = {
         options: {
           title: {
             text: nameChart
           },
           xaxis: {
-            categories: new_time,
+            categories: new_time ? new_time : [],
           }
         },
         series: [{
