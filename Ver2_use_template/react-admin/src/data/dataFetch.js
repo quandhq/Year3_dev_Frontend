@@ -12,8 +12,7 @@ const useFetch = (url,) => {
    const [co2, getCo2] = useState([])
 
    const getSensors =
-   async () => {
-      const response = await fetch(url,{
+   async () => {      const response = await fetch(url,{
       'method':'GET',
       headers: {
         'Content-Type':'application/json',

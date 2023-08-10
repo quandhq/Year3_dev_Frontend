@@ -1,46 +1,14 @@
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import { mockTransactions } from "../../data/mockData";
-import Header from "../../components/Header";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import BarChart from "../../components/BarChart";
-import LineChart from "../../components/LineChart";
-import { LineChartApex } from "../../components/ApexChart/LineChartApex";
-import { BarChartApex } from "../../components/ApexChart/BarChartApex";
-import useFetch from "../../data/dataFetch";
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import DetailsIcon from '@mui/icons-material/Details';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 
-
-const Item = ({ title, to, icon, selected, setSelected }) => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    return (
-      <MenuItem
-        active={selected === title}
-        style={{
-          color: colors.grey[100],
-        }}
-        onClick={() => setSelected(title)}
-        icon={icon}
-      >
-        <Typography>{title}</Typography>
-        <Link to={to}/>
-      </MenuItem>
-    );
-  };
 
 const Landing = () => {
     const theme = useTheme();
@@ -149,18 +117,17 @@ const Landing = () => {
         <Box m="20px">
 
             {/* HEADER */}
-            <Container sx={{ py: 6 }} maxWidth="lg">
+            <Container sx={{ py: 1 }} maxWidth="lg">
             {/* <Box mb="50px"> */}
 
-                <Box display="flex" justifyContent="center" alignItems="center" m="-30px">
+                <Box display="flex" justifyContent="center" alignItems="center">
                     <h1>
                         Project Smart farm and building
                     </h1>
                 </Box>
                 <Box display="flex" justifyContent="center" alignItems="center" >
-                    <Box width="40%" >
                     
-                    <p sx={{
+                    {/* <p sx={{
                         textAlignVertical: "center",
                         textAlign: "center"
                         }}>
@@ -172,8 +139,45 @@ const Landing = () => {
                         Nostrum voluptates nobis id in, 
                         commodi repudiandae dolore eveniet deserunt ab quam 
                         voluptatem consectetur accusantium ducimus tenetur vero fugit voluptas amet sequi.
-                    </p>
-                    </Box>
+                    </p> */}
+
+                    <Box
+                        sx={{
+                            // position: 'relative',
+                            // backgroundColor: 'grey.800',
+                            // color: '#fff',
+                            mb: 2,
+                            boxShadow: 1,
+                            borderRadius: '5px',
+                            backgroundImage: "../../smartfarm/assets/logo_lab.png",
+                        }}
+                        >
+                        {/* Increase the priority of the hero background image */}
+                        {<img src="../../smartfarm/assets/logo_lab.png" alt="NOT FOUND" />}
+                    
+                        {/* <Grid container>
+                            <Grid item md={6}>
+                            <Box
+                                sx={{
+                                position: 'relative',
+                                p: { xs: 3, md: 6 },
+                                pr: { md: 0 },
+                                }}
+                            >
+                                <Typography component="h1" variant="h3" color="inherit" gutterBottom>
+                                "..................."
+                                </Typography>
+                                <Typography variant="h5" color="inherit" paragraph>
+                                "..................."
+                                </Typography>
+                                <Link variant="subtitle1" href="#">
+                                "..................."
+                                </Link>
+                            </Box>
+                            </Grid>
+                        </Grid> */}
+
+                        </Box>
                 </Box>
 
                    {/* Readmore button  */}

@@ -49,7 +49,6 @@ const Control = () =>
                         }}
                         onClick={Increase}
                     >
-                                {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
                                 +
                     </Button>
 
@@ -81,7 +80,6 @@ const Control = () =>
                             }
                         }
                     >
-                        {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
                         Send
                     </Button>
 
@@ -94,29 +92,9 @@ const Control = () =>
                         }}
                         onClick={Decrease}
                     >
-                                {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
                                 -
                     </Button>
                     
-                </Box>
-
-                <Box display="flex" justifyContent="center" alignItems="center">
-                    
-                {/* <button className="col" onClick={
-                                                async(e) => {
-                                                    const url_sending_set_point = `http://127.0.0.1:8000/api/set/${speed}`;
-                                                    const response = await fetch(url_sending_set_point,{
-                                                    'method':'GET',
-                                                    headers: {
-                                                        'Content-Type':'application/json',
-                                                        }
-                                                    });
-                                                    const new_data = await response.json();
-                                                    alert(new_data['data']);
-                                                }
-                                                }> 
-                        SEND 
-                    </button> */}
                 </Box>
             
 

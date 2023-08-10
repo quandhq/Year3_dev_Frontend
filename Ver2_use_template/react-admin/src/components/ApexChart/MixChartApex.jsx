@@ -3,7 +3,6 @@ import ReactApexChart from "react-apexcharts";
 import useFetch from "../../data/dataFetch";
 
 // Reference: https://apexcharts.com/react-chart-demos/mixed-charts/multiple-yaxis/#
-// TODO: Update chart (DONE)
 
 const MultipleYAxis = ({ nameChart, id, time, temperature, humidity, option }) => {
     const [data, setData] = useState({
@@ -39,10 +38,7 @@ const MultipleYAxis = ({ nameChart, id, time, temperature, humidity, option }) =
         }]
     });
 
-    /* function inside userEffect runs each time data of useState changes */
     useEffect(() => {
-        /* create a function that converse unix time stamp t into a string that show hour, minutes and second and
-        map that function to all members of array time */
         let new_data = null;
         if(option === "now")
         {   
@@ -91,23 +87,13 @@ const MultipleYAxis = ({ nameChart, id, time, temperature, humidity, option }) =
                 }]
             }
         }
-        else if(option === "day")
+        else
         {
             let new_time = null;
             if(time)
             {
                 new_time = time;
             }
-            // if(time)
-            // {
-            //     new_time = time.map((t)=>{
-            //         let unixTimestamp = t;
-            //         let date = new Date(unixTimestamp * 1000);
-            //         return date.getDate().toString() + 
-            //         "/" + date.getMonth().toString() + 
-            //         "/" + date.getFullYear().toString();
-            //       });
-            // }
 
             new_data = {
                 options: {

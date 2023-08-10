@@ -31,8 +31,8 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-  const backend_host = "27.71.227.1:800";
-  // const backend_host = "localhost:8000";
+  // const backend_host = "27.71.227.1:800";
+  const backend_host = "localhost:8000";
 
 
 
@@ -76,7 +76,7 @@ export default function SignIn() {
 		}
 		else
 		{
-			throw new Error("Cannot get access and refresh token or user is not authenticated ...");
+		  throw new Error("Cannot get access and refresh token or user is not authenticated ...");
 		}
 		return true;
      }
@@ -137,7 +137,7 @@ export default function SignIn() {
               required
               fullWidth
               id="username"
-              label="Email Address"
+              label="Username"
               name="username"
               autoComplete="username"
               autoFocus
@@ -154,10 +154,10 @@ export default function SignIn() {
               autoComplete="current-password"
             />
 
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
 
             <Button
               type="submit"
@@ -171,13 +171,11 @@ export default function SignIn() {
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  {/* Forgot password? */}
                 </Link>
               </Grid>
 
               <Grid item>
                 <Link href="#" variant="body2">
-                  {/* {"Don't have an account? Sign Up"} */}
                 </Link>
               </Grid>
             </Grid>

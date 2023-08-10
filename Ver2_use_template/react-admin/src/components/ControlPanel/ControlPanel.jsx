@@ -1,7 +1,6 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataTeam } from "../../data/mockData";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
@@ -158,18 +157,7 @@ const ControlPanel = () => {
 
   const CustomHeaderCell = (params) => {
     return (
-      // <Box
-      //   display="flex"
-      //   justifyContent="center"
-      //   backgroundColor={colors.greenAccent[600]}
-      //   borderRadius="4px"
-      // >
-      //   {params.colDef.headerName}
-      // </Box>
-      // <div style={{ textAlign: 'center', height: "50%"}}>
-      //   {params.colDef.headerName}
-      // </div>
-      <h1></h1>
+      <div></div>
     );
   };
 
@@ -202,19 +190,10 @@ const ControlPanel = () => {
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
-            // backgroundColor: colors.primary[400],
           },
-          // "& .MuiDataGrid-footerContainer": {
-          //   borderTop: "none",
-          //   backgroundColor: colors.blueAccent[700],
-          // },
-          // "& .MuiCheckbox-root": {
-          //   color: `${colors.greenAccent[200]} !important`,
-          // },
         }}
       >
         <DataGrid 
-            // checkboxSelection 
             hideFooter="true"
             rows={dataRow} 
             columns={columns} 

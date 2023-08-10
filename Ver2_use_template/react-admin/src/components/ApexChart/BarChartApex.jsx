@@ -23,7 +23,6 @@ export const BarChartApex = ({ nameChart, id, time, value, option }) => {
   /* function inside userEffect runs each time props passed in change */
   useEffect(() => {
     let new_data;
-    //option = 1 is the case that we call secondly data API
     if(option === 1)
     {
       let new_time = time.map((t)=>{
@@ -49,7 +48,6 @@ export const BarChartApex = ({ nameChart, id, time, value, option }) => {
         }]
       };
     }
-    //option = 2 is the case that we call daily data API
     else if(option === 2)
     {
       let new_time = time.map((t)=>{
@@ -74,8 +72,7 @@ export const BarChartApex = ({ nameChart, id, time, value, option }) => {
         }]
       };
     }
-    /* create a function that converse unix time stamp t into a string that show hour, minutes and second and
-    map that function to all members of array time */
+    
     setData(new_data);
     }, [id, time, value, option])
 

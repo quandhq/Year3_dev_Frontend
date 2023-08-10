@@ -4,10 +4,6 @@
 import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
 
 
-
-
-
-
 const Fetch = (url,callbackSetSignIn, time_ms_delay, optionData) => {
 
     // const backend_host = "27.71.227.1"
@@ -22,6 +18,7 @@ const Fetch = (url,callbackSetSignIn, time_ms_delay, optionData) => {
     {
         console.log("RUNNNIGN DAY 1")
     }
+    const [isLoading, setIsLoading] = useState(true)
     const [co2, getCo2] = useState([])
     const [hum, getHum] = useState([])
     const [temp, getTemp] = useState([])

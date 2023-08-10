@@ -45,12 +45,12 @@ const Footer = (props) => {
         {
             title: "Email",
             icon: (<EmailIcon/>),
-            description: "Email: .........................",
+            description: "Email: ..........................",
         },
         {
             title: "Address",
             icon: (<LocationOnIcon/>),
-            description: "Address: ........................",
+            description: "Address: .......................",
         },
       ];
       
@@ -114,9 +114,9 @@ const Footer = (props) => {
                     </Box>
                 </Grid>
 
-                <Grid item xs={6} sm={3}>
+                {/* <Grid item xs={6} sm={3}>
                     3
-                </Grid>
+                </Grid> */}
 
             
             </Grid>

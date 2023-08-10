@@ -1,21 +1,15 @@
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import { mockTransactions } from "../../data/mockData";
 import Header from "../../components/Header";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOutlined';
-import BarChart from "../../components/BarChart";
-import LineChart from "../../components/LineChart";
 import { LineChartApex } from "../../components/ApexChart/LineChartApex";
 import { BarChartApex } from "../../components/ApexChart/BarChartApex";
-import {Fetch, verifyAccessToken, verifyRefreshToken} from "../../data/dataFetchTestAuthentication";
+import {Fetch, verifyAccessToken, verifyRefreshToken} from "../../data/dataFetchAuthentication"
 import { FetchHistory } from "../../data/dataHistoryFetchAuthentication";
 import { useState, useContext } from "react";
-
-
 import Control  from "../../components/GaugeChart/Control";
 import { UserContext } from "../../App";
-import ProgressCircle from "../../components/ProgressCircle";
 import ControlPanel from "../../components/ControlPanel/ControlPanel";
 import MultipleYAxis from "../../components/ApexChart/MixChartApex";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -30,33 +24,16 @@ const Dashboard = () => {
     const colors = tokens(theme.palette.mode);
     const callbackSetSignIn = useContext(UserContext);
     const [id, setId] = useState(1);
-    const [optionData, setOptionData] = useState("now");
-    // const [apiHistoryChart, setApiHistoryChart] = useState(`http://${backend_host}/ai/v1.1/monitor/data/${id}`);
-    // const dataHistoryChart = useFetch(apiRealtimeChart, callbackSetSignIn, 20000);    //cái này là object destructor, fetch data for chart 
-    // {co2HistoryChart, tempHistoryChart, humHistoryChart, timeHistoryChart}
+    const [optionData, setOptionData] = useState("now");        
+    const [optionChartData, setOptionChartData] = useState("day")   
     const [unixTimestampStart, setUnixTimestampStart] = useState(0);
     const [unixTimestampEnd, setUnixTimestampEnd] = useState(0);
-    const apiRealtimeChart = `http://${backend_host}/api/v1.1/monitor/data/${id}`; 
-    console.log("DOING DATA REALTIMEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+    const apiRealtimeChart = `http://${backend_host}/api/v1.1/monitor/data?farm_id=1`; 
     const dataRealtimeChart = Fetch(apiRealtimeChart, callbackSetSignIn, 8000, 'now');
-    console.log("ENDING REALTIME")
-    const apiHistoryChart = `http://${backend_host}/api/v1.1/monitor/data/history?farm_id=1&time_start=${unixTimestampStart}&time_end=${unixTimestampEnd}&option=${'day'}`;
-    console.log("RRRRRRRRRreload component")
-    const dataHistoryChart = Fetch(apiHistoryChart, callbackSetSignIn, 0, 'day'); 
-    console.log(dataHistoryChart)
-    console.log(dataRealtimeChart)
-    console.log("ENdng loading HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHistory chart")
-    // if(optionData === "day")
-    // {
-    //     let id = window.setTimeout(function() {}, 0);
-    //     while (id--) {
-    //         window.clearTimeout(id); // will do nothing if no timeout with id is present
-    //         console.log("Clear TIMER OUT")
-    //     }
-    //     console.log("Clear TIMER OUT ALLLLLLLLLLLLLLLLL")
-    // }
-    console.log("CALL AFTER THISSSS")
-    // const [totalState, setTotalState] = useState(true);
+    const apiHistoryChart = `http://${backend_host}/api/v1.1/monitor/data/history?farm_id=1&time_start=${unixTimestampStart}&time_end=${unixTimestampEnd}&option=${optionChartData}`;
+    const [apiHistoryChartState, setApiHistoryChartState] = useState(apiHistoryChart)
+    const dataHistoryChart = Fetch(apiHistoryChartState, callbackSetSignIn, 0, optionChartData); 
+
 
 
 
@@ -78,7 +55,7 @@ const Dashboard = () => {
             return true;
         }
     }
-
+    
     const checkTimeOption = (time_start, time_end, option) => 
     {
         console.log(time_start);
@@ -121,23 +98,7 @@ const Dashboard = () => {
             <Box display="flex"  mb="50px">
                 <Header title="Dashboard" subtitle="Welcome to your dashboard" />
             
-                {/* <Box>
-                    <Button
-                        sx={{
-                        backgroundColor: colors.blueAccent[700],
-                        color: colors.grey[100],
-                        fontSize: "14px",
-                        fontWeight: "bold",
-                        padding: "10px 20px",
-                        }}
-                    >
-                        <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-                        Download Reports
-                    </Button>
-                </Box> */}
             </Box>
-                  
-
 
 
             {/* GRID & CHARTS , GRID for whole page, 12 columns*/}
@@ -156,13 +117,7 @@ const Dashboard = () => {
                     // backgroundColor={colors.primary[400]}
                     
                 >
-                    {/* <Typography
-                        variant="h5"
-                        fontWeight="600"
-                        sx={{ padding: "30px 30px 0 30px" }}
-                    >
-                        Temperature
-                    </Typography> */}
+                
                     
                     <Box 
                         display="flex"
@@ -174,10 +129,7 @@ const Dashboard = () => {
                     >
                         <img
                         alt="profile-room"
-                        // width="100%"
-                        // height="100%"
                         src={`../../smartfarm/assets/room1.svg`}
-                        // style={{ cursor: "pointer", borderRadius: "50%" }}
                         />
                     </Box>
                 </Box>
@@ -229,7 +181,7 @@ const Dashboard = () => {
                                                 />
                                             );
                                         }
-                                        else if(optionData  === "day")
+                                        else
                                         {
                                             
                                             return (
@@ -287,7 +239,7 @@ const Dashboard = () => {
                                                 />
                                             );
                                         }
-                                        else if(optionData  === "day")
+                                        else
                                         {
                                             return (
                                                 checkUndefined(dataHistoryChart) || dataHistoryChart === null ? 
@@ -345,6 +297,13 @@ const Dashboard = () => {
                                                 if(checkTimeOption(unixTimestampStart, unixTimestampEnd, 'year'))
                                                 {
                                                     alert("Valid option!")
+                                                    clearTimeout(dataRealtimeChart.timer);
+                                                    alert("done clear real time chart")
+                                                    
+                                                    setOptionData("year")
+                                                    setOptionChartData("year")
+                                                    console.log("Set option to Year")
+                                                    setApiHistoryChartState(`http://${backend_host}/api/v1.1/monitor/data/history?farm_id=1&time_start=${unixTimestampStart}&time_end=${unixTimestampEnd}&option=${optionChartData}`)
                                                 }
                                                 else
                                                 {
@@ -372,6 +331,13 @@ const Dashboard = () => {
                                                 if(checkTimeOption(unixTimestampStart, unixTimestampEnd, 'month'))
                                                 {
                                                     alert("Valid option!")
+                                                    clearTimeout(dataRealtimeChart.timer);
+                                                    alert("done clear real time cahrt")
+                                                    
+                                                    setOptionData("month")
+                                                    setOptionChartData("month")
+                                                    console.log("SSSSSSSSSSSSSSSSset option to month")
+                                                    setApiHistoryChartState(`http://${backend_host}/api/v1.1/monitor/data/history?farm_id=1&time_start=${unixTimestampStart}&time_end=${unixTimestampEnd}&option=${optionChartData}`)
                                                 }
                                                 else
                                                 {
@@ -400,25 +366,16 @@ const Dashboard = () => {
                                                 {
                                                     
                                                     alert("Valid option!");
-                                                    // const api_day_data = 
-                                                    // `http://${backend_host}/api/v1.1/monitor/data/history?farm_id=1&time_start=${unixTimestampStart}&time_end=${unixTimestampEnd}&option=${'day'}`;
-                                                    // const api_day_data_option = {
-                                                    //     'method': "POST",
-                                                    //         // "Authorization": `Bearer ${"..."}`,
-                                                    //     }
-                                                    // const api_day_data_response = await fetch(api_day_data, api_day_data_option);
-                                                    // const api_day_data_response_data = await api_day_data_response.json()
-                                                    // alert(api_day_data_response_data['history_request_result'])
+                           
                                                     clearTimeout(dataRealtimeChart.timer);
-                                                    alert("done clear real time cahrt")
                                                     
                                                     setOptionData("day")
-                                                    console.log("SSSSSSSSSSSSSSSSset option to day")
-                                                
+                                                    setOptionChartData("day")
+                                                    setApiHistoryChartState(`http://${backend_host}/api/v1.1/monitor/data/history?farm_id=1&time_start=${unixTimestampStart}&time_end=${unixTimestampEnd}&option=${optionChartData}`)
                                                 }
                                                 else
                                                 {
-                                                    alert("Invalid optionnnnn!!!!!!")    
+                                                    alert("Invalid option!")    
                                                 }
                                             }}
                                                 
@@ -442,8 +399,6 @@ const Dashboard = () => {
                                                 {
                                                     console.log("set option to now")
                                                     setOptionData("now")
-                                                    // setTotalState(!totalState);
-                                                    // console.log("SET ALL STATE")
                                                 }
                                             }
                                                 
@@ -497,14 +452,6 @@ const Dashboard = () => {
                             display="flex"
                             justifyContent="center"
                         >
-                            {/* <Header title="Fan Speed" variant="h5"/>
-                            <Box
-                                justifyContent="center"
-                                alignItems="center"
-                                mt={5}
-                            >
-                                <ProgressCircle/>
-                            </Box> */}
                             {/* Control panel */}
                             <Box display="flex" 
                                 // backgroundColor={colors.primary[400]} 
@@ -522,28 +469,15 @@ const Dashboard = () => {
                             mt="30px"
                             gridColumn="span 4"
                             gridRow="span 1"
-                            // backgroundColor={colors.primary[400]}
-                            // display="flex"
-                            // // display="flex"
-                            // justifyContent="center"
-                            // alignItems="center"
-                            // height="1000px"
-                            // alignItems="stretch"  // Ensures the inner Control component stretches to fill the height
+
                         >
-                            {/* <ControlPanel/> */}
-                            {/* <Box flex={1}
-                                ml={5}
-                                justifyContent="flex-end"
-                                >
-                                <Header title="Fan speed Control" variant="h5"/>
-                            </Box>*/}
+                            
                             
                             <Box 
                                 display="flex"
                                 justifyContent="center"
                                 alignItems="center"
-                                // mr="50px"
-                                // mt="20px"
+
                             >
                                 <Control/>
                             </Box> 
@@ -563,54 +497,3 @@ export default Dashboard;
 
 
 
-/*
-<Box
-gridColumn="span 4"
-gridRow="span 2"
-backgroundColor={colors.primary[400]}
->
-    <Typography
-        variant="h5"
-        fontWeight="600"
-        sx={{ padding: "30px 30px 0 30px" }}
-    >
-        Control
-    </Typography>
-
-    <Box 
-    display="flex"
-    justifyContent="center"
-    alignItems="center"
-    height="400px" 
-    mt="-100px"
-    >
-        <Control/>
-    </Box>
-</Box>
-
-<Box
-gridColumn="span 4"
-gridRow="span 2"
-backgroundColor={colors.primary[400]}
->
-    
-
-    <Box height="400px" mt="0px">
-        <LineChartApex nameChart={'CO2 level'} id={id} time={time} value={co2} option={option}/>
-    </Box>
-
-</Box>
-
-<Box
-gridColumn="span 4"
-gridRow="span 2"
-backgroundColor={colors.primary[400]}
->
-
-    <Box height="400px" mt="0px">
-        <LineChartApex nameChart={'Co2 level again'} id={id} time={time} value={co2} option={option}/>
-    </Box>
-
-</Box>
- 
- */

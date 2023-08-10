@@ -62,7 +62,7 @@ export const LineChartApex = ({ nameChart, id, time, value, option }) => {
       };
     }
     //option = 2 is the case that we call daily data API
-    else if(option === "day")
+    else
     {
       let new_time = null;
             if(time)
