@@ -156,7 +156,7 @@ const Dashboard = () => {
                         alt="profile-room"
                         // width="100%"
                         // height="100%"
-                        src={`../../smartfarm/assets/room1.svg`}
+                        src={`../../smartfarm/assets/plan.svg`}
                         // style={{ cursor: "pointer", borderRadius: "50%" }}
                         />
                     </Box>

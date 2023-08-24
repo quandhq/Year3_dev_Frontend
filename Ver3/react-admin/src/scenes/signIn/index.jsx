@@ -53,32 +53,32 @@ export default function SignIn() {
         };
         const get_authentication_API_option = 
         {
-			"method": "POST",
-			"headers": 
-			{
-				"Content-Type": "application/json",
-			},
-			"body": JSON.stringify(get_authentication_API_data), 
-		}
-		const get_authentication_API_response = await fetch(get_authentication_API_endpoint, get_authentication_API_option);
-		const get_authentication_API_response_data = await get_authentication_API_response.json();
-		console.log(get_authentication_API_response_data);
-		if(get_authentication_API_response.status !== 200)
-		{
-			return false;
-		}
-		else if(get_authentication_API_response.status === 200 && 
-				get_authentication_API_response_data.hasOwnProperty("access") &&
-				get_authentication_API_response_data.hasOwnProperty("refresh"))
-		{
-			localStorage.setItem("access", get_authentication_API_response_data["access"]);
-			localStorage.setItem("refresh", get_authentication_API_response_data["refresh"]);
-		}
-		else
-		{
-		  throw new Error("Cannot get access and refresh token or user is not authenticated ...");
-		}
-		return true;
+            "method": "POST",
+            "headers": 
+            {
+              "Content-Type": "application/json",
+            },
+            "body": JSON.stringify(get_authentication_API_data), 
+        }
+        const get_authentication_API_response = await fetch(get_authentication_API_endpoint, get_authentication_API_option);
+        const get_authentication_API_response_data = await get_authentication_API_response.json();
+        console.log(get_authentication_API_response_data);
+        if(get_authentication_API_response.status !== 200)
+        {
+          return false;
+        }
+        else if(get_authentication_API_response.status === 200 && 
+            get_authentication_API_response_data.hasOwnProperty("access") &&
+            get_authentication_API_response_data.hasOwnProperty("refresh"))
+        {
+          localStorage.setItem("access", get_authentication_API_response_data["access"]);
+          localStorage.setItem("refresh", get_authentication_API_response_data["refresh"]);
+        }
+        else
+        {
+          throw new Error("Cannot get access and refresh token or user is not authenticated ...");
+        }
+        return true;
      }
 
   const handleSubmit = async (event) => {

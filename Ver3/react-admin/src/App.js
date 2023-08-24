@@ -17,9 +17,11 @@ import Footer from "./scenes/global/Footer";
 import About from "./scenes/about";
 import Contact from "./scenes/contact";
 
+const debug_mode = false;
+
 export const  UserContext = createContext();
 function App() {
-  const [isSignIn, setIsSignin] = useState(false)			//set true for debungging
+  const [isSignIn, setIsSignin] = useState(debug_mode)			//set true for debungging
   const [theme, colorMode] = useMode();
 //   const [isSidebar, setIsSidebar] = useState(true);
   return (
