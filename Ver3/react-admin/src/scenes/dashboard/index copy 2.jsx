@@ -28,6 +28,7 @@ import { TroubleshootRounded } from "@mui/icons-material";
 import { Slider } from '@mui/material';
 import InformationTag from "../../components/InformationTag";
 import AirQualityIndex from "../../components/AirQualityIndex";
+import plan from "../../assets/plan.svg"
 
 
 
@@ -352,7 +353,7 @@ const Dashboard = () => {
                             alt="profile-room"
                             // width="100%"
                             // height="100%"
-                            src={`../../smartfarm/assets/plan.svg`}
+                            src={plan}
                             style={{ width: "100%", maxWidth: "100%", height: "auto", cursor: "pointer", borderRadius: "0%" }}
                         />
                     </Grid>

@@ -23,6 +23,8 @@ import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
+import logo_lab from "../../assets/logo_lab.png"
+import room1 from "../../assets/room1.svg" 
 
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -49,7 +51,7 @@ const Landing = () => {
     const colors = tokens(theme.palette.mode);
     const cards = [
         {
-            image: "../../smartfarm/assets/room1.svg",
+            image: room1,
             title: "Farm 1",
             subtitle1: {
                 name: "Temperature",
@@ -65,7 +67,7 @@ const Landing = () => {
             },
         },
         {
-            image: "../../smartfarm/assets/room1.svg",
+            image: room1,
             title: "Farm 1",
             subtitle1: {
                 name: "Temperature",
@@ -81,7 +83,7 @@ const Landing = () => {
             },
         },
         {
-            image: "../../smartfarm/assets/room1.svg",
+            image: room1,
             title: "Farm 1",
             subtitle1: {
                 name: "Temperature",
@@ -97,7 +99,7 @@ const Landing = () => {
             },
         },
         {
-            image: "../../smartfarm/assets/room1.svg",
+            image: room1,
             title: "Farm 1",
             subtitle1: {
                 name: "Temperature",
@@ -113,7 +115,7 @@ const Landing = () => {
             },
         },
         {
-            image: "../../smartfarm/assets/room1.svg",
+            image: room1,
             title: "Farm 1",
             subtitle1: {
                 name: "Temperature",
@@ -129,7 +131,7 @@ const Landing = () => {
             },
         },
         {
-            image: "../../smartfarm/assets/room1.svg",
+            image: room1,
             title: "Farm 1",
             subtitle1: {
                 name: "Temperature",
@@ -183,11 +185,11 @@ const Landing = () => {
                             mb: 2,
                             boxShadow: 1,
                             borderRadius: '5px',
-                            backgroundImage: "../../smartfarm/assets/logo_lab.png",
+                            // backgroundImage: "logo_lab",
                         }}
                         >
                         {/* Increase the priority of the hero background image */}
-                        {<img src="../../smartfarm/assets/logo_lab.png" alt="NOT FOUND" />}
+                        {<img src={logo_lab} alt="NOT FOUND" />}
                     
                         {/* <Grid container>
                             <Grid item md={6}>
