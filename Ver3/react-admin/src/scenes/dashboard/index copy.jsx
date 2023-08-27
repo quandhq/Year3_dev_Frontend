@@ -11,7 +11,8 @@ import { BarChartApex } from "../../components/ApexChart/BarChartApex";
 import {Fetch, verifyAccessToken, verifyRefreshToken} from "../../data/dataFetchAuthentication"
 import { FetchHistory } from "../../data/dataHistoryFetchAuthentication";
 import { useState, useContext } from "react";
-
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 
 import Control  from "../../components/GaugeChart/Control";
 import { UserContext } from "../../App";
@@ -22,12 +23,14 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { FetchTest } from "../../data/testing_dataFetchAuthentication";
 import { FetchCopy } from "../../data/dataFetchAuthentication copy";
 import { Chart } from "../../data/Chart";
-import {host} from "../../App"
+import {host} from "../../App";
+import { TroubleshootRounded } from "@mui/icons-material";
+import { Slider } from '@mui/material';
+
 
 
 const Dashboard = () => {
     // const backend_host = "27.71.227.1:800"
-    
     const backend_host = host;
 
     
@@ -54,8 +57,6 @@ const Dashboard = () => {
     // console.log(dataHistoryChart)
     // console.log(dataRealtimeChart)
     console.log("ENdng loading HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHistory chart")
-    console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-    console.log(host)
 
 
 
@@ -112,78 +113,80 @@ const Dashboard = () => {
         }
     }
     
-
     return (
-        <div>
-        <Box m="20px">
-            {/* HEADER */}
-            <Box display="flex"  mb="50px">
-                <Header title="Dashboard" subtitle="Welcome to your dashboard" />
-            </Box>
-                  
+    <>
+    <Box 
+        component="main"
+        sx={{
+            flexGrow: 1,
+            // py: 8
+        }}
+        m="10px"
+    >
+        <Box display="flex" justifyContent="center" alignItems="center" mb="5vh">
+            <Header title="Dashboard" fontSize="60px"/>
+        </Box>
 
-
-
-            {/* GRID & CHARTS , GRID for whole page, 12 columns*/}
-            <Box
-                display="grid"
-                gridTemplateColumns="repeat(12, 1fr)"
-                // gridTemplateRows="repeat(1, 1fr)"
-                gridAutoRows="190px"
-                gap="10px"
+        {/* Container of image and all charts */}
+        <Container maxWidth="xl">
+            <Grid
+                container={true}
+                spacing={1}
+                style={{display: "flex", height: "100%"}}
             >
-            {/* Row 1  */}
-                {/* Row 1: Part 1 */}
-                <Box
-                    gridColumn="span 4"
-                    gridRow="span 4"
-                    // backgroundColor={colors.primary[400]}
-                    
+                {/* Container of image and other Item*/}
+                <Grid
+                    item={true}
+                    xs={12}
+                    sm={6}
+                    lg={3}
+                    container={true}
+                    direction="column"
+                    alignItems="center"
+                    justify="center"
+                    style={{ height: "100%" }}
+                    spacing={0}
                 >
-                    {/* <Typography
-                        variant="h5"
-                        fontWeight="600"
-                        sx={{ padding: "30px 30px 0 30px" }}
+                    <Grid 
+                        item={true}
+                        style={{width: "100%", textAlign: "left"}}
+                        mt="2vh"
                     >
-                        Temperature
-                    </Typography> */}
-                    
-                    <Box 
-                        display="flex"
-                        justifyContent="center"
-                        alignItems="center"
-                        height="1000px" 
-                        // height="100%"
-                        mt="-160px"
+                        <p style={{fontWeight: 'bold', fontSize: "16px"}}>Map view</p>
+                    </Grid>
+                    <Grid 
+                        item={true}
+                        style={{width: "100%", display: "flex", justifyContent: "center"}}
                     >
                         <img
-                        alt="profile-room"
-                        // width="100%"
-                        // height="100%"
-                        src={`../../smartfarm/assets/plan.svg`}
-                        // style={{ cursor: "pointer", borderRadius: "50%" }}
+                            alt="profile-room"
+                            // width="100%"
+                            // height="100%"
+                            src={`../../smartfarm/assets/plan.svg`}
+                            style={{ width: "100%", maxWidth: "100%", height: "auto", cursor: "pointer", borderRadius: "0%" }}
                         />
-                    </Box>
-                </Box>
-
-                {/* Row 1: Part 2*/}
-                <Box
-                gridColumn="span 8"
-                gridRow="span 4"
-                // backgroundColor={colors.primary[400]}
-                // backgroundColor={"red"}
+                    </Grid>
+                </Grid>
+                {/* Container of charts and history option */}
+                <Grid
+                    // item={true}
+                    xs={12}
+                    sm={6}
+                    lg={9}
+                    container={true}
+                    direction="column"
+                    alignItems="center"     //horizontally
+                    justify="center"        //vertically
+                    spacing={0}
                 >
+                    {/* Container of 2 Charts */}
                     <Box
-                        display="grid"
-                        gridTemplateColumns="repeat(12, 1fr)"
-                        // gridTemplateRows="repeat(1, 1fr)"
-                        gridAutoRows="180px"
-                        gap="10px"
+                        container={true}
+                        style={{width: "100%", display: "flex", justifyContent: "center"}}
+                        m={2}
                     >
-
-                    {/* (Row1: Part2) : Row 1 */}
-                        {/* ((Row1: Part2) : Row 1): Part 1 */}
-                        <>
+                        {/* Charts*/}
+                            <>
                             {
                                 optionChartData === "now" ?
                                 <Chart url={apiRealtimeChart} 
@@ -196,35 +199,62 @@ const Dashboard = () => {
                                         timedelay={0} 
                                         optionData={optionChartData}/>
                             }
-                        </>
+                            </>
+                    </Box>
 
-                    {/* (Row1: Part2): Row 2 */}
-
-                        <Box
-                            gridColumn="span 12"
-                            gridRow="span 1"
-                            height="180px"
-                            // backgroundColor={colors.primary[400]}
+                    {/* Container of history option */}
+                    <Box
+                            container={true}
                             display="flex"
+                            direction="row"
                             justifyContent="center"
+                            m={2}
                         >
-                            {/* Data history chase back option*/} 
-                            <Box alignItems="center" 
-                                // backgroundColor={colors.primary[400]} 
-                                width="90%">
-                                {/* buttons */}
-                                <Box display="flex"  alignItems="center" ml="15vh" mt="5vh" >
-                                    <Header title="Data options" variant="h3"/>
-
-                                    <Box mb="10px" ml="5px">
+                                {/* calendar */}
+                                <Box 
+                                    display="flex" 
+                                    justifyContent="center" 
+                                    alignItems="center"
+                                >
+                                    {/* Start Time */}
+                                    <Box>
+                                        <Header title="Start Time" fontSize="15px"/>
+                                        <DatePicker onChange={(new_value)=>{
+                                                                    setUnixTimestampStart(Date.parse(new_value)/1000);
+                                                                }
+                                                            }
+                                        />
+                                    </Box>
+                                    <Box m={1} mt="5vh">
+                                        {/* <Header title="-:-" fontSize="30px"/> */}
+                                    </Box>
+                                    {/* End Time */}
+                                    <Box>
+                                        <Header title="End Time" fontSize="15px"/>
+                                        <DatePicker onChange={(new_value)=>{
+                                                                    setUnixTimestampEnd(Date.parse(new_value)/1000)
+                                                                }
+                                                            }
+                                        />
+                                    </Box>
+                                </Box>
+                                <Box m={4}/>
+                                {/* 3 buttons */}
+                                <Box 
+                                    display="flex" 
+                                    justifyContent="center" 
+                                    alignItems="center"
+                                    mt="22px"
+                                    >
+                                    {/* <Header title="Data options" variant="h3"/> */}
                                         <Button
                                             sx={{
-                                            backgroundColor: colors.blueAccent[700],
-                                            color: colors.grey[100],
-                                            fontSize: "14px",
-                                            fontWeight: "bold",
-                                            padding: "2px 5px",
-                                            }}
+                                                backgroundColor: colors.blueAccent[700],
+                                                color: colors.grey[100],
+                                                fontSize: "15px",
+                                                fontWeight: "bold",
+                                                padding: "8px 18px",
+                                                }}
                                             onClick={()=>{
                                                 // setApi(`http://${backend_host}/api/get/daily_data/${id}`)
                                                 if(checkTimeOption(unixTimestampStart, unixTimestampEnd, 'year'))
@@ -245,19 +275,16 @@ const Dashboard = () => {
                                         >
                                             <HistoryToggleOffOutlinedIcon sx={{ mr: "10px" }} />
                                             Year
-                                        </Button>
-                                    </Box>
-                                    
-
-                                    <Box mb="10px" ml="5px">
+                                        </Button>                                    
+                                        <Box m={0.5} />
                                         <Button
                                             sx={{
-                                            backgroundColor: colors.blueAccent[400],
-                                            color: colors.grey[100],
-                                            fontSize: "14px",
-                                            fontWeight: "bold",
-                                            padding: "2px 5px",
-                                            }}
+                                                backgroundColor: colors.blueAccent[700],
+                                                color: colors.grey[100],
+                                                fontSize: "15px",
+                                                fontWeight: "bold",
+                                                padding: "8px 18px",
+                                                }}
                                             onClick={()=>{
                                                 // setApi(`http://${backend_host}/api/get/secondly_data/${id}`)
                                                 if(checkTimeOption(unixTimestampStart, unixTimestampEnd, 'month'))
@@ -279,17 +306,15 @@ const Dashboard = () => {
                                             <HistoryToggleOffOutlinedIcon sx={{ mr: "10px" }} />
                                             Month
                                         </Button>
-                                    </Box>
-
-                                    <Box mb="10px" ml="5px">
+                                        <Box m={0.5} />
                                         <Button
                                             sx={{
-                                            backgroundColor: colors.blueAccent[400],
-                                            color: colors.grey[100],
-                                            fontSize: "14px",
-                                            fontWeight: "bold",
-                                            padding: "2px 5px",
-                                            }}
+                                                backgroundColor: colors.blueAccent[700],
+                                                color: colors.grey[100],
+                                                fontSize: "15px",
+                                                fontWeight: "bold",
+                                                padding: "8px 18px",
+                                                }}
                                             onClick={async() => {
                                                 // setApi(`http://${backend_host}/api/get/secondly_data/${id}`)
                                                 // setOption(1);
@@ -315,17 +340,15 @@ const Dashboard = () => {
                                             <HistoryToggleOffOutlinedIcon sx={{ mr: "10px" }} />
                                             Day
                                         </Button>
-                                    </Box>
-
-                                    <Box mb="10px" ml="5px">
+                                        <Box m={0.5} />
                                         <Button
                                             sx={{
-                                            backgroundColor: colors.blueAccent[400],
-                                            color: colors.grey[100],
-                                            fontSize: "14px",
-                                            fontWeight: "bold",
-                                            padding: "2px 5px",
-                                            }}
+                                                backgroundColor: colors.blueAccent[700],
+                                                color: colors.grey[100],
+                                                fontSize: "15px",
+                                                fontWeight: "bold",
+                                                padding: "8px 18px",
+                                                }}
                                             onClick={(e) =>
                                                 {
                                                     console.log("set option to now")
@@ -340,111 +363,47 @@ const Dashboard = () => {
                                             <HistoryToggleOffOutlinedIcon sx={{ mr: "10px" }} />
                                             Now
                                         </Button>
-                                    </Box>
-                                </Box>
 
-                                {/* calendar */}
-                                <Box display="flex" ml="20vh">
-                                    {/* Start Time */}
-                                    <Box>
-                                        <Header title="Start Time" variant="h4"/>
-                                        <Box ml="5vh">
-                                            <DatePicker onChange={(new_value)=>{
-                                                                        setUnixTimestampStart(Date.parse(new_value)/1000);
-                                                                    }
-                                                                }
-                                            />
-                                        </Box>
-                                    </Box>
-
-                                    {/* End Time */}
-                                    <Box>
-                                        <Header title="End Time" variant="h4"/>
-                                        <Box ml="5vh">
-                                            <DatePicker onChange={(new_value)=>{
-                                                                        setUnixTimestampEnd(Date.parse(new_value)/1000)
-                                                                    }
-                                                                }
-                                            />
-                                        </Box>
-                                    </Box>
-                                </Box>
+                                
                             </Box>
                             {/* End option chase back */}
                         </Box>
-
-                        {/* ((Row1: Part2): Row 2): Part 1 */}
-                    
-
-                        
-                        <Box
-                            mt="25px"
-                            gridColumn="span 8"
-                            gridRow="span 1"
-                            // backgroundColor={colors.primary[400]}
-                            display="flex"
-                            justifyContent="center"
-                        >
-                            {/* <Header title="Fan Speed" variant="h5"/>
-                            <Box
-                                justifyContent="center"
-                                alignItems="center"
-                                mt={5}
-                            >
-                                <ProgressCircle/>
-                            </Box> */}
-                            {/* Control panel */}
-                            <Box display="flex" 
-                                // backgroundColor={colors.primary[400]} 
-                                width="100%">
-                                {/* Control Panel */}
-                                <Box alignItems="center" width="100%">
-                                    <ControlPanel/>
-                                </Box>
-                            </Box>
-                        </Box>                        
-
-
-                        {/* ((Row1: Part2): Row 2): Part 2 */}
-                        <Box
-                            mt="30px"
-                            gridColumn="span 4"
-                            gridRow="span 1"
-                            // backgroundColor={colors.primary[400]}
-                            // display="flex"
-                            // // display="flex"
-                            // justifyContent="center"
-                            // alignItems="center"
-                            // height="1000px"
-                            // alignItems="stretch"  // Ensures the inner Control component stretches to fill the height
-                        >
-                            {/* <ControlPanel/> */}
-                            {/* <Box flex={1}
-                                ml={5}
-                                justifyContent="flex-end"
-                                >
-                                <Header title="Fan speed Control" variant="h5"/>
-                            </Box>*/}
-                            
-                            <Box 
-                                display="flex"
-                                justifyContent="center"
-                                alignItems="center"
-                                // mr="50px"
-                                // mt="20px"
-                            >
-                                <Control/>
-                            </Box> 
-                        </Box>
-                        
-                    </Box>
-                </Box>
-
+                </Grid>
                 
-            </Box> 
-        </Box>
-        </div>
-    )
+                {/* Container of auto controlling */}
+                <Grid
+                    item={true}
+                    mt={8}
+                    xs={12}
+                    sm={12}
+                    lg={8}
+                    container={true}
+                    direction="column"
+                    alignItems="center"
+                    justify="center"
+                    style={{ height: "100%" }}
+                    spacing={0}
+                >
+                    <ControlPanel/>
+                </Grid>
+                {/* Container of manual controlling */}
+                <Grid
+                    mt={2}
+                    xs={12}
+                    sm={12}
+                    lg={4}
+                >
+                    <Header title="Manual" fontSize="15px"/>
+                    <Control/>
+                </Grid>
+                
+
+
+            </Grid>
+        </Container>    
+    </Box>
+    </>
+    );
 }
 
 export default Dashboard;

@@ -107,15 +107,15 @@ export const tokens = (mode) => ({
           900: "#f8dcdb",
         },
         blueAccent: {
-          100: "#151632",
-          200: "#2a2d64",
-          300: "#3e4396",
-          400: "#535ac8",
-          500: "#6870fa",
-          600: "#868dfb",
-          700: "#a4a9fc",
-          800: "#c3c6fd",
-          900: "#e1e2fe",
+          100: "rgb(224, 242, 255)",
+          200: "rgb(202, 232, 255)",
+          300: "rgb(181, 222, 255)",
+          400: "rgb(150, 206, 253)",
+          500: "rgb(120, 187, 250)",
+          600: "rgb(89, 167, 246)",
+          700: "rgb(56, 146, 243)",
+          800: "rgb(20, 122, 243)",
+          900: "rgb(2, 101, 220)",
         },
       }),
 });
@@ -203,7 +203,7 @@ export const ColorModeContext = createContext({
   });
   
   export const useMode = () => {
-    const [mode, setMode] = useState("dark");
+    const [mode, setMode] = useState("light");
   
     const colorMode = useMemo(
       () => ({

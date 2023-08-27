@@ -2,8 +2,13 @@ import React, {useState, useEffect} from "react"
 import MultipleYAxis from "../components/ApexChart/MixChartApex"
 import { LineChartApex } from "../components/ApexChart/LineChartApex"
 import { Box } from "@mui/material"
+import Grid from "@mui/material/Grid"
+import {host} from "../App"
+
+
 
 export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
+    console.log(host);
     const [isLoading, setIsLoading] = useState(true)
     const [co2, getCo2] = useState([])
     const [hum, getHum] = useState([])
@@ -12,8 +17,8 @@ export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
 
 
     const token = {access_token: null, refresh_token: null}
-    const backend_host = "localhost:8000"
-
+    // const backend_host = host;
+    const backend_host = "27.71.227.1:8002";
     if(localStorage.getItem("access") !== null && localStorage.getItem("refresh") !== null)
     {
         token.access_token = localStorage.getItem("access"); 
@@ -139,7 +144,11 @@ export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
     useEffect(() => {
         if(optionData==="now")
         {
-            setTimeout(() => {console.log("This is in test effect"); get_data(); console.log(hum, temp); console.log("ENDDDD")}, timedelay)
+            setTimeout(() => {console.log("This is in test effect"); 
+                            get_data(); 
+                            console.log(hum, temp); 
+                            console.log("ENDDDD")
+                        }, timedelay)
             // get_data()
         }
         else
@@ -157,50 +166,131 @@ export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
         {
             isLoading ? 
             <>
-                <Box
-                gridColumn="span 6"
-                gridRow="span 2"
+
+                <Grid
+                    xs={12}
+                    sm={6}
+                    lg={6}
+                    item
+                    style={{width: "100%"}}
                 // backgroundColor={colors.primary[400]}
                 >
                     <Box height="400px" mt="0px">   
                         <h1>Loading...</h1>
                     </Box>
-                </Box>
+                </Grid>
 
                 {/* ((Row 1: Part2): Row 1): Part2 */}
-                <Box
-                    gridColumn="span 6"
-                    gridRow="span 2"
-                    // backgroundColor={colors.primary[400]}
-                >
-                    <Box height="400px" mt="0px">   
-                        <h1>Loading...</h1>   
-                    </Box>
-                </Box>
-            </>
-            :
-            <>
-                <Box
-                gridColumn="span 6"
-                gridRow="span 2"
+                <Grid
+                    xs={12}
+                    sm={6}
+                    lg={6}
+                    item
+                    style={{width: "100%"}}
                 // backgroundColor={colors.primary[400]}
                 >
                     <Box height="400px" mt="0px">   
-                         <MultipleYAxis nameChart={"Temperature and Humidity"}  id={1} time={time} temperature={temp} humidity={hum} option={optionData}/>
-                         {/* <LineChartApex nameChart={"TEMPPPPP"}  id={1} time={time} value={hum} option={optionData}/> */}
+                        <h1>Loading...</h1>
                     </Box>
-                </Box>
+                </Grid>
 
-                {/* ((Row 1: Part2): Row 1): Part2 */}
-                <Box
-                    gridColumn="span 6"
-                    gridRow="span 2"
-                    // backgroundColor={colors.primary[400]}
+                <Grid
+                    xs={12}
+                    sm={6}
+                    lg={6}
+                    item
+                    style={{width: "100%"}}
+                // backgroundColor={colors.primary[400]}
                 >
                     <Box height="400px" mt="0px">   
+                        <h1>Loading...</h1>
+                    </Box>
+                </Grid>
+
+                <Grid
+                    xs={12}
+                    sm={6}
+                    lg={6}
+                    item
+                    style={{width: "100%"}}
+                // backgroundColor={colors.primary[400]}
+                >
+                    <Box height="400px" mt="0px">   
+                        <h1>Loading...</h1>
+                    </Box>
+                </Grid>
+            
+            </>
+            :
+            <>
+
+                <Grid
+                    xs={12}
+                    sm={6}
+                    lg={6}
+                    item
+                    style={{width: "100%"}}
+                // backgroundColor={colors.primary[400]}
+                >
+                    <Box
+                        item
+                        style={{width: "100%"}}
+                    // backgroundColor={colors.primary[400]}
+                    >
+                        <LineChartApex nameChart={"Temp"}  id={1} time={time} value={temp} option={optionData}/>
+                    </Box>
+                </Grid>
+
+                <Grid
+                    xs={12}
+                    sm={6}
+                    lg={6}
+                    item
+                    style={{width: "100%"}}
+                // backgroundColor={colors.primary[400]}
+                >
+                    <Box
+                        item
+                        style={{width: "100%"}}
+                    // backgroundColor={colors.primary[400]}
+                    >
+                        <LineChartApex nameChart={"Hum"}  id={1} time={time} value={hum} option={optionData}/>
+                    </Box>
+                </Grid>
+
+                <Grid
+                    xs={12}
+                    sm={6}
+                    lg={6}
+                    item
+                    style={{width: "100%"}}
+                // backgroundColor={colors.primary[400]}
+                >
+                    <Box
+                        item
+                        style={{width: "100%"}}
+                    // backgroundColor={colors.primary[400]}
+                    >
                         <LineChartApex nameChart={"Co2"}  id={1} time={time} value={co2} option={optionData}/>
                     </Box>
-                </Box>
+                </Grid>
+
+                <Grid
+                    xs={12}
+                    sm={6}
+                    lg={6}
+                    item
+                    style={{width: "100%"}}
+                // backgroundColor={colors.primary[400]}
+                >
+                    <Box
+                        item
+                        style={{width: "100%"}}
+                    // backgroundColor={colors.primary[400]}
+                    >
+                        <LineChartApex nameChart={"TVOC"}  id={1} time={time} value={[]} option={optionData}/>
+                    </Box>
+                </Grid>
             </>
         }
         

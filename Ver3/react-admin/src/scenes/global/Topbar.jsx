@@ -23,7 +23,11 @@ const Topbar = () => {
   const username = localStorage.getItem("username");
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2}>
+    <Box display="flex" justifyContent="space-between"
+					paddingRight={2}
+					paddingLeft={2}
+					// backgroundColor={colors.greenAccent[700]}
+					>
 		<Box display="flex">
 
 				{/* IMGAGE */}
@@ -102,7 +106,7 @@ const Topbar = () => {
 		{/* ICONS */}
 		<Box display="flex">
 				<IconButton onClick={colorMode.toggleColorMode}>
-					{theme.palette.mode === "dark" ? (
+					{theme.palette.mode === "light" ? (
 					<DarkModeOutlinedIcon />
 					) : (
 					<LightModeOutlinedIcon />

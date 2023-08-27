@@ -256,7 +256,8 @@ const MultipleYAxis = ({ nameChart, id, time, temperature, humidity, option }) =
             <ReactApexChart options={new_data.options} 
                             series={new_data.series} 
                             type={"line"} 
-                            height={"200%"} />
+                            height="" 
+            />
         </div>
     );
 };

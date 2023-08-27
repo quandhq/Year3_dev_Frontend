@@ -2,7 +2,7 @@ import { useState , createContext} from "react";
 import { Routes, Route } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
-import Dashboard from "./scenes/dashboard";
+import Dashboard from "./scenes/dashboard/index copy 2";
 import Line from "./scenes/line";
 // import Pie from "./scenes/pie";
 // import FAQ from "./scenes/faq";
@@ -18,12 +18,15 @@ import About from "./scenes/about";
 import Contact from "./scenes/contact";
 
 const debug_mode = false;
+export const host = "27.71.227.1:8002";
+// export const host = "localhost:8000";
+
 
 export const  UserContext = createContext();
 function App() {
   const [isSignIn, setIsSignin] = useState(debug_mode)			//set true for debungging
   const [theme, colorMode] = useMode();
-//   const [isSidebar, setIsSidebar] = useState(true);
+  const [isSidebar, setIsSidebar] = useState(true);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <UserContext.Provider value={setIsSignin}>
@@ -38,7 +41,7 @@ function App() {
               <ThemeProvider theme={theme}>
                 <CssBaseline/>
       
-                <div className="app">				
+                <div className="app">			
                   <main className="content">
                       <Topbar/>
 

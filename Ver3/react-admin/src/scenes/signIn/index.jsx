@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useContext } from 'react';
-import { UserContext } from '../../App';
+import { host, UserContext } from '../../App';
 
 function Copyright(props) {
 	return (
@@ -32,7 +32,8 @@ const theme = createTheme();
 
 export default function SignIn() {
   // const backend_host = "27.71.227.1:800";
-  const backend_host = "localhost:8000";
+  console.log(host)
+  const backend_host = host;
 
 
 

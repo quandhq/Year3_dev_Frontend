@@ -167,7 +167,8 @@ export const LineChartApex = ({ nameChart, id, time, value, option }) => {
         <ReactApexChart options={new_data.options} 
                         series={new_data.series} 
                         type="line" 
-                        height="200%"/>
+                        height=""
+        />
       </div>
     );
 };

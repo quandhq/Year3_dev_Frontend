@@ -6,6 +6,8 @@ import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import Header from "../Header";
 import { json } from "react-router-dom";
+import { Slider } from '@mui/material';
+import { host } from "../../App";
 
 const Control = () =>
 {
@@ -22,8 +24,19 @@ const Control = () =>
         setSpeed(speed > 0 ? (speed - 1) : 0);
     };
 
+    const handleChange = (event, newValue) =>
+    {
+        setSpeed(newValue)
+    }
+
     return (
-        <div> 
+        <Box 
+            // container
+            // display="flex"
+            // direction="row"
+            // justifyContent="center"
+            width="250px"
+        > 
             
                 <GaugeChart id="gauge control" 
                             nrOfLevels={20} 
@@ -31,38 +44,50 @@ const Control = () =>
                             colors={['#5BE12C', '#F5CD19', '#EA4228']} 
                             textColor={"#888888"}
                             formatTextValue={value => value + "%"}
-                            width="100%"
+                            // width="400%"
                 />
+                {/* Slider */}
+                <Box 
+                    // sx={{ width: 200 }}
+                    // paddingLeft="100px"
+                    display="flex" 
+                    justifyContent="center" 
+                    alignItems="center"
+                    >
+                    <Slider
+                        size="lager"
+                        aria-label="Volume" value={speed} onChange={handleChange} 
+                    />
+                </Box>
 
                 <Box
                     display="flex" 
                     justifyContent="center" 
                     alignItems="center"
-                    height="50%"
+                    // height="50%"
                     gap="5px">
-                    <Button
+                    {/* <Button
                         sx={{
-                        backgroundColor: colors.blueAccent[700],
+                        backgroundColor: colors.blueAccent[400],
                         color: colors.grey[100],
                         fontSize: "14px",
                         fontWeight: "bold",
                         }}
                         onClick={Increase}
                     >
-                                {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
                                 +
-                    </Button>
+                    </Button> */}
 
                     <Button
                         sx={{
-                        backgroundColor: colors.blueAccent[700],
+                        backgroundColor: colors.blueAccent[400],
                         color: colors.grey[100],
                         fontSize: "14px",
                         fontWeight: "bold",
                         }}
                         onClick={
                             async(e) => {
-                                const url_sending_set_point = `http://localhost:8000/api/v1.1/control/fans?farm_id=1`;
+                                const url_sending_set_point = `http://${host}/api/v1.1/control/fans?farm_id=1`;
                                 const speed_monitor_data = {
                                     "option": "manual",
                                     "speed": speed,
@@ -85,18 +110,17 @@ const Control = () =>
                         Send
                     </Button>
 
-                    <Button
+                    {/* <Button
                         sx={{
-                        backgroundColor: colors.blueAccent[700],
+                        backgroundColor: colors.blueAccent[400],
                         color: colors.grey[100],
                         fontSize: "14px",
                         fontWeight: "bold",
                         }}
                         onClick={Decrease}
                     >
-                                {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
                                 -
-                    </Button>
+                    </Button> */}
                     
                 </Box>
 
@@ -118,10 +142,7 @@ const Control = () =>
                         SEND 
                     </button> */}
                 </Box>
-            
-
-            
-        </div>
+            </Box>
     );
 }
 

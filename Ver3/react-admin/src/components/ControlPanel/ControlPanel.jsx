@@ -132,7 +132,7 @@ const ControlPanel = () => {
             p="2px"
             display="flex"
             justifyContent="center"
-            backgroundColor={colors.greenAccent[600]}
+            backgroundColor={colors.blueAccent[400]}
             borderRadius="4px"
           >
             <Button onClick={()=>{
@@ -174,14 +174,9 @@ const ControlPanel = () => {
   };
 
   return (
-    <Box m="0px">
-      <Box marginLeft="10px">
-        <Header title="Control Panel" variant="h5"/>
-      </Box>
-
       <Box
-        m="-5px 30px 30px 20px"
-        height="25vh"       //set height of all component
+        // m="-5px 30px 30px 20px"
+        height="200px"       //set height of all component
         sx={{
           width: { md: 500 },
                 "& .MuiInputBase-root": {
@@ -195,10 +190,10 @@ const ControlPanel = () => {
             borderBottom: "none",
           },
           "& .name-column--cell": {
-            color: colors.greenAccent[300],
+            color: colors.blueAccent[300],
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: colors.blueAccent[400],
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
@@ -219,10 +214,9 @@ const ControlPanel = () => {
             rows={dataRow} 
             columns={columns} 
             disableColumnMenu={true}
-            components={{headerCell: CustomHeaderCell}}
+            // components={{headerCell: CustomHeaderCell}}
         />
       </Box>
-    </Box>
   );
 };
 
