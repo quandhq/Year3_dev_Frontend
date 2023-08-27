@@ -169,7 +169,8 @@ export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
 
                 <Grid
                     xs={12}
-                    sm={6}
+                    sm={12}
+                    md={6}
                     lg={6}
                     item
                     style={{width: "100%"}}
@@ -183,7 +184,8 @@ export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
                 {/* ((Row 1: Part2): Row 1): Part2 */}
                 <Grid
                     xs={12}
-                    sm={6}
+                    sm={12}
+                    md={6}
                     lg={6}
                     item
                     style={{width: "100%"}}
@@ -196,7 +198,8 @@ export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
 
                 <Grid
                     xs={12}
-                    sm={6}
+                    sm={12}
+                    md={6}
                     lg={6}
                     item
                     style={{width: "100%"}}
@@ -209,7 +212,8 @@ export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
 
                 <Grid
                     xs={12}
-                    sm={6}
+                    sm={12}
+                    md={6}
                     lg={6}
                     item
                     style={{width: "100%"}}
@@ -226,7 +230,8 @@ export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
 
                 <Grid
                     xs={12}
-                    sm={6}
+                    sm={12}
+                    md={6}
                     lg={6}
                     item
                     style={{width: "100%"}}
@@ -243,7 +248,8 @@ export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
 
                 <Grid
                     xs={12}
-                    sm={6}
+                    sm={12}
+                    md={6}
                     lg={6}
                     item
                     style={{width: "100%"}}
@@ -260,7 +266,8 @@ export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
 
                 <Grid
                     xs={12}
-                    sm={6}
+                    sm={12}
+                    md={6}
                     lg={6}
                     item
                     style={{width: "100%"}}
@@ -277,7 +284,8 @@ export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
 
                 <Grid
                     xs={12}
-                    sm={6}
+                    sm={12}
+                    md={6}
                     lg={6}
                     item
                     style={{width: "100%"}}

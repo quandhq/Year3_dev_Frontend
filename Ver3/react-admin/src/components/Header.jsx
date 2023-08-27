@@ -4,6 +4,11 @@ import { tokens } from "../theme";
 const Header = ({ title, subtitle, variant = "h2", fontSize }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const subtractPixel = (fontSize, value) => 
+  {
+    const origin_value_fontSize = parseInt(fontSize);
+    return `${origin_value_fontSize-value}px`;
+  }
   return (
     <Box 
       // mb="10px"
@@ -12,7 +17,7 @@ const Header = ({ title, subtitle, variant = "h2", fontSize }) => {
         // variant= {variant}
         color={colors.grey[100]}
         fontWeight="bold"
-        fontSize= {fontSize}
+        fontSize={{ xs: subtractPixel(fontSize,10), md: subtractPixel(fontSize,5), lg: fontSize}} // Adjust font size based on screen size
         sx={{ m: "0 0 0 0" }}
       >
         {title}

@@ -20,7 +20,7 @@ const ControlPanel = () => {
   const dataRow = [
     {
 		  id: 1,
-		  aim_column: "Temperature",
+		  aim_column: "Tempeature Level"
 	  },
     {
       id: 2,
@@ -47,15 +47,18 @@ const ControlPanel = () => {
             // height="30%"
             // mb="50px"
             // p="10px"
-            display="center"
-            justifyContent="center"
+            container="true"
+            display="flex"
+            flexDirection="row"
+            alignItems="center"
+            justify="center"
             backgroundColor=""
             borderRadius="10px"
           >
             <TextField
               // label="Set Point label"
               sx={{
-                width: { md: 60 },
+                width: { md: 105 },
                 "& .MuiInputBase-root": {
                     height: 40
                 }
@@ -146,9 +149,7 @@ const ControlPanel = () => {
                     }
                   }}
             > 
-              <Typography color={colors.grey[100]} sx={{ ml: "0px" }} variant="h6">
-                Send
-              </Typography>
+              <Header title="Send" fontSize="18px"/>
             </Button>
           </Box>
         );
@@ -156,20 +157,37 @@ const ControlPanel = () => {
     },
   ];
 
-  const CustomHeaderCell = (params) => {
+  // const CustomHeaderCell = (params) => {
+  //   return (
+  //     <Box
+  //       display="flex"
+  //       justifyContent="center"
+  //       backgroundColor={colors.greenAccent[600]}
+  //       borderRadius="4px"
+  //     >
+  //       <div style={{ textAlign: 'center', height: "50%"}}>
+  //       {params.colDef.headerName}
+  //       </div>
+  //     </Box>
+      
+  //   );
+  // };
+
+    const CustomHeaderCell = (params) => {
     return (
-      // <Box
-      //   display="flex"
-      //   justifyContent="center"
-      //   backgroundColor={colors.greenAccent[600]}
-      //   borderRadius="4px"
-      // >
-      //   {params.colDef.headerName}
-      // </Box>
-      // <div style={{ textAlign: 'center', height: "50%"}}>
-      //   {params.colDef.headerName}
-      // </div>
-      <h1></h1>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: colors.greenAccent[600],
+          borderRadius: '4px',
+          textAlign: 'center',
+          height: '100%', // Make sure the height covers the full cell height
+        }}
+      >
+        {params.colDef.headerName}
+      </div>
     );
   };
 
@@ -178,7 +196,7 @@ const ControlPanel = () => {
         // m="-5px 30px 30px 20px"
         height="200px"       //set height of all component
         sx={{
-          width: { md: 500 },
+          width: { xs:400, sm: 400, md: 500, lg: 500 },
                 "& .MuiInputBase-root": {
                     height: 35
                 },
@@ -188,13 +206,32 @@ const ControlPanel = () => {
           },
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
+            // color: "yellow",
+            textAlign: "center",
           },
           "& .name-column--cell": {
-            color: colors.blueAccent[300],
+            // color: colors.blueAccent[300],
+            color: "red",
           },
           "& .MuiDataGrid-columnHeaders": {
             backgroundColor: colors.blueAccent[400],
             borderBottom: "none",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+            textAlign: 'center',
+            borderRadius: '4px',
+          },
+          "& .MuiDataGrid-columnHeaderTitleContainer": {
+            backgroundColor: colors.blueAccent[400],
+            borderBottom: "none",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+            textAlign: 'center',
+            borderRadius: '4px',
           },
           "& .MuiDataGrid-virtualScroller": {
             // backgroundColor: colors.primary[400],
@@ -214,8 +251,7 @@ const ControlPanel = () => {
             rows={dataRow} 
             columns={columns} 
             disableColumnMenu={true}
-            // components={{headerCell: CustomHeaderCell}}
-        />
+      />
       </Box>
   );
 };

@@ -228,19 +228,25 @@ const InformationTag = ({url, callbackSetSignIn, time_delay, optionData }) => {
             <Box 
                 sx={{boxShadow: 1,
                     borderRadius: '5px', 
-                    backgroundColor: "white"}}
-                height="250px"
+                    backgroundColor: "white",
+                    height:"250px",
+                    width: "100%", // Set the width to 100%
+                    }}
+                
             >
                 <Box>
                     <Box display="flex" justifyContent="center">
                         <Header title="Information" fontSize="40px"/>
                     </Box>
-                    <Box display="flex" marginLeft={7} marginRight={9}>
+                    <Box display="flex" 
+                         marginLeft={{ xs: "5px", md: "40px", lg: "60px" }} // Adjust margins based on screen size
+                         marginRight={{ xs: "5px", md: "40px", lg: "60px"}} // Adjust margins based on screen size
+                    >
                             <Header title="Current conditions:" fontSize="30px"/>
                         </Box>
                     <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" 
-                        marginLeft="80px"
-                        marginRight="80px"
+                         marginLeft={{ xs: "10px", md: "80px", lg:"100px" }} // Adjust margins based on screen size
+                         marginRight={{ xs: "10px", md: "80px", lg:"100px" }} // Adjust margins based on screen size
                     >
                         {
                             infoData.map(each_element_in_infoData =>(

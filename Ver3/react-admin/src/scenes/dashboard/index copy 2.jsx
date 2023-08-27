@@ -138,19 +138,22 @@ const Dashboard = () => {
                     height: "100%",
                 }}
             >
+                {/* empty Box  */}
                 <Grid
                     item="true"
                     xs={12}
                     sm={12}
+                    md={4}
                     lg={4}
                 >
 
                 </Grid>
-
+                {/* Header Dashboard */}
                 <Grid
                     item="true"
                     xs={12}
                     sm={12}
+                    md={12}
                     lg={4}
                 >
                     <Box display="flex" 
@@ -167,6 +170,7 @@ const Dashboard = () => {
                     item="true"
                     xs={12}
                     sm={12}
+                    md={4}
                     lg={4}
                 >
                     <Box width="100%" 
@@ -201,7 +205,8 @@ const Dashboard = () => {
                 {/* Container of everything except image of room, this is set to the most left */}
                 <Grid
                     xs={12}
-                    sm={6}
+                    sm={12}
+                    md={12}
                     lg={8}
                     container="true"
                     display="flex"
@@ -290,16 +295,19 @@ const Dashboard = () => {
                             spacing={1}
                             // style={{display: "flex", height: "100%"}}
                         >
+                            {/* auto control */}
                                 <Grid
                                     item={true}
                                     xs={12}
                                     sm={12}
+                                    md={12}
                                     lg={8}
                                     display="flex"
                                     flexDirection="column"
                                     alignItems="center"
                                     justify="center"
                                     spacing={0}
+                                    width="100%"
                                     // sx={{backgroundColor: "blue"}}
                                 >
                                     <Box marginLeft="10px" marginBottom="10px">
@@ -330,6 +338,7 @@ const Dashboard = () => {
                 <Grid
                     xs={12}
                     sm={12}
+                    md={12}
                     lg={4}
                     direction="column"
                     alignItems="center"
