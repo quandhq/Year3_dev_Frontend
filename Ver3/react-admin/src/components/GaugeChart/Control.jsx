@@ -107,7 +107,7 @@ const Control = () =>
                         }
                     >
                         {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
-                        Send
+                        Submit
                     </Button>
 
                     {/* <Button

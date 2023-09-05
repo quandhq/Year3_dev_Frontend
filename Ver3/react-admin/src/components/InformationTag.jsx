@@ -18,7 +18,7 @@ import temp_icon from "../assets/temperature.svg"
 import hum_icon from "../assets/humidity.svg"
 import co2_icon from "../assets/co2.svg"
 
-const InformationTag = ({url, callbackSetSignIn, time_delay, optionData }) => {
+const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const backend_host = host;
@@ -170,8 +170,8 @@ const InformationTag = ({url, callbackSetSignIn, time_delay, optionData }) => {
 
         if(verifyAccessToken_response === true)
         {
-            const response = await fetch(url)
-            const data = await response.json()
+            // const response = await fetch(url)
+            // const data = await response.json()
             get_chart_data(url, token["access_token"])
         }
         else

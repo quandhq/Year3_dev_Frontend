@@ -28,15 +28,16 @@ import { TroubleshootRounded } from "@mui/icons-material";
 import { Slider } from '@mui/material';
 import InformationTag from "../../components/InformationTag";
 import AirQualityIndex from "../../components/AirQualityIndex";
-import plan from "../../assets/plan.svg"
+import plan from "../../assets/plan.svg";
+import { useLocation } from "react-router-dom";
 
 
 
 const Dashboard = () => {
     // const backend_host = "27.71.227.1:800"
     const backend_host = host;
-
-    
+    const location = useLocation(); /*!< This is used to get the "state" component that is passed into <Link> */
+    const data_passed_from_landingpage = location.state;
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const callbackSetSignIn = useContext(UserContext);
@@ -53,7 +54,7 @@ const Dashboard = () => {
     // console.log("ENDING REALTIME")
     const apiHistoryChart = `http://${backend_host}/api/v1.1/monitor/data/history?farm_id=1&time_start=${unixTimestampStart}&time_end=${unixTimestampEnd}&option=${optionChartData}`;
     const [apiHistoryChartState, setApiHistoryChartState] = useState(apiHistoryChart)
-    const apiInformationTag = `http://${backend_host}/api/v1.1/monitor/data?farm_id=1`;
+    const apiInformationTag = `http://${backend_host}/api/v1.1/monitor/data?room_id=${data_passed_from_landingpage.room_id}`;
     
     // console.log("RRRRRRRRRreload component")
     // const dataHistoryChart = Fetch(apiHistoryChartState, callbackSetSignIn, 0, optionChartData); >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

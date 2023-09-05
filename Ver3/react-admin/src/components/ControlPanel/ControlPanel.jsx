@@ -125,7 +125,7 @@ const ControlPanel = () => {
     },
     {
       field: "submit",
-      headerName: "Send",
+      headerName: "Submit",
       flex: 1,
       renderCell: (row_information) => {
         return (
@@ -149,7 +149,7 @@ const ControlPanel = () => {
                     }
                   }}
             > 
-              <Header title="Send" fontSize="18px"/>
+              <Header title="Submit" fontSize="12px"/>
             </Button>
           </Box>
         );

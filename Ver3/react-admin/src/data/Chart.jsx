@@ -113,8 +113,8 @@ export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
 
         if(verifyAccessToken_response === true)
         {
-            const response = await fetch(url)
-            const data = await response.json()
+            // const response = await fetch(url)
+            // const data = await response.json()
             get_chart_data(url, token["access_token"])
         }
         else

@@ -18,8 +18,8 @@ import About from "./scenes/about";
 import Contact from "./scenes/contact";
 
 const debug_mode = false;
-export const host = "27.71.227.1:8002";
-// export const host = "localhost:8000";
+// export const host = "27.71.227.1:8002";
+export const host = "localhost:8000";
 
 
 export const  UserContext = createContext();
@@ -47,7 +47,7 @@ function App() {
 
                       <Routes>
                         <Route path="" element={<Landing />} />
-                        <Route path="/landing1/dashboard" element={<Dashboard/>} />
+                        <Route path="/landing/dashboard" element={<Dashboard/>} />
                         <Route path="/landing" element={<Landing />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/contact" element={<Contact />} />

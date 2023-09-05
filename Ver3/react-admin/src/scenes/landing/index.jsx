@@ -8,7 +8,7 @@ import LineChart from "../../components/LineChart";
 import { LineChartApex } from "../../components/ApexChart/LineChartApex";
 import { BarChartApex } from "../../components/ApexChart/BarChartApex";
 import useFetch from "../../data/dataFetch";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -24,7 +24,9 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import logo_lab from "../../assets/logo_lab.png"
-import room1 from "../../assets/room1.svg" 
+import {host, UserContext} from "../../App"
+import room1_building from "../../assets/room1_building.svg"
+import plan from "../../assets/plan.svg"
 
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -46,107 +48,194 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   };
 
 const Landing = () => {
-
+    const callbackSetSignIn = useContext(UserContext);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const cards = [
+    /** 
+     * @brief state "room_data"
+     *          room_data will be a list of dictionary that has a form like this 
+     *          [{
+     *               "name": `room ${room["id"]} ${room["construction_name"]}`,
+     *               "image": image_room[`room_${room["id"]}_${room["construction_name"]}`],
+     *               "room_id": room.id,
+     *          }, ... ]
+     *          When a button is clicked, it will also send the room information to that page. 
+     */
+    const [room_data, setRoom_data] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const image_room = 
+    {
+        "room_1_farm": plan,
+        "room_2_farm": plan,
+        "room_3_building": room1_building,
+    }
+
+
+    const function_get_room_data = async () =>
+    {
+        const backend_host = host 
+        const api_room_data = `http://${backend_host}/api/room`
+
+        const token = {access_token: null, refresh_token: null}
+        // const backend_host = host;
+        if(localStorage.getItem("access") !== null && localStorage.getItem("refresh") !== null)
         {
-            image: room1,
-            title: "Farm 1",
-            subtitle1: {
-                name: "Temperature",
-                value: `${100}`
-            },
-            subtitle2: {
-                name: "Humidity",
-                value: `${27}%`
-            },
-            subtitle3: {
-                name: "Co2 Level",
-                value: `${200} ppm`
-            },
-        },
-        {
-            image: room1,
-            title: "Farm 1",
-            subtitle1: {
-                name: "Temperature",
-                value: `${100}`
-            },
-            subtitle2: {
-                name: "Humidity",
-                value: `${27}%`
-            },
-            subtitle3: {
-                name: "Co2 Level",
-                value: `${200} ppm`
-            },
-        },
-        {
-            image: room1,
-            title: "Farm 1",
-            subtitle1: {
-                name: "Temperature",
-                value: `${100}`
-            },
-            subtitle2: {
-                name: "Humidity",
-                value: `${27}%`
-            },
-            subtitle3: {
-                name: "Co2 Level",
-                value: `${200} ppm`
-            },
-        },
-        {
-            image: room1,
-            title: "Farm 1",
-            subtitle1: {
-                name: "Temperature",
-                value: `${100}`
-            },
-            subtitle2: {
-                name: "Humidity",
-                value: `${27}%`
-            },
-            subtitle3: {
-                name: "Co2 Level",
-                value: `${200} ppm`
-            },
-        },
-        {
-            image: room1,
-            title: "Farm 1",
-            subtitle1: {
-                name: "Temperature",
-                value: `${100}`
-            },
-            subtitle2: {
-                name: "Humidity",
-                value: `${27}%`
-            },
-            subtitle3: {
-                name: "Co2 Level",
-                value: `${200} ppm`
-            },
-        },
-        {
-            image: room1,
-            title: "Farm 1",
-            subtitle1: {
-                name: "Temperature",
-                value: `${100}`
-            },
-            subtitle2: {
-                name: "Humidity",
-                value: `${27}%`
-            },
-            subtitle3: {
-                name: "Co2 Level",
-                value: `${200} ppm`
-            },
+            token.access_token = localStorage.getItem("access"); 
+            token.refresh_token = localStorage.getItem("refresh");
         }
-    ];
+        else
+        {
+            throw new Error("There is no access token and refresh token ....");
+        }
+
+        const verifyAccessToken  = async () =>
+        {
+            //call the API to verify access-token
+            const verify_access_token_API_endpoint = `http://${backend_host}/api/token/verify`
+            const verify_access_token_API_data = 
+            {
+                "token": token.access_token,
+            }
+            const verify_access_token_API_option = 
+            {
+                "method": "POST",
+                "headers": 
+                {
+                    "Content-Type": "application/json",
+                },
+                "body": JSON.stringify(verify_access_token_API_data),
+
+            }
+            const verify_access_token_API_response = await fetch(verify_access_token_API_endpoint, 
+                                                                verify_access_token_API_option,);
+            if(verify_access_token_API_response.status !== 200)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /*
+        *brief: this function is to verify the refresh-token and refresh the access-token if the refresh-token is still valid
+        */
+        const verifyRefreshToken  = async () =>
+        {
+            //call the API to verify access-token
+            const verify_refresh_token_API_endpoint = `http://${backend_host}/api/token/refresh`
+            const verify_refresh_token_API_data = 
+            {
+                "refresh": token.refresh_token,
+            }
+            const verify_refresh_token_API_option = 
+            {
+                "method": "POST",
+                "headers": 
+                {
+                    "Content-Type": "application/json",
+                },
+                "body": JSON.stringify(verify_refresh_token_API_data),
+
+            }
+            const verify_refresh_token_API_response = await fetch(verify_refresh_token_API_endpoint, 
+                                                                    verify_refresh_token_API_option,);
+            const verify_refresh_token_API_response_data = await verify_refresh_token_API_response.json();
+            if(verify_refresh_token_API_response.status !== 200)
+            {
+                return false;
+            }
+            else if(verify_refresh_token_API_response.status === 200 &&  verify_refresh_token_API_response_data.hasOwnProperty("access"))
+            {
+                localStorage.setItem("access", verify_refresh_token_API_response_data["access"]);
+                localStorage.setItem("refresh", verify_refresh_token_API_response_data["refresh"]);
+                return true
+            }
+            else
+            {
+                throw new Error("Can not get new access token ....");
+            }
+        }
+
+        const get_room_data = async () => 
+        {
+            const headers = {
+                'Content-Type':'application/json',
+                // "Authorization": `Bearer ${access_token}`
+                };
+            const option_room_data = {
+                'method':'GET',
+                "headers": headers,
+                "body": null,
+                };
+            const response_room_data = await fetch(api_room_data, option_room_data);
+            if(response_room_data.status === 200)   /*!< if the fetch is successful*/  
+            {
+                const response_room_data_json_dispatch = await response_room_data.json();
+                if(response_room_data_json_dispatch) /*!< if there is data in response */
+                {
+                    const new_room_data = [];
+                    const all_keys_in_response_room_data_json_dispatch = Object.keys(response_room_data_json_dispatch);
+                    all_keys_in_response_room_data_json_dispatch.forEach((each_key) => 
+                    {
+                        response_room_data_json_dispatch[each_key].forEach((room) => 
+                        {
+                            const key = `room_${room["id"]}_${room["construction_name"]}`;
+                            new_room_data.push({
+                                "name": `room ${room["id"]} ${room["construction_name"]}`,
+                                "image": image_room[`room_${room["id"]}_${room["construction_name"]}`],
+                                "room_id": room.id,
+                            })
+                        })
+                    })
+                    setRoom_data(new_room_data);    
+                    setIsLoading(false);
+                }
+                else
+                {
+                    alert("No room data!");
+                }
+            }
+            else
+            {
+                alert(`Can not call to server! Error code: ${response_room_data.status}`);
+            }
+        }
+
+        const verify_and_get_room_data = async () => 
+        {
+            const  verifyAccessToken_response = await verifyAccessToken();
+
+            if(verifyAccessToken_response === true)
+            {
+                get_room_data();
+            }
+            else
+            {
+                let verifyRefreshToken_response = null;
+                try
+                {
+                    verifyRefreshToken_response = await verifyRefreshToken();
+                }
+                catch(err)
+                {
+                    alert(err);
+                }
+                if(verifyRefreshToken_response === true)
+                {
+                    get_room_data();
+                }
+                else
+                {
+                    callbackSetSignIn(false);
+                }
+            }
+        } 
+
+        verify_and_get_room_data();
+    }
+
+    useEffect(()=>{
+        function_get_room_data();
+    },[]);
 
     
     return (
@@ -242,72 +331,73 @@ const Landing = () => {
             <main>
             <Container sx={{ py: 6 }} maxWidth="lg">    {/* This container is the most ouside*/}
                 <Grid container spacing={5}>            {/* This Grid container is the one that make every child Grid inside in order*/}
-                    {cards.map((card) => (
-                    // {/* This function return an array of Grid component*/}          
-                    <Grid item key={card} xs={12} sm={4} md={4}>  
-                    {/* xs=collum's width sm={16} md={4} */}
-                        <Card
-                        sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                        >
-                        <CardMedia
-                            component="div"
-                            sx={{
-                            // 16:9
-                            pt: '100%',
-                            }}
-                            image={card.image}
-                        />
-                        <CardContent sx={{ flexGrow: 1 }}>
-                            <Typography gutterBottom variant="h4" component="h2" sx={{fontWeight: "bold"}}>
-                                {card.title}
-                            </Typography>
-                            <Box display="flex" justifyContent="space-between">
-                                <Typography>
-                                    {card.subtitle1.name}
+                {
+                    isLoading ? 
+                    <h1>Loading...</h1>
+                    :
+                    <>
+                    {
+                    room_data.map((room) => (
+                        // {/* This function return an array of Grid component*/}          
+                        <Grid item key={room.name} xs={12} sm={12} 
+                                md={
+                                    (() => {
+                                        const room_data_length = room_data.length;
+                                        if(room_data_length === 1){return 12;}
+                                        else if(room_data_length === 2){return 6;}
+                                        else{return 4;}
+                                    })()
+                                }
+                        >  
+                        {/* xs=collum's width sm={16} md={4} */}
+                            <Card
+                            sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+                            >
+                            <CardMedia
+                                component="div"
+                                sx={{
+                                // 16:9
+                                pt: '100%',
+                                }}
+                                image={room.image}
+                            />
+                            <CardContent sx={{ flexGrow: 1 }}>
+                                <Typography gutterBottom variant="h4" component="h2" sx={{fontWeight: "bold"}}>
+                                    {room.name}
                                 </Typography>
-                                <Typography>
-                                    {card.subtitle1.value}
-                                </Typography>
-                            </Box>
-                            <Box display="flex" justifyContent="space-between">
-                                <Typography>
-                                    {card.subtitle2.name}
-                                </Typography>
-                                <Typography>
-                                    {card.subtitle2.value}
-                                </Typography>
-                            </Box>
-                            <Box display="flex" justifyContent="space-between">
-                                <Typography>
-                                    {card.subtitle3.name}
-                                </Typography>
-                                <Typography>
-                                    {card.subtitle3.value}
-                                </Typography>
-                            </Box>
-                        </CardContent>
-                        <CardActions>
-                            <Link to="/landing1/dashboard">
-                                <Button 
-                                    size="small"
-                                    sx={{
-                                        backgroundColor: colors.blueAccent[700],
-                                        color: colors.grey[100],
-                                        fontSize: "12px",
-                                        fontWeight: "bold",
-                                        padding: "5px 8px",
-                                    }}
-                                    >
-                                    <DetailsIcon sx={{ mr: "10px" }} />
-                                    Detail   
-                                </Button>
-                                {/* <Button size="small">View</Button>
-                                <Button size="small">Edit</Button> */}
-                            </Link>
-                        </CardActions>
-                        </Card>
-                    </Grid>
-                    ))}
+                                <Box display="flex" justifyContent="space-between">
+                                    <Typography>
+                                        Click the button below for more information!
+                                    </Typography>
+                                </Box>
+                            </CardContent>
+                            <CardActions>
+                                <Link to="/landing/dashboard" 
+                                    state= {room}
+                                >
+                                    <Button 
+                                        size="small"
+                                        sx={{
+                                            backgroundColor: colors.blueAccent[700],
+                                            color: colors.grey[100],
+                                            fontSize: "12px",
+                                            fontWeight: "bold",
+                                            padding: "5px 8px",
+                                        }}
+                                        >
+                                        <DetailsIcon sx={{ mr: "10px" }} />
+                                        Detail   
+                                    </Button>
+                                    {/* <Button size="small">View</Button>
+                                    <Button size="small">Edit</Button> */}
+                                </Link>
+                            </CardActions>
+                            </Card>
+                        </Grid>
+                    ))
+                    }
+                    </>
+                }
                 </Grid>
                 </Container>
             </main>
