@@ -98,7 +98,7 @@ export default function SignIn() {
 	}
 	catch(err)
 	{
-		alert(err);
+		alert("Server is not available or username, password is wrong. Error " + err);
 		callbackSetIsSignIn(false);
 	}
 	if(isAuthenticated === true)

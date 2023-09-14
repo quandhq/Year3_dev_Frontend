@@ -24,12 +24,11 @@ import { FetchTest } from "../../data/testing_dataFetchAuthentication";
 import { FetchCopy } from "../../data/dataFetchAuthentication copy";
 import { Chart } from "../../data/Chart";
 import {host} from "../../App";
-import { TroubleshootRounded } from "@mui/icons-material";
-import { Slider } from '@mui/material';
 import InformationTag from "../../components/InformationTag";
 import AirQualityIndex from "../../components/AirQualityIndex";
-import plan from "../../assets/plan.svg";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom"; 
+import RoomMap from "../../components/RoomMap";
+import FilterNode from "../../components/FilterNode";
 
 
 
@@ -42,19 +41,21 @@ const Dashboard = () => {
     const colors = tokens(theme.palette.mode);
     const callbackSetSignIn = useContext(UserContext);
     const [id, setId] = useState(1);
+    const [nodeIdFilter, setNodeIdFilter] = useState(0);
     const [optionData, setOptionData] = useState("now");        //change option to show different Chart
     // const [optionChartData, setOptionChartData] = useState("day")   //change option to make different url
     const [optionChartData, setOptionChartData] = useState("now")
     const [unixTimestampStart, setUnixTimestampStart] = useState(0);
     const [unixTimestampEnd, setUnixTimestampEnd] = useState(0);
-    const apiRealtimeChart = `http://${backend_host}/api/v1.1/monitor/data?farm_id=1`; 
+    const apiRealtimeChart = `http://${backend_host}/api/v1.1/monitor/data?room_id=${data_passed_from_landingpage.room_id}`; 
     // const dataRealtimeChart = Fetch(apiRealtimeChart, callbackSetSignIn, 8000, 'now');   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const dataRealtimeChart = null
 
     // console.log("ENDING REALTIME")
-    const apiHistoryChart = `http://${backend_host}/api/v1.1/monitor/data/history?farm_id=1&time_start=${unixTimestampStart}&time_end=${unixTimestampEnd}&option=${optionChartData}`;
-    const [apiHistoryChartState, setApiHistoryChartState] = useState(apiHistoryChart)
-    const apiInformationTag = `http://${backend_host}/api/v1.1/monitor/data?room_id=${data_passed_from_landingpage.room_id}`;
+    const apiHistoryChart = `http://${backend_host}/api/v1.1/monitor/data/history?room_id=${data_passed_from_landingpage.room_id}&node_id=${nodeIdFilter}&time_start=${unixTimestampStart}&time_end=${unixTimestampEnd}&option=${optionChartData}`;
+    const [apiHistoryChartState, setApiHistoryChartState] = useState(apiHistoryChart);
+    const apiInformationTag = `http://${backend_host}/api/room/information_tag?room_id=${data_passed_from_landingpage.room_id}`;
+    
     
     // console.log("RRRRRRRRRreload component")
     // const dataHistoryChart = Fetch(apiHistoryChartState, callbackSetSignIn, 0, optionChartData); >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -328,7 +329,7 @@ const Dashboard = () => {
                                     justify="center"
                                 >
                                     <Header title="Manual Control" fontSize="15px"/>
-                                    <Control/>
+                                    <Control room_id={data_passed_from_landingpage.room_id}/>
                             </Grid>  
                         </Grid>
                     </Box>
@@ -356,16 +357,11 @@ const Dashboard = () => {
                     </Grid>
                     <Grid 
                         item={true}
-                        style={{width: "100%", display: "flex",  alignItems: "center"}}
-                        
+                        // style={{height: "100%", width: "100%", display: "flex",  alignItems: "center"}}
                     >
-                        <img
-                            alt="profile-room"
-                            // width="100%"
-                            // height="100%"
-                            src={plan}
-                            style={{ width: "100%", maxWidth: "100%", height: "auto", cursor: "pointer", borderRadius: "0%" }}
-                        />
+                        <RoomMap 
+                            // api={apiInformationTag} callbackSetSignIn={callbackSetSignIn}
+                            />
                     </Grid>
                 </Grid>
 
@@ -427,7 +423,6 @@ const Dashboard = () => {
                                     padding: "8px 18px",
                                     }}
                                 onClick={()=>{
-                                    // setApi(`http://${backend_host}/api/get/daily_data/${id}`)
                                     if(checkTimeOption(unixTimestampStart, unixTimestampEnd, 'year'))
                                     {
                                         setOptionData("year")
@@ -454,7 +449,6 @@ const Dashboard = () => {
                                     padding: "8px 18px",
                                     }}
                                 onClick={()=>{
-                                    // setApi(`http://${backend_host}/api/get/secondly_data/${id}`)
                                     if(checkTimeOption(unixTimestampStart, unixTimestampEnd, 'month'))
                                     {
                                         setOptionData("month")
@@ -481,8 +475,6 @@ const Dashboard = () => {
                                     padding: "8px 18px",
                                     }}
                                 onClick={async() => {
-                                    // setApi(`http://${backend_host}/api/get/secondly_data/${id}`)
-                                    // setOption(1);
                                     if(checkTimeOption(unixTimestampStart, unixTimestampEnd, 'day'))
                                     {
                                         setOptionData("day")
@@ -514,8 +506,6 @@ const Dashboard = () => {
                                     {
                                         console.log("set option to now")
                                         setOptionChartData("now")
-                                        // setTotalState(!totalState);
-                                        // console.log("SET ALL STATE")
                                     }
                                 }
                                     
@@ -529,6 +519,25 @@ const Dashboard = () => {
                     </Box>
                 </Box>
                 {/* End option chase back */}
+
+                {/* Container of filterNode */}
+                <Container maxWidth="lg"
+                    sx={{ marginTop: '20px' }}
+                > 
+                    <Box
+                        display="flex" 
+                        // justifyContent="center" 
+                        alignItems="center"
+                    >
+                        <Header title={"Filtered by"} fontSize={"30px"} />
+			            <Box m={1} />
+                        <FilterNode  setNodeIdFilter={setNodeIdFilter}
+                                    apiInformatiionTag={apiInformationTag} 
+                                    callbackSetSignIn={callbackSetSignIn}
+                                    backend_host={backend_host}
+                        /> 
+                    </Box>
+                </Container>
 
                 {/* Container of Chart */}
                 <Grid

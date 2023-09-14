@@ -9,7 +9,7 @@ import { json } from "react-router-dom";
 import { Slider } from '@mui/material';
 import { host } from "../../App";
 
-const Control = () =>
+const Control = ({room_id}) =>
 {
     console.log("This is from Control component")
     const theme = useTheme();
@@ -87,10 +87,11 @@ const Control = () =>
                         }}
                         onClick={
                             async(e) => {
-                                const url_sending_set_point = `http://${host}/api/v1.1/control/fans?farm_id=1`;
+                                const url_sending_set_point = `http://${host}/api/v1.1/control/fans`;
                                 const speed_monitor_data = {
                                     "option": "manual",
                                     "speed": speed,
+                                    "room_id": room_id,
                                 }
                                 const response = await fetch(url_sending_set_point,
                                                             {

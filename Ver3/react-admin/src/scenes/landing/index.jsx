@@ -70,11 +70,56 @@ const Landing = () => {
         "room_3_building": room1_building,
     }
 
+    const backend_host = host 
+    const api_room_data = `http://${backend_host}/api/room`
 
-    const function_get_room_data = async () =>
+    const get_room_data = async (url, access_token) => 
     {
-        const backend_host = host 
-        const api_room_data = `http://${backend_host}/api/room`
+        const headers = {
+            'Content-Type':'application/json',
+            // "Authorization": `Bearer ${access_token}`
+            };
+        const option_room_data = {
+            'method':'GET',
+            "headers": headers,
+            "body": null,
+            };
+        const response_room_data = await fetch(url, option_room_data);
+        if(response_room_data.status === 200)   /*!< if the fetch is successful*/  
+        {
+            const response_room_data_json_dispatch = await response_room_data.json();
+            if(response_room_data_json_dispatch) /*!< if there is data in response */
+            {
+                const new_room_data = [];
+                const all_keys_in_response_room_data_json_dispatch = Object.keys(response_room_data_json_dispatch);
+                all_keys_in_response_room_data_json_dispatch.forEach((each_key) => 
+                {
+                    response_room_data_json_dispatch[each_key].forEach((room) => 
+                    {
+                        const key = `room_${room["id"]}_${room["construction_name"]}`;
+                        new_room_data.push({
+                            "name": `room ${room["id"]} ${room["construction_name"]}`,
+                            "image": image_room[`room_${room["id"]}_${room["construction_name"]}`],
+                            "room_id": room.id,
+                        })
+                    })
+                })
+                setRoom_data(new_room_data);    
+                setIsLoading(false);
+            }
+            else
+            {
+                alert("No room data!");
+            }
+        }
+        else
+        {
+            alert(`Can not call to server! Error code: ${response_room_data.status}`);
+        }
+    }
+
+    const verify_and_get_data = async (fetch_data_function, callbackSetSignIn, backend_host, url) => 
+    {
 
         const token = {access_token: null, refresh_token: null}
         // const backend_host = host;
@@ -155,86 +200,42 @@ const Landing = () => {
             }
         }
 
-        const get_room_data = async () => 
+        const  verifyAccessToken_response = await verifyAccessToken();
+
+        if(verifyAccessToken_response === true)
         {
-            const headers = {
-                'Content-Type':'application/json',
-                // "Authorization": `Bearer ${access_token}`
-                };
-            const option_room_data = {
-                'method':'GET',
-                "headers": headers,
-                "body": null,
-                };
-            const response_room_data = await fetch(api_room_data, option_room_data);
-            if(response_room_data.status === 200)   /*!< if the fetch is successful*/  
+            // const response = await fetch(url)
+            // const data = await response.json()
+            fetch_data_function(url, token["access_token"])
+        }
+        else
+        {
+            let verifyRefreshToken_response = null;
+            try
             {
-                const response_room_data_json_dispatch = await response_room_data.json();
-                if(response_room_data_json_dispatch) /*!< if there is data in response */
-                {
-                    const new_room_data = [];
-                    const all_keys_in_response_room_data_json_dispatch = Object.keys(response_room_data_json_dispatch);
-                    all_keys_in_response_room_data_json_dispatch.forEach((each_key) => 
-                    {
-                        response_room_data_json_dispatch[each_key].forEach((room) => 
-                        {
-                            const key = `room_${room["id"]}_${room["construction_name"]}`;
-                            new_room_data.push({
-                                "name": `room ${room["id"]} ${room["construction_name"]}`,
-                                "image": image_room[`room_${room["id"]}_${room["construction_name"]}`],
-                                "room_id": room.id,
-                            })
-                        })
-                    })
-                    setRoom_data(new_room_data);    
-                    setIsLoading(false);
-                }
-                else
-                {
-                    alert("No room data!");
-                }
+                verifyRefreshToken_response = await verifyRefreshToken();
+            }
+            catch(err)
+            {
+                alert(err);
+            }
+            if(verifyRefreshToken_response === true)
+            {
+                fetch_data_function(url, token["access_token"]);
             }
             else
             {
-                alert(`Can not call to server! Error code: ${response_room_data.status}`);
+                callbackSetSignIn(false);
             }
         }
 
-        const verify_and_get_room_data = async () => 
-        {
-            const  verifyAccessToken_response = await verifyAccessToken();
-
-            if(verifyAccessToken_response === true)
-            {
-                get_room_data();
-            }
-            else
-            {
-                let verifyRefreshToken_response = null;
-                try
-                {
-                    verifyRefreshToken_response = await verifyRefreshToken();
-                }
-                catch(err)
-                {
-                    alert(err);
-                }
-                if(verifyRefreshToken_response === true)
-                {
-                    get_room_data();
-                }
-                else
-                {
-                    callbackSetSignIn(false);
-                }
-            }
-        } 
-
-        verify_and_get_room_data();
     }
 
+
+
+
     useEffect(()=>{
-        function_get_room_data();
+        verify_and_get_data(get_room_data, callbackSetSignIn, backend_host, api_room_data);
     },[]);
 
     
