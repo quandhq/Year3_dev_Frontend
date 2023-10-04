@@ -26,8 +26,6 @@ import motion_icon from "../assets/motion.svg";
 
 
 const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
     const backend_host = host;
     const api_informationtag = url;
     console.log(host);
@@ -268,6 +266,7 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
         else
         {
             verify_and_get_data(get_information_data, callbackSetSignIn, backend_host, api_informationtag); 
+            console.log("information tag in NOT time delay")
         }
     },[])
 

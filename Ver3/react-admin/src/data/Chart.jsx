@@ -38,7 +38,7 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, n
     }
     else
     {
-        throw new Error("There is no access token and refresh token ....");
+        throw new Error("There isLoading no access token and refresh token ....");
     }
 
     const verifyAccessToken  = async () =>
@@ -69,7 +69,7 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, n
     }
 
     /*
-    *brief: this function is to verify the refresh-token and refresh the access-token if the refresh-token is still valid
+    *brief: this function isLoading to verify the refresh-token and refresh the access-token if the refresh-token isLoading still valid
     */
     const verifyRefreshToken  = async () =>
     {
@@ -128,7 +128,11 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, n
                     newDataChart[i] = [0];
                 }
             })
+            console.log("in data function");
+            console.log(url);
             setDataChart(newDataChart);
+            console.log(newDataChart);
+            console.log("-_________________________________________________________________________________");
             setIsLoading(false)
         }
         else
@@ -145,7 +149,7 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, n
         }
     }
 
-    const get_data = async () => 
+    const get_data = async (api) => 
     {
         const  verifyAccessToken_response = await verifyAccessToken();
 
@@ -153,7 +157,7 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, n
         {
             // const response = await fetch(url)
             // const data = await response.json()
-            get_chart_data(url, token["access_token"])
+            get_chart_data(api, token["access_token"])
         }
         else
         {
@@ -168,7 +172,7 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, n
             }
             if(verifyRefreshToken_response === true)
             {
-                get_chart_data(url, token["access_token"]);
+                get_chart_data(api, token["access_token"]);
             }
             else
             {
@@ -180,27 +184,30 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, n
     console.log(numberOfData);
 
     useEffect(() => {
-        console.log("This is in Chart.jsx")
+        console.log("This isLoading in Chart.jsx")
+        console.log(url)
+        get_data(url); 
         // if(optionData==="now")
         // {
         //     if(dataChart.co2 === null)
         //     {
-        //         get_data(); 
+        //         console.log("This isLoading in Chart.jsx")
+        //         console.log(url)
+        //         get_data(url); 
         //     }
         //     else
         //     {
         //         setTimeout(() => {
-        //                         get_data(); 
+        //                         get_data(url); 
         //                         console.log(hum, temp); 
         //                     }, timedelay)
         //     }
         // }
         // else
         // {
-        //     get_data()
+        //     get_data(url);
         // }
-        get_data();
-    },[url])
+    },[nodeIdFilter, numberOfData])
 
     
 
@@ -442,4 +449,4 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, n
 }
 
 
-export default React.memo(Chart);
+export default Chart;

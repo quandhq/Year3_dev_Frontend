@@ -225,7 +225,7 @@ const RoomMap = ({room_id, callbackSetSignIn}) =>
             }
             catch(err)
             {
-                alert(err);
+                console.log(err);
             }
             if(verifyRefreshToken_response === true)
             {
@@ -310,8 +310,8 @@ const RoomMap = ({room_id, callbackSetSignIn}) =>
                 let val = Math.round(point_values[count]);
                 ++count;
                 let point = {
-                    x: Math.floor(width_space*j),
-                    y: Math.floor(imageElement.height-height_space*i),
+                    x: Math.floor(width_space*j) + 11,
+                    y: Math.floor(imageElement.height-height_space*i)-25,
                     value: val,
                     };
                 points.push(point);

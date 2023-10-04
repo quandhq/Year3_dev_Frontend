@@ -63,7 +63,7 @@ const SmallFilter = ({setNumberOfData, setDataChart, setIsLoading}) =>
                                     value={i.value}
                                     onClick={(e)=>{
                                         setNumberOfData(e.target.value);
-                                        setDataChart({co2: null, hum: null, temp: null, tvoc: null, light: null});
+                                        // setDataChart({co2: null, hum: null, temp: null, tvoc: null, light: null});
                                         setIsLoading(true);
                                         }}
                                     >{i.name}
