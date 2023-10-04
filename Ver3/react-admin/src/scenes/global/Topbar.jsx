@@ -26,7 +26,7 @@ const Topbar = () => {
     <Box display="flex" justifyContent="space-between"
 					paddingRight={2}
 					paddingLeft={2}
-					// backgroundColor={colors.greenAccent[700]}
+					backgroundColor="black"
 					>
 		<Box display="flex">
 
@@ -55,12 +55,12 @@ const Topbar = () => {
 					paddingLeft="5%">
 					<Link to="/landing">
 						<IconButton>
-							<HomeIcon/>
+							<HomeIcon style={{ fill: 'white' }}/>
 							<Typography variant="h5" 
-										color={colors.grey[100]} 
+										color="white"
 										display="inline"
 										paddingLeft="5%">
-								Landing
+								Home
 							</Typography>
 						</IconButton>	
 					</Link>
@@ -73,9 +73,9 @@ const Topbar = () => {
 					paddingLeft="5%">
 					<Link to="/about">
 						<IconButton>
-							<PeopleIcon/>
+							<PeopleIcon style={{ fill: 'white' }}/>
 							<Typography variant="h5" 
-										color={colors.grey[100]} 
+										color="white" 
 										display="inline"
 										paddingLeft="5%">
 								About
@@ -90,10 +90,10 @@ const Topbar = () => {
 					alignItems="center"
 					paddingLeft="5%">
 					<Link to="/contact">
-						<IconButton>
-							<PhoneIcon/>
+						<IconButton >
+							<PhoneIcon style={{ fill: 'white' }}/>
 							<Typography variant="h5" 
-										color={colors.grey[100]} 
+										color="white" 
 										display="inline"
 										paddingLeft="5%">
 								Contact
@@ -105,13 +105,13 @@ const Topbar = () => {
 
 		{/* ICONS */}
 		<Box display="flex">
-				<IconButton onClick={colorMode.toggleColorMode}>
+				{/* <IconButton onClick={colorMode.toggleColorMode}>
 					{theme.palette.mode === "light" ? (
 					<DarkModeOutlinedIcon />
 					) : (
 					<LightModeOutlinedIcon />
 					)}
-				</IconButton>
+				</IconButton> */}
 
 				{/* <IconButton>
 					<NotificationsOutlinedIcon />
@@ -123,11 +123,11 @@ const Topbar = () => {
 				
 				<Box display="flex" alignItems="center"> {/* Wrap the icon and text in a Box component */}
 					<IconButton>
-						<PersonOutlinedIcon />
+						<PersonOutlinedIcon style={{ fill: 'white' }}/>
 					</IconButton>
 
-					<Typography variant="h5" color={colors.greenAccent[400]} display="inline">
-						Hi {username}
+					<Typography variant="h5" color="white" display="inline">
+						Welcome {username}
 					</Typography>
 				</Box>
 

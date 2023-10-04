@@ -25,7 +25,8 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import logo_lab from "../../assets/logo_lab.png"
 import {host, UserContext} from "../../App"
-import room1_building from "../../assets/room1_building.svg"
+import room1_building from "../../assets/room1_building_cropped.svg"
+import room1 from "../../assets/room1.png"
 import plan from "../../assets/plan.svg"
 
 
@@ -67,6 +68,7 @@ const Landing = () => {
     {
         "room_1_farm": plan,
         "room_2_farm": plan,
+        "room_4_farm": room1_building,
         "room_3_building": room1_building,
     }
 
@@ -354,14 +356,30 @@ const Landing = () => {
                             <Card
                             sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
                             >
-                            <CardMedia
+                            {/* <CardMedia
                                 component="div"
                                 sx={{
                                 // 16:9
                                 pt: '100%',
                                 }}
+                                height="100%"
                                 image={room.image}
-                            />
+                            /> */}
+                            <Box
+                                container
+                                display="flex"
+                                flexDirection="row"
+                                // alignItems="center"
+                                justifyContent="center"
+                                height="350px"
+                                sx={{
+                                    "object-fit": "cover",
+                                    // backgroundColor: "blue",
+                                }}
+                                
+                            >
+                                <img src={room.image} alt="" />
+                            </Box>
                             <CardContent sx={{ flexGrow: 1 }}>
                                 <Typography gutterBottom variant="h4" component="h2" sx={{fontWeight: "bold"}}>
                                     {room.name}

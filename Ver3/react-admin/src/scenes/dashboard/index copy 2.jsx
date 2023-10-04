@@ -22,13 +22,15 @@ import MultipleYAxis from "../../components/ApexChart/MixChartApex";
 import { DatePicker } from "@mui/x-date-pickers";
 import { FetchTest } from "../../data/testing_dataFetchAuthentication";
 import { FetchCopy } from "../../data/dataFetchAuthentication copy";
-import { Chart } from "../../data/Chart";
+import Chart from "../../data/Chart";
 import {host} from "../../App";
 import InformationTag from "../../components/InformationTag";
 import AirQualityIndex from "../../components/AirQualityIndex";
 import { useLocation } from "react-router-dom"; 
 import RoomMap from "../../components/RoomMap";
 import FilterNode from "../../components/FilterNode";
+import FilterParameter from "../../components/FilterParameter";
+import AQI from "../../components/AQI";
 
 
 
@@ -37,6 +39,7 @@ const Dashboard = () => {
     const backend_host = host;
     const location = useLocation(); /*!< This is used to get the "state" component that is passed into <Link> */
     const data_passed_from_landingpage = location.state;
+    let room_id = data_passed_from_landingpage == null ? 1 : data_passed_from_landingpage.room_id
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const callbackSetSignIn = useContext(UserContext);
@@ -47,15 +50,18 @@ const Dashboard = () => {
     const [optionChartData, setOptionChartData] = useState("now")
     const [unixTimestampStart, setUnixTimestampStart] = useState(0);
     const [unixTimestampEnd, setUnixTimestampEnd] = useState(0);
-    const apiRealtimeChart = `http://${backend_host}/api/v1.1/monitor/data?room_id=${data_passed_from_landingpage.room_id}`; 
+    const apiRealtimeChart = `http://${backend_host}/api/v1.1/monitor/data?room_id=${room_id}`; 
     // const dataRealtimeChart = Fetch(apiRealtimeChart, callbackSetSignIn, 8000, 'now');   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const dataRealtimeChart = null
 
     // console.log("ENDING REALTIME")
-    const apiHistoryChart = `http://${backend_host}/api/v1.1/monitor/data/history?room_id=${data_passed_from_landingpage.room_id}&node_id=${nodeIdFilter}&time_start=${unixTimestampStart}&time_end=${unixTimestampEnd}&option=${optionChartData}`;
+    const apiHistoryChart = `http://${backend_host}/api/v1.1/monitor/data/history?room_id=${room_id}&node_id=${nodeIdFilter}&time_start=${unixTimestampStart}&time_end=${unixTimestampEnd}&option=${optionChartData}`;
     const [apiHistoryChartState, setApiHistoryChartState] = useState(apiHistoryChart);
-    const apiInformationTag = `http://${backend_host}/api/room/information_tag?room_id=${data_passed_from_landingpage.room_id}`;
+    const apiInformationTag = `http://${backend_host}/api/room/information_tag?room_id=${room_id}`;
     
+    const [paraFilter, setParaFilter] = useState(1);
+
+    const para_filter_dict = {0: "all", 1: "temp", 2: "hum", 3: "co2", 4: "tvoc", 5: "light"};
     
     // console.log("RRRRRRRRRreload component")
     // const dataHistoryChart = Fetch(apiHistoryChartState, callbackSetSignIn, 0, optionChartData); >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -130,8 +136,9 @@ const Dashboard = () => {
         }}
         m="10px"
     >
-        {/* COntainer of Dashboard and onverall condition */}
-        <Container maxWtdth="xl">
+        {/* COntainer of Header Dashboard and onverall condition */}
+        <Container
+        >
             <Grid
                 container="true"
                 spacing={0}
@@ -139,6 +146,8 @@ const Dashboard = () => {
                     display: "flex",
                     height: "100%",
                 }}
+                
+
             >
                 {/* empty Box  */}
                 <Grid
@@ -157,6 +166,7 @@ const Dashboard = () => {
                     sm={12}
                     md={12}
                     lg={4}
+                    mt="20px"
                 >
                     <Box display="flex" 
                         flexDirection="column" 
@@ -178,17 +188,20 @@ const Dashboard = () => {
                     <Box width="100%" 
                             // sx={{backgroundColor: colors.blueAccent[800]}} 
                             alignItems="center">
-                            <Box display="flex" justifyContent="center" marginTop="10px">
-                                <Header title="Overall condition" />
-                            </Box>
-                            <Box display="flex" justifyContent="center" alignItems="center">
                                 {/* <ProgressCircle progress = "0.75" size = "200"/> */}
-                                <AirQualityIndex aqi={100} />
-                            </Box>
+                                {/* <AirQualityIndex room_id={room_id} 
+                                                callbackSetSignIn={callbackSetSignIn} 
+                                                time_delay={0}
+                                /> */}
+                                <AQI room_id={room_id}/>
+
                         </Box>
                 </Grid>
             </Grid>
         </Container>
+
+        <Box m={4}/>
+
         
 
         {/* Container of all componment */}
@@ -203,6 +216,8 @@ const Dashboard = () => {
                         // backgroundColor: "red"
                     }}
 
+
+
             >
                 {/* Container of everything except image of room, this is set to the most left */}
                 <Grid
@@ -213,85 +228,91 @@ const Dashboard = () => {
                     container="true"
                     display="flex"
                     direction="column"
+                    width="100%"
+                    height="100%"
                     // alignItems="center"
                     // justifyItems="center"
+
+                    
+
                 >
-                    {/* line 1 is information and overall air quality */}
-                    <Box
-                        container="true"
-                        display="flex"
-                        direction="row"
-                        // alignItems="center"
-                        // justifyItems="center"
-                        m={1}
+
+                    {/* <Grid
+                        container={true}
+                        spacing={0}
+                        style={{
+                                display: "flex", 
+                                height: "100%", 
+                                // backgroundColor: "red"
+                            }}
+
                     >
-                        {/* Information */}
-                        <Box
+                        <Grid
+                            item={true}
+                            xs={12}
+                            sm={12}
+                            md={12}
+                            lg={8}
+                            alignItems="center"
+                            justify="center"
+                            spacing={0}
                             width="100%"
-                            // ml="80px"
-                            // mt="20px"
                             >
-                                <Box 
+                            </Grid>
+
+                    </Grid> */}
+                    {/* Information */}
+                    
+                    <Box
+                        width="100%"
+                        // ml="80px"
+                        // mt="20px"
+                        height="100%"
+                        sx={{boxShadow: 1,
+                            borderRadius: '5px', 
+                            backgroundColor: "white"}}
+                        >
+
+                        {/* <Grid
+                        container={true}
+                        spacing={0}
+                        style={{
+                                display: "flex", 
+                                height: "100%", 
+                                // backgroundColor: "red"
+                            }}
+                        height="100%"
+                            
+
+                        > */}
+                            {/* <Grid
+                                item={true}
+                                xs={12}
+                                sm={12}
+                                md={12}
+                                lg={12}
+                                alignItems="center"
+                                justify="center"
+                                spacing={0}
+                                width="100%"
+                                height="100%"
                                 sx={{boxShadow: 1,
                                     borderRadius: '5px', 
                                     backgroundColor: "white"}}
-                                >
-                                    {/* <Box>
-                                        <Box display="flex" justifyContent="center">
-                                            <Header title="Information" fontSize="30px"/>
-                                        </Box>
-                                        <Box marginLeft={6} marginRight={6}>
-                                            <Box display="flex">
-                                                <Header title="Current conditions" fontSize="20px"/>
-                                            </Box>
-                                            <Box display="flex" justifyContent="space-between">
-                                                <Header title="Temparature"/>
-                                                <Header title={`${300} oC`}/>
-                                            </Box>
-                                            <Box display="flex" justifyContent="space-between">
-                                                <Header title="Humidity"/>
-                                                <Header title={`${100} %`}/>
-                                            </Box>
-                                            <Box display="flex" justifyContent="space-between">
-                                                <Header title="Co2"/>
-                                                <Header title={`${"..."} ...`}/>
-                                            </Box>
-                                            <Box display="flex" justifyContent="space-between">
-                                                <Header title="TVOC"/>
-                                                <Header title={`${"..."} ...`}/>
-                                            </Box>
-                                            <Box display="flex" justifyContent="space-between">
-                                                <Header title="Light"/>
-                                                <Header title={`${"..."} ...`}/>
-                                            </Box>
-                                            <Box display="flex" justifyContent="space-between">
-                                                <Header title="Light"/>
-                                                <Header title={`${"..."} ...`}/>
-                                            </Box>
-                                        </Box>
-                                        
-                                    </Box> */}
-
-                                    <InformationTag url={apiInformationTag} callbackSetSignIn={callbackSetSignIn} time_delay={10000}/>
-                                </Box>
-
-                        </Box>
-                        
-                        {/* Overall conidtion */}
-                        {/* <Box width="50%" 
-                            // sx={{backgroundColor: colors.blueAccent[800]}} 
-                            alignItems="center">
-                            <Box display="flex" justifyContent="center" marginTop="10px">
-                                <Header title="Overall condition" />
-                            </Box>
-                            <Box display="flex" justifyContent="center" alignItems="center">
-                                <AirQualityIndex aqi={100} />
-                            </Box>
-                        </Box> */}
+                                > */}
+                                <InformationTag url={apiInformationTag} 
+                                    callbackSetSignIn={callbackSetSignIn} 
+                                    time_delay={0}/>
+                                {/* </Grid> */}
+                        {/* </Grid> */}
                     </Box>
+                    
 
                     {/* Controling */}
-                    <Box mt="0px">
+                    <Box mt="20px"
+
+                    >
+                    
                         <Grid
                             container={true}
                             spacing={1}
@@ -310,12 +331,31 @@ const Dashboard = () => {
                                     justify="center"
                                     spacing={0}
                                     width="100%"
+                                    
+                                    // sx={{boxShadow: 1,
+                                    //     borderRadius: '5px', 
+                                    //     backgroundColor: "white"}}
+                                    
                                     // sx={{backgroundColor: "blue"}}
                                 >
-                                    <Box marginLeft="10px" marginBottom="10px">
-                                        <Header title="Control Panel" fontSize="15px"/>
+                                    <Box 
+                                        mr="10px"
+                                        sx={{boxShadow: 1,
+                                            borderRadius: '5px', 
+                                            backgroundColor: "white"}}
+                                        width="100%"
+                                        height="100%"
+                                        display="flex"
+                                        flexDirection="column"
+                                        alignItems="center"
+                                        justify="center"
+                                    >
+                                        <Box mt="10px">
+                                        <Header title="Control Panel" fontSize="20px"/>
+                                        <ControlPanel/>
+                                        </Box>
                                     </Box>
-                                    <ControlPanel/>
+
                                 </Grid>
                                 
                                 <Grid
@@ -327,9 +367,26 @@ const Dashboard = () => {
                                     direction="column"
                                     alignItems="center"
                                     justify="center"
+                                    
                                 >
-                                    <Header title="Manual Control" fontSize="15px"/>
-                                    <Control room_id={data_passed_from_landingpage.room_id}/>
+                                    <Box 
+                                        ml="10px"
+                                        sx={{boxShadow: 1,
+                                            borderRadius: '5px', 
+                                            backgroundColor: "white"}}
+                                        width="100%"
+                                        height="100%"
+                                        display="flex"
+                                        flexDirection="column"
+                                        alignItems="center"
+                                        justify="center"
+                                    >
+                                        <Box mt="10px">
+
+                                        <Header title="Manual Control" fontSize="20px"/>
+                                        <Control room_id={room_id}/>
+                                        </Box>
+                                    </Box>
                             </Grid>  
                         </Grid>
                     </Box>
@@ -348,42 +405,57 @@ const Dashboard = () => {
                     // style={{ height: "100%",}}
                     spacing={0}
                 >
-                    <Grid 
-                        item={true}
-                        style={{width: "100%", textAlign: "center"}}
-                        mt="10px"
+                    <Box 
+                        ml="20px"
+                        sx={{boxShadow: 1,
+                            borderRadius: '5px', 
+                            backgroundColor: "white"}}
+                        width="100%"
+                        height="100%"
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
+                        justify="center"
                     >
-                        <p style={{fontWeight: 'bold', fontSize: "16px"}}>Map view</p>
-                    </Grid>
-                    <Grid 
-                        item={true}
-                        // style={{height: "100%", width: "100%", display: "flex",  alignItems: "center"}}
-                    >
+                        <Header title="Map view" fontSize="20px"/>
                         <RoomMap 
-                            // api={apiInformationTag} callbackSetSignIn={callbackSetSignIn}
+                            room_id={room_id} callbackSetSignIn={callbackSetSignIn}
                             />
-                    </Grid>
+                    </Box>
                 </Grid>
 
             </Grid>
 
             {/* COntainer of data option and charts */}
-            <Container maxWidth="lg"
-                sx={{ marginTop: '20px' }}
-            >
+            {/* <Container maxWidth="xl"
+            
+                
+            > */}
+            <Box 
+            sx={{
+                marginTop: '20px',
+                boxShadow: 1,
+                borderRadius: '5px', 
+                backgroundColor: "white"}}
+                >
+
                 <Box
+                p="2px"
+                m="10px"
+                >
+                
+                {/* <Box
                     container={true}
                     display="flex"
                     direction="row"
                     justifyContent="center"
                 >
-                    {/* calendar */}
                     <Box 
                         display="flex" 
                         justifyContent="center" 
                         alignItems="center"
                     >
-                        {/* Start Time */}
+                        
                         <Box>
                             <Header title="Start Time" fontSize="15px"/>
                             <DatePicker onChange={(new_value)=>{
@@ -393,9 +465,7 @@ const Dashboard = () => {
                             />
                         </Box>
                         <Box m={1} mt="5vh">
-                            {/* <Header title="-:-" fontSize="30px"/> */}
                         </Box>
-                        {/* End Time */}
                         <Box>
                             <Header title="End Time" fontSize="15px"/>
                             <DatePicker onChange={(new_value)=>{
@@ -405,23 +475,29 @@ const Dashboard = () => {
                             />
                         </Box>
                     </Box>
+
                     <Box m={4}/>
-                    {/* 3 buttons */}
                     <Box 
                         display="flex" 
                         justifyContent="center" 
                         alignItems="center"
                         mt="22px"
                         >
-                        {/* <Header title="Data options" variant="h3"/> */}
                             <Button
+                                // sx={{
+                                //     backgroundColor: colors.blueAccent[400],
+                                //     color: colors.grey[100],
+                                //     fontSize: "15px",
+                                //     fontWeight: "bold",
+                                //     padding: "8px 18px",
+                                //     }}
                                 sx={{
-                                    backgroundColor: colors.blueAccent[400],
-                                    color: colors.grey[100],
-                                    fontSize: "15px",
+                                    backgroundColor: "black",
+                                    fontSize: "14px",
                                     fontWeight: "bold",
                                     padding: "8px 18px",
                                     }}
+                                variant="contained"
                                 onClick={()=>{
                                     if(checkTimeOption(unixTimestampStart, unixTimestampEnd, 'year'))
                                     {
@@ -441,13 +517,20 @@ const Dashboard = () => {
                             </Button>                                    
                             <Box m={0.5} />
                             <Button
+                                // sx={{
+                                //     backgroundColor: colors.blueAccent[400],
+                                //     color: colors.grey[100],
+                                //     fontSize: "15px",
+                                //     fontWeight: "bold",
+                                //     padding: "8px 18px",
+                                //     }}
                                 sx={{
-                                    backgroundColor: colors.blueAccent[400],
-                                    color: colors.grey[100],
-                                    fontSize: "15px",
+                                    backgroundColor: "black",
+                                    fontSize: "14px",
                                     fontWeight: "bold",
                                     padding: "8px 18px",
                                     }}
+                                variant="contained"
                                 onClick={()=>{
                                     if(checkTimeOption(unixTimestampStart, unixTimestampEnd, 'month'))
                                     {
@@ -467,13 +550,20 @@ const Dashboard = () => {
                             </Button>
                             <Box m={0.5} />
                             <Button
+                                // sx={{
+                                //     backgroundColor: colors.blueAccent[400],
+                                //     color: colors.grey[100],
+                                //     fontSize: "15px",
+                                //     fontWeight: "bold",
+                                //     padding: "8px 18px" ,
+                                //     }}
                                 sx={{
-                                    backgroundColor: colors.blueAccent[400],
-                                    color: colors.grey[100],
-                                    fontSize: "15px",
+                                    backgroundColor: "black",
+                                    fontSize: "14px",
                                     fontWeight: "bold",
                                     padding: "8px 18px",
                                     }}
+                                variant="contained"
                                 onClick={async() => {
                                     if(checkTimeOption(unixTimestampStart, unixTimestampEnd, 'day'))
                                     {
@@ -495,13 +585,20 @@ const Dashboard = () => {
                             </Button>
                             <Box m={0.5} />
                             <Button
+                                // sx={{
+                                //     backgroundColor: colors.blueAccent[400],
+                                //     color: colors.grey[100],
+                                //     fontSize: "15px",
+                                //     fontWeight: "bold",
+                                //     padding: "8px 18px",
+                                //     }}
                                 sx={{
-                                    backgroundColor: colors.blueAccent[400],
-                                    color: colors.grey[100],
-                                    fontSize: "15px",
+                                    backgroundColor: "black",
+                                    fontSize: "14px",
                                     fontWeight: "bold",
                                     padding: "8px 18px",
                                     }}
+                                variant="contained"
                                 onClick={(e) =>
                                     {
                                         console.log("set option to now")
@@ -517,7 +614,7 @@ const Dashboard = () => {
 
                     
                     </Box>
-                </Box>
+                </Box> */}
                 {/* End option chase back */}
 
                 {/* Container of filterNode */}
@@ -526,45 +623,100 @@ const Dashboard = () => {
                 > 
                     <Box
                         display="flex" 
-                        // justifyContent="center" 
-                        alignItems="center"
+                        flexDirection="column"
+                        justifyContent="center" 
                     >
-                        <Header title={"Filtered by"} fontSize={"30px"} />
-			            <Box m={1} />
-                        <FilterNode  setNodeIdFilter={setNodeIdFilter}
-                                    apiInformatiionTag={apiInformationTag} 
-                                    callbackSetSignIn={callbackSetSignIn}
-                                    backend_host={backend_host}
-                        /> 
+                        <Box>
+                            <Header title={"Filtered by sensor id: "} fontSize={"20px"} />
+                        </Box>
+                        <Box
+                            display="flex" 
+                            flexDirection="row"
+                            // justifyContent="center" 
+                            alignItems="center"
+                            ml="40px"
+                            mt="6px"
+                        >
+                            <FilterNode  setNodeIdFilter={setNodeIdFilter}
+                                        apiInformatiionTag={apiInformationTag} 
+                                        callbackSetSignIn={callbackSetSignIn}
+                                        backend_host={backend_host}
+                            />
+                            
+                        </Box>
+                    </Box>
+                </Container>
+
+                {/* Container of filterParameter */}
+                <Container maxWidth="lg"
+                    sx={{ marginTop: '20px' }}
+                > 
+                    <Box
+                        display="flex" 
+                        flexDirection="column"
+                        justifyContent="center" 
+                    >
+                        <Box>
+                            <Header title={"Filtered by enviroment parameter: "} fontSize={"20px"} />
+                        </Box>
+                        <Box
+                            display="flex" 
+                            flexDirection="row"
+                            // justifyContent="center" 
+                            alignItems="center"
+                            ml="40px"
+                            mt="6px"
+                        >
+                            <FilterParameter  
+                                setParaFilter={setParaFilter}
+                                apiInformatiionTag={apiInformationTag} 
+                                callbackSetSignIn={callbackSetSignIn}
+                                backend_host={backend_host}
+                            />
+                            <Box m={1} />
+                        </Box>
                     </Box>
                 </Container>
 
                 {/* Container of Chart */}
                 <Grid
                    container={true}
-                   spacing={1}
-                   style={{display: "flex", height: "100%"}} 
-                   mt="10px"
+                   spacing={0}
+                   style={{display: "flex", height: "100%",}} 
+                   mt="20px"
+                   mb="30px"
                 >
+                    
                     <>
                             {
                                 optionChartData === "now" ?
-                                <Chart url={apiRealtimeChart} 
+                                <Chart 
+                                        room_id={room_id}
                                         callbackSetSignIn={callbackSetSignIn} 
-                                        timedelay={5000} 
-                                        optionData={optionChartData}/>
+                                        timedelay={60000} 
+                                        optionData={optionChartData}
+                                        paraFilter={paraFilter}
+                                        nodeIdFilter={nodeIdFilter}
+                                />
                                 :
-                                <Chart url={apiHistoryChart} 
+                                <Chart 
+                                        room_id={room_id} 
                                         callbackSetSignIn={callbackSetSignIn} 
                                         timedelay={0} 
-                                        optionData={optionChartData}/>
+                                        optionData={optionChartData}
+                                        paraFilter={paraFilter}
+                                        nodeIdFilter={nodeIdFilter}
+                                />
                             }
                             </>
                 </Grid>
+
+                </Box>
+            </Box>
                                     
             </Container>
                 
-        </Container>    
+        {/* </Container>     */}
     </Box>
     </>
     );

@@ -4,21 +4,33 @@ import { LineChartApex } from "../components/ApexChart/LineChartApex"
 import { Box } from "@mui/material"
 import Grid from "@mui/material/Grid"
 import {host} from "../App"
+import * as V from 'victory';
+import VictoryBarChart from "../components/VictoryChart/VictoryBarChart"
+import VictoryLineChart from "../components/VictoryChart/VictoryLineChart"
+import Header from "../components/Header"
+import VictoryBarChartV2 from "../components/VictoryChart/VictoryBarChartVert2"
+import {Button} from "@mui/material";
+import SmallFilter from "./SmallFilter"
 
-
-
-export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
+const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, nodeIdFilter}) => {
     console.log(host);
+    const dict_filter = {"1D": 1, "1W": 2, "1M": 3, "6M": 4, "1Y": 5}
+
     const [isLoading, setIsLoading] = useState(true)
+    const [numberOfData, setNumberOfData] = useState(1);
     const [co2, getCo2] = useState([])
     const [hum, getHum] = useState([])
     const [temp, getTemp] = useState([])
     const [time, getTime] = useState([])
+    const [dataChart, setDataChart] = useState({co2: null, hum: null, temp: null, tvoc: null, light: null})
+    const para_filter_dict = {0: "all", 1: "temp", 2: "hum", 3: "co2", 4: "tvoc", 5: "light"};
+    const para_name = {0: "All", 1: "Temperature", 2: "Humidity", 3: "Co2", 4: "TVOC", 5: "Light"};
+    const backend_host = host;
+    const url = `http://${backend_host}/api/v1.1/monitor/data?room_id=${room_id}&filter=${numberOfData}&node_id=${nodeIdFilter}`;
 
 
     const token = {access_token: null, refresh_token: null}
     // const backend_host = host;
-    const backend_host = "27.71.227.1:8002";
     if(localStorage.getItem("access") !== null && localStorage.getItem("refresh") !== null)
     {
         token.access_token = localStorage.getItem("access"); 
@@ -98,13 +110,39 @@ export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
 
     const get_chart_data = async (url, access_token) => 
     {
-        const response = await fetch(url)
-        const data = await response.json()
-        getCo2(data.co2)
-        getHum(data.hum)
-        getTemp(data.temp)
-        getTime(data.time)
-        setIsLoading(false)
+        const response = await fetch(url);
+        if(response.status === 200)
+        {
+            const data = await response.json();
+            const key = ["co2", "temp", "hum", "light", 
+            "dust", "sound", "red", "green", 
+            "blue", "tvoc", "motion", "time",];
+            let newDataChart = {};
+            key.forEach((i) => {
+                if(i in data)
+                {
+                    newDataChart[i] = data[i]; 
+                }
+                else
+                {
+                    newDataChart[i] = [0];
+                }
+            })
+            setDataChart(newDataChart);
+            setIsLoading(false)
+        }
+        else
+        {
+            const key = ["co2", "temp", "hum", "light", 
+            "dust", "sound", "red", "green", 
+            "blue", "tvoc", "motion", "time",];
+            let newDataChart = {};
+            key.forEach((i) => {
+                newDataChart[i] = [0]; 
+            })
+            setDataChart(newDataChart);
+            setIsLoading(false)
+        }
     }
 
     const get_data = async () => 
@@ -137,32 +175,38 @@ export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
                 callbackSetSignIn(false);
             }
         }
-
-        
     }
 
+    console.log(numberOfData);
+
     useEffect(() => {
-        if(optionData==="now")
-        {
-            setTimeout(() => {console.log("This is in test effect"); 
-                            get_data(); 
-                            console.log(hum, temp); 
-                            console.log("ENDDDD")
-                        }, timedelay)
-            // get_data()
-        }
-        else
-        {
-            console.log("NOT NOWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")
-            get_data()
-            console.log("ENDDDDDDDDDDDDDDDDDDDD NOWWWWWWWWWWWWWWWWWWWWWWWWWWWW")
-        }
-    },[co2, hum, temp, time])
+        console.log("This is in Chart.jsx")
+        // if(optionData==="now")
+        // {
+        //     if(dataChart.co2 === null)
+        //     {
+        //         get_data(); 
+        //     }
+        //     else
+        //     {
+        //         setTimeout(() => {
+        //                         get_data(); 
+        //                         console.log(hum, temp); 
+        //                     }, timedelay)
+        //     }
+        // }
+        // else
+        // {
+        //     get_data()
+        // }
+        get_data();
+    },[url])
 
     
 
     return (
         <>
+        <SmallFilter  setNumberOfData={setNumberOfData} setDataChart={setDataChart} setIsLoading={setIsLoading}/>
         {
             isLoading ? 
             <>
@@ -170,138 +214,211 @@ export const Chart = ({url, callbackSetSignIn, timedelay, optionData}) => {
                 <Grid
                     xs={12}
                     sm={12}
-                    md={6}
-                    lg={6}
+                    md={12}
+                    lg={12}
                     item
                     style={{width: "100%"}}
                 // backgroundColor={colors.primary[400]}
                 >
                     <Box height="400px" mt="0px">   
-                        <h1>Loading...</h1>
+                        <h1>Loading chart...</h1>
                     </Box>
                 </Grid>
-
-                {/* ((Row 1: Part2): Row 1): Part2 */}
-                <Grid
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    lg={6}
-                    item
-                    style={{width: "100%"}}
-                // backgroundColor={colors.primary[400]}
-                >
-                    <Box height="400px" mt="0px">   
-                        <h1>Loading...</h1>
-                    </Box>
-                </Grid>
-
-                <Grid
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    lg={6}
-                    item
-                    style={{width: "100%"}}
-                // backgroundColor={colors.primary[400]}
-                >
-                    <Box height="400px" mt="0px">   
-                        <h1>Loading...</h1>
-                    </Box>
-                </Grid>
-
-                <Grid
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    lg={6}
-                    item
-                    style={{width: "100%"}}
-                // backgroundColor={colors.primary[400]}
-                >
-                    <Box height="400px" mt="0px">   
-                        <h1>Loading...</h1>
-                    </Box>
-                </Grid>
-            
             </>
             :
             <>
+            {
+            (
+                ()=>
+                {
+                    if(paraFilter===0)
+                    {
+                        return(
+                            <>
+                            
 
-                <Grid
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    lg={6}
-                    item
-                    style={{width: "100%"}}
-                // backgroundColor={colors.primary[400]}
-                >
-                    <Box
-                        item
-                        style={{width: "100%"}}
-                    // backgroundColor={colors.primary[400]}
-                    >
-                        <LineChartApex nameChart={"Temp"}  id={1} time={time} value={temp} option={optionData}/>
-                    </Box>
-                </Grid>
+                            <Grid
+                                xs={12}
+                                sm={12}
+                                md={12}
+                                lg={12}
+                                item
+                                style={{width: "100%"}}
+                            // backgroundColor={colors.primary[400]}
+                            >
+                                <Header title={para_name[1]} fontSize="20px" />
+                                <Box
+                                    item
+                                    style={{
+                                        width: "100%", 
+                                        border: "2px solid",
+                                        }}
+                                // backgroundColor={colors.primary[400]}
+                                >
+                                    <VictoryBarChartV2 data_x={dataChart["time"]} data_y={dataChart[para_filter_dict[1]]} option_data={optionData}/>
+                                </Box>
+                            </Grid>
 
-                <Grid
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    lg={6}
-                    item
-                    style={{width: "100%"}}
-                // backgroundColor={colors.primary[400]}
-                >
-                    <Box
-                        item
-                        style={{width: "100%"}}
-                    // backgroundColor={colors.primary[400]}
-                    >
-                        <LineChartApex nameChart={"Hum"}  id={1} time={time} value={hum} option={optionData}/>
-                    </Box>
-                </Grid>
+                            <Box m={2} />
 
-                <Grid
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    lg={6}
-                    item
-                    style={{width: "100%"}}
-                // backgroundColor={colors.primary[400]}
-                >
-                    <Box
-                        item
-                        style={{width: "100%"}}
-                    // backgroundColor={colors.primary[400]}
-                    >
-                        <LineChartApex nameChart={"Co2"}  id={1} time={time} value={co2} option={optionData}/>
-                    </Box>
-                </Grid>
+                            <Grid
+                                xs={12}
+                                sm={12}
+                                md={12}
+                                lg={12}
+                                item
+                                style={{width: "100%"}}
+                            // backgroundColor={colors.primary[400]}
+                            >
+                                <Header title={para_name[1]} fontSize="20px" />
+                                <Box
+                                    item
+                                    style={{
+                                        width: "100%", 
+                                        border: "2px solid",
+                                        }}
+                                // backgroundColor={colors.primary[400]}
+                                >
+                                    <VictoryLineChart data_x={dataChart["time"]} data_y={dataChart[para_filter_dict[1]]} option_data={optionData}/>
+                                </Box>
+                            </Grid>
 
-                <Grid
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    lg={6}
-                    item
-                    style={{width: "100%"}}
-                // backgroundColor={colors.primary[400]}
-                >
-                    <Box
-                        item
-                        style={{width: "100%"}}
-                    // backgroundColor={colors.primary[400]}
-                    >
-                        <LineChartApex nameChart={"TVOC"}  id={1} time={time} value={[]} option={optionData}/>
-                    </Box>
-                </Grid>
+                            <Box m={2} />
+
+                            <Grid
+                                xs={12}
+                                sm={12}
+                                md={12}
+                                lg={12}
+                                item
+                                style={{width: "100%",}}
+                            // backgroundColor={colors.primary[400]}
+                            >
+                                <Header title={para_name[2]} fontSize="20px" />
+                                <Box
+                                    item
+                                    style={{
+                                        width: "100%", 
+                                        border: "2px solid",
+                                        }}
+                                // backgroundColor={colors.primary[400]}
+                                >
+                                    <VictoryLineChart data_x={dataChart["time"]} data_y={dataChart[para_filter_dict[2]]} option_data={optionData}/>
+                                </Box>
+                            </Grid>
+
+                            <Box m={2} />
+
+                            <Grid
+                                xs={12}
+                                sm={12}
+                                md={12}
+                                lg={12}
+                                item
+                                style={{width: "100%"}}
+                            // backgroundColor={colors.primary[400]}
+                            >
+                                <Header title={para_name[3]} fontSize="20px" />
+                                <Box
+                                    item
+                                    style={{
+                                        width: "100%", 
+                                        border: "2px solid",
+                                        }}
+                                // backgroundColor={colors.primary[400]}
+                                >
+                                    <VictoryLineChart data_x={dataChart["time"]} data_y={dataChart[para_filter_dict[3]]} option_data={optionData}/>
+                                </Box>
+                            </Grid>
+
+                            <Box m={2} />
+
+                            <Grid
+                                xs={12}
+                                sm={12}
+                                md={12}
+                                lg={12}
+                                item
+                                style={{width: "100%"}}
+                            // backgroundColor={colors.primary[400]}
+                            >
+                                <Header title={para_name[4]} fontSize="20px" />
+                                <Box
+                                    item
+                                    style={{
+                                        width: "100%", 
+                                        border: "2px solid",
+                                        }}
+                                // backgroundColor={colors.primary[400]}
+                                >
+                                    <VictoryLineChart data_x={dataChart["time"]} data_y={dataChart[para_filter_dict[4]]} option_data={optionData}/>
+                                </Box>
+                            </Grid>
+
+                            <Box m={2} />
+
+                            <Grid
+                                xs={12}
+                                sm={12}
+                                md={12}
+                                lg={12}
+                                item
+                                style={{width: "100%"}}
+                            // backgroundColor={colors.primary[400]}
+                            >
+                                <Header title={para_name[5]} fontSize="20px" />
+                                <Box
+                                    item
+                                    style={{
+                                        width: "100%", 
+                                        border: "2px solid",
+                                        }}
+                                // backgroundColor={colors.primary[400]}
+                                >
+                                    <VictoryLineChart data_x={dataChart["time"]} data_y={dataChart[para_filter_dict[5]]} option_data={optionData}/>
+                                </Box>
+                            </Grid>
+                            </>
+                        );
+                    }
+                    else
+                    {
+                        return(
+                        <>
+                        
+                        <Grid
+                            xs={12}
+                            sm={12}
+                            md={12}
+                            lg={12}
+                            item
+                            style={{width: "100%"}}
+                        // backgroundColor={colors.primary[400]}
+                        >
+                            <Header title={para_name[paraFilter]} fontSize="20px" />
+                            <Box
+                                item
+                                style={{
+                                    width: "100%", 
+                                    border: "2px solid",
+                                    }}
+                            // backgroundColor={colors.primary[400]}
+                            >
+                                <VictoryLineChart data_x={dataChart["time"]} data_y={dataChart[para_filter_dict[paraFilter]]} option_data={optionData}/>
+                            </Box>
+                        </Grid>
+                        </>
+                        );
+                    }
+                }
+            )()
+            }
             </>
         }
         
         </>
     );
 }
+
+
+export default React.memo(Chart);

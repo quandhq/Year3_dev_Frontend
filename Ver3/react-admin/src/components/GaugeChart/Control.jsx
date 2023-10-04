@@ -56,7 +56,11 @@ const Control = ({room_id}) =>
                     >
                     <Slider
                         size="lager"
-                        aria-label="Volume" value={speed} onChange={handleChange} 
+                        aria-label="Volume" value={speed} onChange={handleChange}
+                        sx={{
+                            width: 200,
+                            color: "#050505",
+                          }} 
                     />
                 </Box>
 
@@ -80,11 +84,12 @@ const Control = ({room_id}) =>
 
                     <Button
                         sx={{
-                        backgroundColor: colors.blueAccent[400],
-                        color: colors.grey[100],
-                        fontSize: "14px",
-                        fontWeight: "bold",
-                        }}
+                            backgroundColor: "black",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                            padding: "8px 18px",
+                            }}
+                        variant="contained"
                         onClick={
                             async(e) => {
                                 const url_sending_set_point = `http://${host}/api/v1.1/control/fans`;

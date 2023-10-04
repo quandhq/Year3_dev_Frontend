@@ -233,13 +233,21 @@ export default function FilterNode({setNodeIdFilter, apiInformatiionTag, callbac
 			<Box m={1} />
 			
 			<Button
-				sx={{
-					backgroundColor: colors.blueAccent[400],
-					color: colors.grey[100],
-					fontSize: "15px",
-					fontWeight: "bold",
-					padding: "8px 18px",
-					}}
+				// sx={{
+				// 	backgroundColor: colors.blueAccent[400],
+				// 	color: colors.grey[100],
+				// 	fontSize: "15px",
+				// 	fontWeight: "bold",
+				// 	padding: "8px 18px",
+				// 	}}
+                sx={{
+                    backgroundColor: "black",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    padding: "8px 18px",
+                    }}
+                variant="contained"
+
 				onClick={()=>{
 					setNodeIdFilter(sensorNodeIdState);
 					// setApi(`http://${backend_host}/api/get/daily_data/${id}`)

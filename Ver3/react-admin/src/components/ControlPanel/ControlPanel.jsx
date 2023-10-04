@@ -20,11 +20,11 @@ const ControlPanel = () => {
   const dataRow = [
     {
 		  id: 1,
-		  aim_column: "Tempeature Level"
+		  aim_column: "Tempeature"
 	  },
     {
       id: 2,
-      aim_column: "Co2 Level",
+      aim_column: "Co2",
     },
   ]
 
@@ -135,10 +135,12 @@ const ControlPanel = () => {
             p="2px"
             display="flex"
             justifyContent="center"
-            backgroundColor={colors.blueAccent[400]}
+            // backgroundColor={"#050505"}
             borderRadius="4px"
           >
-            <Button onClick={()=>{
+            <Button 
+                variant="outlined"
+                onClick={()=>{
                     if(row_information.row.id === 1)
                     {
                       alert(`This is temperature: ${tempSetPoint}`)
@@ -173,30 +175,31 @@ const ControlPanel = () => {
   //   );
   // };
 
-    const CustomHeaderCell = (params) => {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: colors.greenAccent[600],
-          borderRadius: '4px',
-          textAlign: 'center',
-          height: '100%', // Make sure the height covers the full cell height
-        }}
-      >
-        {params.colDef.headerName}
-      </div>
-    );
-  };
+//     const CustomHeaderCell = (params) => {
+//     return (
+//       <div
+//         style={{
+//           display: 'flex',
+//           justifyContent: 'center',
+//           alignItems: 'center',
+//           backgroundColor: "#050505",
+//           borderRadius: '4px',
+//           textAlign: 'center',
+//           height: '100%', // Make sure the height covers the full cell height
+//         }}
+//       >
+//         {params.colDef.headerName}
+//       </div>
+//     );
+//   };
 
   return (
       <Box
         // m="-5px 30px 30px 20px"
+        
         height="200px"       //set height of all component
         sx={{
-          width: { xs:400, sm: 400, md: 500, lg: 500 },
+          width: { xs:410, sm: 410, md: 510, lg: 510 },
                 "& .MuiInputBase-root": {
                     height: 35
                 },
@@ -207,14 +210,16 @@ const ControlPanel = () => {
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
             // color: "yellow",
-            textAlign: "center",
+            // textAlign: "center",
+            fontSize: "15px",
+            justifyContent: "center",
           },
           "& .name-column--cell": {
             // color: colors.blueAccent[300],
             color: "red",
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[400],
+            backgroundColor: "#050505",
             borderBottom: "none",
             display: 'flex',
             justifyContent: 'center',
@@ -222,9 +227,10 @@ const ControlPanel = () => {
             height: '100%',
             textAlign: 'center',
             borderRadius: '4px',
+            fontSize: "15px",
           },
           "& .MuiDataGrid-columnHeaderTitleContainer": {
-            backgroundColor: colors.blueAccent[400],
+            backgroundColor: "#050505",
             borderBottom: "none",
             display: 'flex',
             justifyContent: 'center',
@@ -232,6 +238,7 @@ const ControlPanel = () => {
             height: '100%',
             textAlign: 'center',
             borderRadius: '4px',
+            color: "white",
           },
           "& .MuiDataGrid-virtualScroller": {
             // backgroundColor: colors.primary[400],

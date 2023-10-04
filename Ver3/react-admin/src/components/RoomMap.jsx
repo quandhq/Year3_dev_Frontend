@@ -3,25 +3,62 @@ import { Box } from "@mui/material";
 import plan from "../assets/plan.svg";
 import {Button, useMediaQuery} from "@mui/material";
 import { host } from "../App";
-import { useState, useEffect, useRef } from "react";
+import { React, useState, useEffect, useRef } from "react";
+import h337 from "heatmap.js";
+import Node from "./Node";
 
 /**
  * @brief This component RoomMap will render out the image room with all node 
  *          sticks to it in real position according to the x and y axises provided
  *          in database backend.
- * @returns 
  */
-const RoomMap = () => 
+const RoomMap = ({room_id, callbackSetSignIn}) => 
 {
     const [imageWidth, setImageWidth] = useState(0);
     const boxRef = useRef(null);
     const [nodePosition, setNodePosition] = useState([]);
-
-
+    const [buttonStatus, setButtonStatus] = useState({});
+    const [popUpText, setPopUpText] = useState(null);
+   
+    /**
+     * @brief nodePosition is an array of all node in this room with informations,
+     *        the information will contains whether it is sensor or actuator, the positions
+     *        of it according to the real size of the box it is gonna be rendered, which is    
+     *        the "px" from left and the "px" from above.
+     *        The image of the room will be positioned so that the main door will facing above,
+     *        the left of the room will be the x_axis and the bottom of the room will be the y_axis.
+     *        The array will be like:
+     *        [{"node_id": ..., "function": ..., "node_left": ..., "node_above": ...}, ...]
+     */
+    const[isLoading, setIsLoading] = useState(true);
     const backend_host = host;
+    const api_to_fetch = `http://${backend_host}/api/room/information_tag?room_id=${room_id}`;
+    const api_to_fetch_heatmap_data = `http://${backend_host}/api/room/kriging?room_id=${room_id}`;
 
-    const fetch_data_function = async (api, access_token) =>
+
+
+    const fetch_data_function = async (api, access_token, size_object, loadImage) =>
     {
+        function render_size(room_x, room_y, node_x, node_y)
+        {
+            console.log(room_x, room_y, node_x, node_y);
+            // 1. Get the real percentage center out in x and y axis, negative mean that node is in the left or above, positive is in contrast
+            const real_center_x = room_x/2;
+            const real_center_y = room_y/2;
+            let real_percentage_x;
+            let real_percentage_y; 
+            real_percentage_x = node_x <= real_center_x ? Math.round(-100*(real_center_x-node_x)/real_center_x) : Math.round(100*(node_x-real_center_x)/real_center_x);
+            real_percentage_y = node_y >= real_center_y ? Math.round(-100*(node_y-real_center_y)/real_center_y) : Math.round(100*(real_center_y-node_y)/real_center_y);
+            console.log(real_percentage_x, real_percentage_y)
+            // 2. Get the percentage of node when it is rendered, from left and from above, we adjust according to image_x and room_y
+            let render_percentage_x;
+            let render_percentage_y;
+            render_percentage_x = real_percentage_x <= 0 ? Math.round((100 - (-1)*real_percentage_x)/2) : Math.round(50 + real_percentage_x/2);
+            render_percentage_y = real_percentage_y <= 0 ? Math.round((100 - (-1)*real_percentage_y)/2) : Math.round(50 + real_percentage_y/2);
+            console.log(render_percentage_x, render_percentage_y);
+            return {render_percentage_x, render_percentage_y}
+        }
+
         const headers = 
         {
             "Content-Type": "application/json",
@@ -47,13 +84,49 @@ const RoomMap = () =>
         if(response && response.status === 200)
         {   
             data_response = await response.json();
+            console.log("data of positions");
             console.log(data_response);
+            const {boxWidth, boxHeigth, currentImageWidth, currentImageHeigth} = size_object;
+            const {x_length, y_length} = data_response["room_size"];
+            let node_array_to_iterate = []
+            node_array_to_iterate = data_response["node_info"]["sensor"].concat(data_response["node_info"]["actuator"])
+            let new_nodePosition = [];
+            node_array_to_iterate.forEach(node => {
+                // [{"node_id": ..., "function": ..., "node_left": "...%", "node_above": "...%"}, ...]
+                let new_item = {};
+                new_item["node_id"] = node["node_id"];
+                new_item["function"] = node["function"];
+                let {render_percentage_x, render_percentage_y} = render_size(x_length, y_length, node["x_axis"], node["y_axis"]);
+                new_item["node_left"] = render_percentage_x;
+                new_item["node_above"] = render_percentage_y;
+                new_item["node_id"] = node["node_id"];
+                console.log(new_item);
+                new_nodePosition.push(new_item);
+            });
+            setNodePosition(new_nodePosition);
+            setIsLoading(false);
         }
 
+        let data_heatmap = {};
+        try
+        {
+            const heatmap_response = await fetch(api_to_fetch_heatmap_data, option_fetch);
+            if(heatmap_response.status === 200)
+            {
+                data_heatmap = await heatmap_response.json();
+            }
+        }
+        catch(err)
+        {
+            // alert("Error: <<<<<< " + err);
+        }
+
+        console.log(data_heatmap);
+        loadImage(data_heatmap);
     }
 
 
-    const verify_and_get_data = async (fetch_data_function, callbackSetSignIn, backend_host, api_to_fetch) => 
+    const verify_and_get_data = async (fetch_data_function, callbackSetSignIn, backend_host, api_to_fetch, loadImage, size_object) => 
     {
 
         const token = {access_token: null, refresh_token: null}
@@ -141,7 +214,7 @@ const RoomMap = () =>
         {
             // const response = await fetch(url)
             // const data = await response.json()
-            fetch_data_function(api_to_fetch, token["access_token"])
+            fetch_data_function(api_to_fetch, token["access_token"], size_object, loadImage)
         }
         else
         {
@@ -156,7 +229,7 @@ const RoomMap = () =>
             }
             if(verifyRefreshToken_response === true)
             {
-                fetch_data_function(api_to_fetch, token["access_token"]);
+                fetch_data_function(api_to_fetch, token["access_token"], size_object, loadImage);
             }
             else
             {
@@ -168,14 +241,16 @@ const RoomMap = () =>
 
     useEffect(() => {
         let boxWidth;
+        let boxHeigth;
         let currentImageWidth;
+        let currentImageHeigth;
 
         const handleResize = () => {
           const windowWidth = window.innerWidth;
           let width;
     
           if (windowWidth >= 1280) {
-            width = 450; // Adjust the width for large screens
+            width = 400; // Adjust the width for large screens
           } else if (windowWidth >= 960) {
             width = 400; // Adjust the width for medium screens
           } else {
@@ -184,6 +259,7 @@ const RoomMap = () =>
     
           setImageWidth(width);
           currentImageWidth = width;
+          currentImageHeigth = width;
         };
     
         handleResize(); // Initial resize check
@@ -193,48 +269,127 @@ const RoomMap = () =>
         if(boxRef.current)
         {
             boxWidth = boxRef.current.offsetWidth;
+            boxHeigth = boxRef.current.offsetHeight;
         }
         // alert(boxWidth);
         // alert(currentImageWidth);
         
+        const loadImage = (heatmap_data) => {
+            const imageElement = document.getElementById("heatmap-image");
+            if(imageElement.complete) 
+            {
+                createHeatmap(imageElement, heatmap_data);
+            } 
+            else 
+            {
+                imageElement.addEventListener("load", () => {
+                createHeatmap(imageElement);
+                });
+            }
+        };
+        
+        const createHeatmap = (imageElement, heatmap_data) => {
+        let heatmapInstance = h337.create({
+            container: document.getElementById("heatmap-container"),
+        });
+        
+        /**
+         * @brief the x_axis and y_axis of heatmap point wil be filled from left to right and up to bot 
+         */
+
+        // Generate random data or use your own data
+        let points = [];
+        let [point_values, resolutionX, resolutionY] = [heatmap_data["data"], heatmap_data["resolutionX"], heatmap_data["resolutionY"]];
+        let max = Math.round(Math.max(...point_values));
+        let width_space = Math.round(imageElement.width/resolutionX);
+        let height_space = Math.round(imageElement.height/resolutionY);
+        let count = 0;
+        for(let i=0; i<resolutionY; ++i){
+            for(let j=0; j<resolutionX; ++j)
+            {
+                let val = Math.round(point_values[count]);
+                ++count;
+                let point = {
+                    x: Math.floor(width_space*j),
+                    y: Math.floor(imageElement.height-height_space*i),
+                    value: val,
+                    };
+                points.push(point);
+            }
+        }
     
+        let data = {
+            max: max,
+            data: points,
+        };
+
+        console.log("((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((")
+        console.log(data)
+    
+        heatmapInstance.setData(data);
+        };
+    
+
+        verify_and_get_data(fetch_data_function, callbackSetSignIn, backend_host, api_to_fetch, loadImage,
+            {boxWidth: boxWidth, boxHeigth: boxHeigth, currentImageWidth: currentImageWidth, currentImageHeigth: currentImageHeigth})
+
+        
+
+
         // Clean up the event listener on component unmount
         return () => {
           window.removeEventListener("resize", handleResize);
         };
-      }, []);
+
+
+
+
+      },[]);
 
     
     return (
-        <Box
-            style={{ 
+        <>
+        {
+            isLoading ? 
+            <h1>Loading...</h1>
+            :
+            <Box
+            sx={{ 
                 width: "100%", height: "100%", 
-                position: "relative"}}
+                position: "relative",
+                }}
             // id="box_of_room_image"
-            ref={boxRef}
+            
             display="flex" 
             justifyContent="center" 
-        >
-            <img
-                alt="profile-room"
-                src={plan}
-                style={{ 
-                    width: `${imageWidth}px`,
-                    cursor: "pointer", borderRadius: "0%" 
-                }}
-                // id="room_image"
-            />
-            <Button
-                style={{ position: "absolute", 
-                        top: "50%", left: "50%", 
-                        transform: "translate(-50%, -50%)", borderRadius: "50%", 
-                        width: "100px", height: "100px", backgroundColor: "blue", 
-                        zIndex: 1, //!< this makes sure the button stays above the image 
-                    }}
             >
-                BTUN
-            </Button>
-        </Box>
+                <Box
+                    id="heatmap-container"
+                    ref={boxRef}
+                >
+                    <img
+                        alt="profile-room"
+                        src={plan}
+                        style={{ 
+                            width: `${imageWidth}px`,
+                            cursor: "pointer", borderRadius: "0%" 
+                        }}
+                        id="heatmap-image"
+                    />
+                </Box>
+                
+                {
+                    nodePosition.map((node) => {
+                        return (
+                                <Node node={node}/>
+                        );
+                    })
+                }
+                
+            </Box>
+        }
+        </>
+        
     );
 }
 

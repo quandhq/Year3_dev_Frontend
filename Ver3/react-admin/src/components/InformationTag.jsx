@@ -12,7 +12,7 @@ import { tokens } from "../theme";
 import ProgressCircle from "./ProgressCircle";
 import Header from "./Header";
 import {host} from "../App"
-import { useEffect, useState } from "react";
+import { React, useEffect, useState } from "react";
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import temp_icon from "../assets/temperature.svg";
 import hum_icon from "../assets/humidity.svg";
@@ -31,6 +31,7 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
     const backend_host = host;
     const api_informationtag = url;
     console.log(host);
+    
 
     const [isLoading, setIsLoading] = useState(true)
     const [co2, getCo2] = useState(null)
@@ -98,7 +99,7 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
             
             const array_of_keys_in_dict_of_enviroment_para_names = Object.keys(dict_of_enviroment_para_names);
             array_of_keys_in_dict_of_enviroment_para_names.forEach((each_key) => {
-                    if (data.hasOwnProperty(each_key) && each_key === "motion")
+                    if (data.hasOwnProperty(each_key) && each_key === "motion") 
                     // if (data.hasOwnProperty(each_key) && data[each_key][data[each_key].length-1] !== 0) 
                     {
                         const motion_data = (data[each_key][data[each_key].length-1] == 1 ? "Yes" : "No");    //!< data[each_key][data[each_key].length-1] (last element of array)
@@ -249,19 +250,26 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
     }
 
     useEffect(() => {
-        if(co2 === null)
+        if(time_delay !== 0)
         {
-            verify_and_get_data(get_information_data, callbackSetSignIn, backend_host, api_informationtag); 
+            if(co2 === null)            //!< this is for the total component always render the first time and then the next time will be setTimeOut
+            {
+                verify_and_get_data(get_information_data, callbackSetSignIn, backend_host, api_informationtag); 
+            }
+            else
+            {
+                setTimeout(()=>{
+                        console.log('This is in settime out of information tag'); 
+                        verify_and_get_data(get_information_data, callbackSetSignIn, backend_host, api_informationtag); 
+                        console.log("Done getting data in useEffect of Informationtag")
+                    }, time_delay)
+            }
         }
         else
         {
-            setTimeout(()=>{
-                    console.log('This is in settime out of information tag'); 
-                    verify_and_get_data(get_information_data, callbackSetSignIn, backend_host, api_informationtag); 
-                    console.log("Done getting data in useEffect of Informationtag")
-                }, time_delay)
+            verify_and_get_data(get_information_data, callbackSetSignIn, backend_host, api_informationtag); 
         }
-    },[co2, temp, hum, time])
+    },[])
 
 
 
@@ -277,43 +285,57 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
             </>
             :
             <Box 
-                sx={{boxShadow: 1,
-                    borderRadius: '5px', 
-                    backgroundColor: "white",
-                    // height:"500px",
-                    width: "100%", // Set the width to 100%
-                    }}
+                m="30px"
                 
             >
                 <Box>
                     <Box display="flex" justifyContent="center">
-                        <Header title="Information" fontSize="40px"/>
+                        <Header title="Information" fontSize="22px"/>
                     </Box>
                     <Box display="flex" 
                          marginLeft={{ xs: "5px", md: "40px", lg: "60px" }} // Adjust margins based on screen size
                          marginRight={{ xs: "5px", md: "40px", lg: "60px"}} // Adjust margins based on screen size
                     >
-                            <Header title="Current conditions:" fontSize="30px"/>
+                            <Header title="Current conditions:" fontSize="18px"/>
                     </Box>
                     {/* Current condition enviroment */}
                     <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" 
-                         marginLeft={{ xs: "2px", md: "30px", lg:"45px" }} // Adjust margins based on screen size
-                         marginRight={{ xs: "2px", md: "30px", lg:"45px" }} // Adjust margins based on screen size
+                         marginLeft={{ xs: "2px", md: "10px", lg:"15px" }} // Adjust margins based on screen size
+                         marginRight={{ xs: "2px", md: "10px", lg:"15px" }} // Adjust margins based on screen size
                     >
                         {
                             infoData.map(each_element_in_infoData =>(
                                     <Box
                                         display="flex" flexDirection="column" alignItems="center" justifyContent="center"
                                     >
-                                        <Header title={each_element_in_infoData["title"]} fontSize="20px"/>
-                                        <Box>
+                                        <Box
+                                            sx={{
+                                                // backgroundColor: "black",
+                                                // padding: "5px 8px",
+                                                // "min-width": "30px",
+                                                fontSize: "18px",
+                                                fontWeight: 500,
+                                                }}>
+                                                    {`${each_element_in_infoData["title"]}`}
+                                            </Box>
+                                        {/* <Box>
                                             {each_element_in_infoData["icon"]}
-                                        </Box>
+                                        </Box> */}
                                         <Box>
-                                            <Header 
+                                            {/* <Header 
                                                 title={`${each_element_in_infoData["value"]} ${each_element_in_infoData["unit"]}`} 
                                                 fontSize="25px"
-                                            />
+                                            /> */}
+                                            <Box
+                                            sx={{
+                                                // backgroundColor: "black",
+                                                // padding: "5px 8px",
+                                                // "min-width": "30px",
+                                                fontSize: "18px",
+                                                fontWeight: 500,
+                                                }}>
+                                                    {`${each_element_in_infoData["value"]} ${each_element_in_infoData["unit"]}`}
+                                            </Box>
                                         </Box>
                                     </Box>
                                     )
@@ -326,7 +348,7 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
                          marginLeft={{ xs: "5px", md: "40px", lg: "60px" }} // Adjust margins based on screen size
                          marginRight={{ xs: "5px", md: "40px", lg: "60px"}} // Adjust margins based on screen size
                     >
-                            <Header title="Nodes available:" fontSize="30px"/>
+                            <Header title="Nodes available:" fontSize="18px"/>
                     </Box>
                     {/* Current condition enviroment */}
                     <Box>
@@ -353,8 +375,26 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
                                     marginLeft={{ xs: "10px", md: "80px", lg:"100px" }} // Adjust margins based on screen size
                                     marginRight={{ xs: "10px", md: "80px", lg:"100px" }} // Adjust margins based on screen size
                                 >
-                                    <Header title={sensor_content} fontSize="23px" />
-                                    <Header title={actuator_content} fontSize="23px" />
+                                    <Box
+                                        sx={{
+                                            // backgroundColor: "black",
+                                            // padding: "5px 8px",
+                                            // "min-width": "30px",
+                                            fontSize: "18px",
+                                            fontWeight: 500,
+                                            }}>
+                                                {`${sensor_content.slice(0, -2)}`}
+                                    </Box>
+                                    <Box
+                                        sx={{
+                                            // backgroundColor: "black",
+                                            // padding: "5px 8px",
+                                            // "min-width": "30px",
+                                            fontSize: "18px",
+                                            fontWeight: 500,
+                                            }}>
+                                                {`${actuator_content.slice(0, -2)}`}
+                                    </Box>
                                 </Box>
                             );
                         })()

@@ -1,7 +1,7 @@
 import { Typography, Box, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 
-const Header = ({ title, subtitle, variant = "h2", fontSize }) => {
+const Header = ({ title, subtitle, variant = "h2", fontSize, color="black" }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const subtractPixel = (fontSize, value) => 
@@ -15,7 +15,7 @@ const Header = ({ title, subtitle, variant = "h2", fontSize }) => {
     >
       <Typography
         // variant= {variant}
-        color={colors.grey[100]}
+        color={color}
         fontWeight="bold"
         fontSize={{ xs: subtractPixel(fontSize,10), md: subtractPixel(fontSize,5), lg: fontSize}} // Adjust font size based on screen size
         sx={{ m: "0 0 0 0" }}
