@@ -24,6 +24,7 @@ const FilterParameter = ({setParaFilter, apiInformatiionTag, callbackSetSignIn, 
         {index: 3, value: "co2"}, 
         {index: 4, value: "tvoc"},
         {index: 5, value: "light"},
+        {index: 6, value: "dust"},
     ];
 
   return (

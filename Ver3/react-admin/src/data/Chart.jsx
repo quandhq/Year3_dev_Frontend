@@ -22,9 +22,9 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, n
     const [hum, getHum] = useState([])
     const [temp, getTemp] = useState([])
     const [time, getTime] = useState([])
-    const [dataChart, setDataChart] = useState({co2: null, hum: null, temp: null, tvoc: null, light: null})
-    const para_filter_dict = {0: "all", 1: "temp", 2: "hum", 3: "co2", 4: "tvoc", 5: "light"};
-    const para_name = {0: "All", 1: "Temperature", 2: "Humidity", 3: "Co2", 4: "TVOC", 5: "Light"};
+    const [dataChart, setDataChart] = useState({co2: null, hum: null, temp: null, tvoc: null, light: null, dust: null})
+    const para_filter_dict = {0: "all", 1: "temp", 2: "hum", 3: "co2", 4: "tvoc", 5: "light", 6: "dust"};
+    const para_name = {0: "All", 1: "Temperature", 2: "Humidity", 3: "Co2", 4: "TVOC", 5: "Light", 6: "Dust"};
     const backend_host = host;
     const url = `http://${backend_host}/api/v1.1/monitor/data?room_id=${room_id}&filter=${numberOfData}&node_id=${nodeIdFilter}`;
 
@@ -235,7 +235,6 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, n
                     {
                         return(
                             <>
-                            
 
                             <Grid
                                 xs={12}
@@ -376,6 +375,28 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, n
                                 // backgroundColor={colors.primary[400]}
                                 >
                                     <VictoryLineChart data_x={dataChart["time"]} data_y={dataChart[para_filter_dict[5]]} option_data={optionData}/>
+                                </Box>
+                            </Grid>
+
+                            <Grid
+                                xs={12}
+                                sm={12}
+                                md={12}
+                                lg={12}
+                                item
+                                style={{width: "100%"}}
+                            // backgroundColor={colors.primary[400]}
+                            >
+                                <Header title={para_name[6]} fontSize="20px" />
+                                <Box
+                                    item
+                                    style={{
+                                        width: "100%", 
+                                        border: "2px solid",
+                                        }}
+                                // backgroundColor={colors.primary[400]}
+                                >
+                                    <VictoryLineChart data_x={dataChart["time"]} data_y={dataChart[para_filter_dict[6]]} option_data={optionData}/>
                                 </Box>
                             </Grid>
                             </>
