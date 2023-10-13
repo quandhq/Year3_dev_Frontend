@@ -99,23 +99,48 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
                     if (data.hasOwnProperty(each_key) && each_key === "motion") 
                     // if (data.hasOwnProperty(each_key) && data[each_key][data[each_key].length-1] !== 0) 
                     {
-                        const motion_data = (data[each_key][data[each_key].length-1] == 1 ? "Yes" : "No");    //!< data[each_key][data[each_key].length-1] (last element of array)
-                        newInfoData.push({ 
-                            "title": dict_of_enviroment_para_names[each_key]["name"], 
-                            "icon": dict_of_enviroment_para_names[each_key]["icon"], 
-                            "value": motion_data,
-                            "unit": dict_of_enviroment_para_names[each_key]["unit"],
-                                        })  
+                        if(data[each_key][data[each_key].length-1] > 0)
+                        {
+                            const motion_data = (data[each_key][data[each_key].length-1] == 1 ? "Yes" : "No");    //!< data[each_key][data[each_key].length-1] (last element of array)
+                            newInfoData.push({ 
+                                "title": dict_of_enviroment_para_names[each_key]["name"], 
+                                "icon": dict_of_enviroment_para_names[each_key]["icon"], 
+                                "value": motion_data,
+                                "unit": dict_of_enviroment_para_names[each_key]["unit"],
+                            })  
+                        }
+                        else
+                        {
+                            newInfoData.push({
+                                "title": dict_of_enviroment_para_names[each_key]["name"], 
+                                "icon": dict_of_enviroment_para_names[each_key]["icon"], 
+                                "value": "No Data",    //last element of array data
+                                "unit": "",
+                            })   
+                        }
                     }
                     else if (data.hasOwnProperty(each_key) && each_key !== "motion")
                     // if (data.hasOwnProperty(each_key) && data[each_key][data[each_key].length-1] !== 0) 
                     {
-                        newInfoData.push({
-                            "title": dict_of_enviroment_para_names[each_key]["name"], 
-                            "icon": dict_of_enviroment_para_names[each_key]["icon"], 
-                            "value": data[each_key][data[each_key].length-1],    //last element of array data
-                            "unit": dict_of_enviroment_para_names[each_key]["unit"],
-                                        })  
+                        if(data[each_key][data[each_key].length-1] > 0)
+                        {
+
+                            newInfoData.push({
+                                "title": dict_of_enviroment_para_names[each_key]["name"], 
+                                "icon": dict_of_enviroment_para_names[each_key]["icon"], 
+                                "value": data[each_key][data[each_key].length-1],    //last element of array data
+                                "unit": dict_of_enviroment_para_names[each_key]["unit"],
+                            })  
+                        }
+                        else
+                        {
+                            newInfoData.push({
+                                "title": dict_of_enviroment_para_names[each_key]["name"], 
+                                "icon": dict_of_enviroment_para_names[each_key]["icon"], 
+                                "value": "No Data",    //last element of array data
+                                "unit": "",
+                            })   
+                        }
                     }
                 });
 

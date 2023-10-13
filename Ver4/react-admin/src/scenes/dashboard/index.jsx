@@ -22,6 +22,8 @@ import RoomMap from "../../components/RoomMap";
 import FilterNode from "../../components/FilterNode";
 import FilterParameter from "../../components/FilterParameter";
 import AQI from "../../components/AQI";
+import SetTimer from "../../components/SetTimer";
+import ActuatorStatus from "../../components/Actuatortatus";
 
 
 
@@ -199,6 +201,7 @@ const Dashboard = () => {
             >
                 {/* Container of everything except image of room, this is set to the most left */}
                 <Grid
+                    paddingRight="10px"
                     xs={12}
                     sm={12}
                     md={12}
@@ -271,6 +274,7 @@ const Dashboard = () => {
                         >
                             {/* auto control */}
                                 <Grid
+                                paddingRight="10px"
                                     item={true}
                                     xs={12}
                                     sm={12}
@@ -290,7 +294,6 @@ const Dashboard = () => {
                                     // sx={{backgroundColor: "blue"}}
                                 >
                                     <Box 
-                                        mr="10px"
                                         sx={{boxShadow: 1,
                                             borderRadius: '5px', 
                                             backgroundColor: "white"}}
@@ -310,6 +313,7 @@ const Dashboard = () => {
                                 </Grid>
                                 
                                 <Grid
+                                    paddingLeft="10px"
                                     item={true}
                                     xs={12}
                                     sm={12}
@@ -321,7 +325,6 @@ const Dashboard = () => {
                                     
                                 >
                                     <Box 
-                                        ml="10px"
                                         sx={{boxShadow: 1,
                                             borderRadius: '5px', 
                                             backgroundColor: "white"}}
@@ -345,7 +348,8 @@ const Dashboard = () => {
                 </Grid>
 
                 {/* Container of image */}
-                <Grid
+                <Grid 
+                    paddingLeft="10px"
                     xs={12}
                     sm={12}
                     md={12}
@@ -357,7 +361,6 @@ const Dashboard = () => {
                     spacing={0}
                 >
                     <Box 
-                        ml="20px"
                         sx={{boxShadow: 1,
                             borderRadius: '5px', 
                             backgroundColor: "white"}}
@@ -371,7 +374,7 @@ const Dashboard = () => {
                         <Header title="Map view" fontSize="20px"/>
                         <RoomMap 
                             room_id={room_id} callbackSetSignIn={callbackSetSignIn}
-                            />
+                        />
                     </Box>
                 </Grid>
 
@@ -380,8 +383,107 @@ const Dashboard = () => {
             {/* COntainer of data option and charts */}
             {/* <Container maxWidth="xl"
             
+            
                 
             > */}
+
+            {/* Container of set timer */}
+            {/* <Box 
+                sx={{
+                    marginTop: '20px',
+                    boxShadow: 1,
+                    borderRadius: '5px', 
+                    backgroundColor: "white"}}
+                    >
+                <SetTimer room_id={room_id}/>
+            </Box> */}
+            <Grid
+                container
+                style={{
+                        display: "flex", 
+                        height: "100%", 
+                        // backgroundColor: "red"
+                        marginTop: '20px',
+                    }}
+                justify="space-between" alignItems="center"
+            >
+                <Grid
+                    paddingRight="10px"
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    lg={6}
+                    container="true"
+                    display="flex"
+                    direction="column"
+                    width="100%"
+                    height="100%"
+
+                    
+
+                >
+                    <Box 
+                        sx={{boxShadow: 1,
+                            borderRadius: '5px', 
+                            backgroundColor: "white"}}
+                        width="100%"
+                        height="100%"
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
+                        justify="center"
+                    >
+                        <Box mt="10px" mb="15px">
+
+                            <Header title="Set timer for air-conditioning:" fontSize="20px"/>
+                            <SetTimer room_id={room_id}/>
+                        </Box>
+                    </Box>
+                    
+                </Grid>
+                <Grid
+                    paddingLeft="10px"
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    lg={6}
+                    container="true"
+                    display="flex"
+                    direction="column"
+                    width="100%"
+                    height="100%"
+                    // alignItems="center"
+                    // justifyItems="center"
+
+                    
+
+                >
+                    <Box
+                        sx={{boxShadow: 1,
+                            borderRadius: '5px', 
+                            backgroundColor: "white"}}
+                        width="100%"
+                        height="100%"
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
+                        justify="center"
+                    >
+                        <Box mt="10px" mb="15px"
+                        display="flex"
+                        flexDirection="row"
+                        alignItems="center"
+                        justify="center">
+
+                            <Header title="Actuator Status:" fontSize="20px"/>
+                            <Box m="10px" />
+                            <ActuatorStatus room_id={room_id} />
+                        </Box>
+                    </Box>
+
+                </Grid>
+            </Grid>
+
             <Box 
             sx={{
                 marginTop: '20px',

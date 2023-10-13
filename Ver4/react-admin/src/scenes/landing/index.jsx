@@ -62,10 +62,10 @@ const Landing = () => {
     const [isLoading, setIsLoading] = useState(true);
     const image_room = 
     {
-        "room_1_farm": plan,
-        "room_2_farm": plan,
-        "room_4_farm": room1_building,
-        "room_3_building": room1_building,
+        1: plan,
+        2: plan,
+        3: room1_building,
+        4: room1_building,
     }
 
     const backend_host = host 
@@ -96,9 +96,10 @@ const Landing = () => {
                     {
                         const key = `room_${room["id"]}_${room["construction_name"]}`;
                         new_room_data.push({
-                            "name": `room ${room["id"]} ${room["construction_name"]}`,
-                            "image": image_room[`room_${room["id"]}_${room["construction_name"]}`],
-                            "room_id": room.id,
+                            "name": `room ${room["room_id"]} ${room["construction_name"]}`,
+                            "image": image_room[room["id"]],
+                            "room_id": room["room_id"],
+                            "info": room["information"]
                         })
                     })
                 })
@@ -379,6 +380,9 @@ const Landing = () => {
                             <CardContent sx={{ flexGrow: 1 }}>
                                 <Typography gutterBottom variant="h4" component="h2" sx={{fontWeight: "bold"}}>
                                     {room.name}
+                                </Typography>
+                                <Typography gutterBottom variant="h5" component="h3" sx={{fontWeight: 600}}>
+                                    {room.info}
                                 </Typography>
                                 <Box display="flex" justifyContent="space-between">
                                     <Typography>

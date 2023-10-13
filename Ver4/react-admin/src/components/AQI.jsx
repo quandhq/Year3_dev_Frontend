@@ -195,6 +195,8 @@ const AQI = ({room_id}) =>
 
                     >{aqi["level"]}</label>
                 </div>
+                    
+                    
 
                 <div class="aqi-legend">
                     <div class="aqi-bar" style={{"background-color": "#00e400"}}>
