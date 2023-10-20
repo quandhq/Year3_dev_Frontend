@@ -14,7 +14,8 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import PhoneIcon from '@mui/icons-material/Phone';
 import PeopleIcon from '@mui/icons-material/People';
 import HomeIcon from '@mui/icons-material/Home';
-
+import SettingsIcon from '@mui/icons-material/Settings';
+import logo from '../../assets/logo_lab.png'
 
 const Topbar = () => {
   const theme = useTheme();
@@ -42,7 +43,7 @@ const Topbar = () => {
 					//   width="200px"
 					//   height="100px"
 					style={{ maxWidth: '120%', maxHeight: '120%' }}
-					src={`../../smartfarm/assets/logo_lab.png`}
+					src={logo}
 					// style={{ cursor: "pointer", borderRadius: "50%" }}
 					/>
 				</Box>
@@ -97,6 +98,24 @@ const Topbar = () => {
 										display="inline"
 										paddingLeft="5%">
 								Contact
+							</Typography>
+						</IconButton>	
+					</Link>
+				</Box>
+
+                {/* Config */}
+				<Box display="flex"
+					justifyContent="center"
+					alignItems="center"
+					paddingLeft="5%">
+					<Link to="/configuration">
+						<IconButton >
+							<SettingsIcon style={{ fill: 'white' }}/>
+							<Typography variant="h5" 
+										color="white" 
+										display="inline"
+										paddingLeft="5%">
+								Configuration
 							</Typography>
 						</IconButton>	
 					</Link>

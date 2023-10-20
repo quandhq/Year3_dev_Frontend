@@ -15,6 +15,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import Footer from "./scenes/global/Footer";
 import About from "./scenes/about";
 import Contact from "./scenes/contact";
+import Configuration from "./scenes/configuration/Configuration";
+
 
 const debug_mode = false;
 // export const host = "27.71.227.1:8002";
@@ -50,6 +52,7 @@ function App() {
                         <Route path="/landing" element={<Landing />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/contact" element={<Contact />} />
+                        <Route path="/configuration" element={<Configuration />} />
                       </Routes>
 
                       <Footer/>
