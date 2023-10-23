@@ -14,7 +14,7 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import NewRoom from './NewRoom';
 import Confirm from './Confirm';
-import { host } from '../../App';
+import { host } from '../../../App';
 
 const steps = ['Create Room', 'Confirm'];
 
@@ -58,7 +58,7 @@ export default function RoomChange({configurationRoomAll, callbackSetSignIn, Roo
         {
             const data_response = await response.json();
             alert(data_response.Response)
-            RoomConfigLoading[1](RoomConfigLoading[0]);
+            RoomConfigLoading[1](!RoomConfigLoading[0]);
         }
     }
 

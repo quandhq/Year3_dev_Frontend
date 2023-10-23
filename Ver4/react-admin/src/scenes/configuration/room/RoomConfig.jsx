@@ -6,30 +6,25 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Header from '../../components/Header';
+import Header from '../../../components/Header';
 import { Container,Button } from '@mui/material';
 import Paper from '@mui/material/Paper';
 
 import RoomChange from './RoomChange';
-import { host } from '../../App';
-import { UserContext } from '../../App';
+import { host } from '../../../App';
+import { UserContext } from '../../../App';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PermDataSettingIcon from '@mui/icons-material/PermDataSetting';
 import DetailsIcon from '@mui/icons-material/Details';
-import DialogConfirmDelete from './DialogConfirmDelete';
-import DialogConfirmSetting from './DialogConfirmSetting';
+import DialogConfirmSettingRoom from './DialogConfirmSettingRoom';
+import DialogConfirmDeleteRoom from './DialogConfirmDeleteRoom';
 
-
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
 
 function preventDefault(event) {
   event.preventDefault();
 }
 
-export default function RoomConfig({setConfig, setRoomIdForNodeConfig}) {
+export default function RoomConfig({setConfig, setRoomIdForNodeConfig, setRoomSize}) {
     const [reloadRoomConfig, setReloadRoomConfig] = useState(false);
     const callbackSetSignIn = useContext(UserContext);
     const api = `http://${host}/api/configuration/room/all`
@@ -188,7 +183,7 @@ export default function RoomConfig({setConfig, setRoomIdForNodeConfig}) {
         <>
         {
 
-        isLoading == true ?
+        isLoading === true ?
             <h1>Loading ...</h1>
             :
             <Container>
@@ -233,8 +228,8 @@ export default function RoomConfig({setConfig, setRoomIdForNodeConfig}) {
                                         variant="contained"
 
                                         onClick={()=>{
-                                            alert("Hi");
                                             setRoomIdForNodeConfig(row.room_id);
+                                            setRoomSize({x: row.x_length, y: row.y_length})
                                             setConfig(1);
                                         }}
                                     >
@@ -249,7 +244,10 @@ export default function RoomConfig({setConfig, setRoomIdForNodeConfig}) {
                                           },
                                         }}
                                 >
-                                    <DialogConfirmSetting callbackSetSignIn={callbackSetSignIn} RoomConfigLoading={{0: isLoading, 1: setIsLoading}} row={row}/>
+                                    <DialogConfirmSettingRoom callbackSetSignIn={callbackSetSignIn} 
+                                                            RoomConfigLoading={{0: isLoading, 1: setIsLoading}} 
+                                                            row={row} 
+                                                            configurationRoomAll={configurationRoomAll}/>
                                 </TableCell>
                                 <TableCell
                                 sx={{
@@ -259,7 +257,7 @@ export default function RoomConfig({setConfig, setRoomIdForNodeConfig}) {
                                           },
                                         }}
                                 >
-                                    <DialogConfirmDelete callbackSetSignIn={callbackSetSignIn} RoomConfigLoading={{0: isLoading, 1: setIsLoading}} id={row.id}/>
+                                    <DialogConfirmDeleteRoom callbackSetSignIn={callbackSetSignIn} RoomConfigLoading={{0: isLoading, 1: setIsLoading}} id={row.id}/>
                                 </TableCell>
                             </TableRow>
                         ))}

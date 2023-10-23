@@ -1,31 +1,19 @@
 import * as React from 'react';
-import { useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import PermDataSettingIcon from '@mui/icons-material/PermDataSetting';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Checkbox from '@mui/material/Checkbox';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import { host } from '../../App';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { host } from '../../../App';
 
 
-export default function DialogConfirmSetting({callbackSetSignIn, RoomConfigLoading, row}) 
+export default function DialogConfirmDelete({callbackSetSignIn, RoomConfigLoading, id}) 
 {
-
-    const [dataRoomSetting, setDataRoomSetting] = useState({...row});
     const api = `http://${host}/api/configuration/room/command`;
 
-    const settingRoom = async (url, access_token, dataRoomSetting, RoomConfigLoading) => 
+    const deleteNode = async (url, access_token, id, NodeConfigLoading) => 
     {
         const headers = 
         {
@@ -34,26 +22,26 @@ export default function DialogConfirmSetting({callbackSetSignIn, RoomConfigLoadi
         }
         const option_fetch = 
         {
-            "method": "PUT",
+            "method": "DELETE",
             "headers": headers,
-            "body": JSON.stringify(dataRoomSetting),
+            "body": JSON.stringify({'id': id}),
         }
         const response = await fetch(url, option_fetch);
         if(response.status == 200)
         {
             const data_response = await response.json();
             alert(data_response.Response)
-            RoomConfigLoading[1](!RoomConfigLoading[0]);
+            NodeConfigLoading[1](!NodeConfigLoading[0]);
         }
         else
         {
             const data_response = await response.json();
-            alert(data_response.Response)
-            RoomConfigLoading[1](RoomConfigLoading[0]);
+            alert(`${data_response.Response} Error code: ${response.status} ${response.statusText}`)
+            RoomConfigLoading[1](!RoomConfigLoading[0]);
         }
     }
 
-    const verify_and_get_data = async (fetch_data_function, callbackSetSignIn, backend_host, url, dataRoomSetting, RoomConfigLoading) => 
+    const verify_and_get_data = async (fetch_data_function, callbackSetSignIn, backend_host, url, id, RoomConfigLoading) => 
     {
 
         const token = {access_token: null, refresh_token: null}
@@ -141,7 +129,7 @@ export default function DialogConfirmSetting({callbackSetSignIn, RoomConfigLoadi
         {
             // const response = await fetch(url)
             // const data = await response.json()
-            fetch_data_function(url, token["access_token"], dataRoomSetting, RoomConfigLoading)
+            fetch_data_function(url, token["access_token"], id, RoomConfigLoading)
         }
         else
         {
@@ -156,7 +144,7 @@ export default function DialogConfirmSetting({callbackSetSignIn, RoomConfigLoadi
             }
             if(verifyRefreshToken_response === true)
             {
-                fetch_data_function(url, token["access_token"], dataRoomSetting, RoomConfigLoading);
+                fetch_data_function(url, token["access_token"], id, RoomConfigLoading);
             }
             else
             {
@@ -173,17 +161,16 @@ export default function DialogConfirmSetting({callbackSetSignIn, RoomConfigLoadi
     };
 
     const handleConfirm = () => {
-        console.log(dataRoomSetting)
-        verify_and_get_data(settingRoom, callbackSetSignIn, host, api, dataRoomSetting, RoomConfigLoading)
+        verify_and_get_data(deleteNode, callbackSetSignIn, host, api, id, RoomConfigLoading);
         setOpen(false);
     }
 
     return (
         <div>
         <Button
-                startIcon={<PermDataSettingIcon />}
+                startIcon={<DeleteIcon />}
                 sx={{
-                    backgroundColor: "#ed6c02",
+                    backgroundColor: "#d32f2f",
                     fontSize: "10px",
                     fontWeight: "bold",
                     padding: "5px 12px",
@@ -193,9 +180,9 @@ export default function DialogConfirmSetting({callbackSetSignIn, RoomConfigLoadi
                 onClick={()=>{
                     setOpen(true);
                 }}
-        >
-            Setting
-        </Button>
+            >
+                Delete
+            </Button>
         <Dialog
             open={open}
             onClose={handleClose}
@@ -203,80 +190,18 @@ export default function DialogConfirmSetting({callbackSetSignIn, RoomConfigLoadi
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                <h2>Setting room record!</h2>
+            {"Confirm deleting this node record ?"}
             </DialogTitle>
             <DialogContent>
             <DialogContentText id="alert-dialog-description">
-                <React.Fragment>
-                    <Typography variant="h4" gutterBottom>
-                        Detail
-                    </Typography>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} sm={12}>
-                            <FormControl>
-                                <FormLabel id="demo-controlled-radio-buttons-group">Construction type</FormLabel>
-                                <RadioGroup
-                                    aria-labelledby="demo-controlled-radio-buttons-group"
-                                    name="controlled-radio-buttons-group"
-                                    row
-                                    value={dataRoomSetting.construction_name}
-                                    onChange={(e)=>setDataRoomSetting({...dataRoomSetting, construction_name: e.target.value})}
-                                >
-                                    <FormControlLabel value="building" control={<Radio />} label="Building" />
-                                    <FormControlLabel value="farm" control={<Radio />} label="Farm" />
-                                </RadioGroup>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12}>
-                        <TextField
-                            required
-                            id="x_length"
-                            name="x_length"
-                            label="Width"
-                            fullWidth
-                            autoComplete="x_length"
-                            variant="standard"
-                            value={dataRoomSetting.x_length}
-                            onInput={(e)=>{e.target.value = e.target.value.replace(/[^0-9]/g, '')}}
-                            onChange={(e)=>setDataRoomSetting({...dataRoomSetting, x_length: e.target.value})}
-                        />
-                        </Grid>
-                        <Grid item xs={12}>
-                        <TextField
-                            required
-                            id="y_length"
-                            name="y_length"
-                            label="Length"
-                            fullWidth
-                            autoComplete="y_length"
-                            variant="standard"
-                            value={dataRoomSetting.y_length}
-                            onInput={(e)=>{e.target.value = e.target.value.replace(/[^0-9]/g, '')}}
-                            onChange={(e)=>setDataRoomSetting({...dataRoomSetting, y_length: e.target.value})}
-                        />
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                        <TextField
-                            required
-                            id="information"
-                            name="information"
-                            label="Information"
-                            fullWidth
-                            autoComplete="information"
-                            variant="standard"
-                            value={dataRoomSetting.information}
-                            onChange={(e)=>setDataRoomSetting({...dataRoomSetting, information: e.target.value})}
-                        />
-                        </Grid>
-                    </Grid>
-                </React.Fragment>
+                Caution: All node data and sensor data belong to this room will be deleted as well !!!
             </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleConfirm} autoFocus>
-                    Confirm
-                </Button>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleConfirm} autoFocus>
+                Confirm
+            </Button>
             </DialogActions>
         </Dialog>
         </div>

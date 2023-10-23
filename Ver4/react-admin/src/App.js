@@ -16,7 +16,7 @@ import Footer from "./scenes/global/Footer";
 import About from "./scenes/about";
 import Contact from "./scenes/contact";
 import Configuration from "./scenes/configuration/Configuration";
-
+import SignUp from "./scenes/signUp";
 
 const debug_mode = false;
 // export const host = "27.71.227.1:8002";
@@ -25,7 +25,9 @@ export const host = "localhost:8000";
 
 export const  UserContext = createContext();
 function App() {
-  const [isSignIn, setIsSignin] = useState(debug_mode)			//set true for debungging
+  const [isSignIn, setIsSignin] = useState(debug_mode);		//set true for debungging
+  const [signUp, setSignUp] = useState(false);
+  const [isSuperuser, setIsSuperuser] = useState(false);
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
   return (
@@ -34,7 +36,8 @@ function App() {
       {
         !isSignIn ?
         <>
-          <SignIn/>
+            {!signUp && <SignIn setSignUp={setSignUp}/>}
+            {signUp && <SignUp setSignUp={setSignUp}/>}
         </>
         :
           <>
@@ -44,7 +47,7 @@ function App() {
       
                 <div className="app">			
                   <main className="content">
-                      <Topbar/>
+                      <Topbar setIsSignin={setIsSignin}/>
 
                       <Routes>
                         <Route path="" element={<Landing />} />
@@ -52,7 +55,11 @@ function App() {
                         <Route path="/landing" element={<Landing />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/contact" element={<Contact />} />
-                        <Route path="/configuration" element={<Configuration />} />
+                        {
+                            localStorage.getItem("is_superuser").toString() === "1"
+                            &&
+                            <Route path="/configuration" element={<Configuration />} />
+                        }
                       </Routes>
 
                       <Footer/>

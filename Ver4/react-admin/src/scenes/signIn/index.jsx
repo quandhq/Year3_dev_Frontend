@@ -30,10 +30,11 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignIn() {
-  // const backend_host = "27.71.227.1:800";
-  console.log(host)
-  const backend_host = host;
+export default function SignIn({setSignUp}) 
+{
+    // const backend_host = "27.71.227.1:800";
+    console.log(host)
+    const backend_host = host;
 
 
 
@@ -57,7 +58,7 @@ export default function SignIn() {
             "method": "POST",
             "headers": 
             {
-              "Content-Type": "application/json",
+            "Content-Type": "application/json",
             },
             "body": JSON.stringify(get_authentication_API_data), 
         }
@@ -66,127 +67,129 @@ export default function SignIn() {
         console.log(get_authentication_API_response_data);
         if(get_authentication_API_response.status !== 200)
         {
-          return false;
+        return false;
         }
         else if(get_authentication_API_response.status === 200 && 
             get_authentication_API_response_data.hasOwnProperty("access") &&
-            get_authentication_API_response_data.hasOwnProperty("refresh"))
+            get_authentication_API_response_data.hasOwnProperty("refresh") &&
+            get_authentication_API_response_data.hasOwnProperty("is_superuser"))
         {
-          localStorage.setItem("access", get_authentication_API_response_data["access"]);
-          localStorage.setItem("refresh", get_authentication_API_response_data["refresh"]);
+        localStorage.setItem("access", get_authentication_API_response_data["access"]);
+        localStorage.setItem("refresh", get_authentication_API_response_data["refresh"]);
+        localStorage.setItem("is_superuser", get_authentication_API_response_data["is_superuser"]);
         }
         else
         {
-          throw new Error("Cannot get access and refresh token or user is not authenticated ...");
+        throw new Error("Cannot get access and refresh token or user is not authenticated ...");
         }
         return true;
-     }
+    }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log(data)
-    console.log({
-      username: data.get('username'),
-      password: data.get('password'),
-    });
-	localStorage.setItem("username", data.get('username'))
-	let isAuthenticated = null;
-	try
-	{
-		isAuthenticated = await getAuthentication(data.get("username"), data.get("password"));
-	}
-	catch(err)
-	{
-		alert("Server is not available or username, password is wrong. Error " + err);
-		callbackSetIsSignIn(false);
-	}
-	if(isAuthenticated === true)
-	{
-		callbackSetIsSignIn(true);
-	}
-	else
-	{
-		alert("Cannot verify username or password!");
-	}
-  };
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        console.log(data)
+        console.log({
+        username: data.get('username'),
+        password: data.get('password'),
+        });
+        localStorage.setItem("username", data.get('username'))
+        let isAuthenticated = null;
+        try
+        {
+            isAuthenticated = await getAuthentication(data.get("username"), data.get("password"));
+        }
+        catch(err)
+        {
+            alert("Server is not available or username, password is wrong. Error " + err);
+            callbackSetIsSignIn(false);
+        }
+        if(isAuthenticated === true)
+        {
+            callbackSetIsSignIn(true);
+        }
+        else
+        {
+            alert("Cannot verify username or password!");
+        }
+    };
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+    return (
+        <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
 
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              autoComplete="username"
-              autoFocus
-            />
-
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
-
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+            <Box
+            sx={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}
             >
-              Sign In
-            </Button>
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                <LockOutlinedIcon />
+            </Avatar>
 
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  {/* Forgot password? */}
-                </Link>
-              </Grid>
+            <Typography component="h1" variant="h5">
+                Sign in
+            </Typography>
 
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {/* {"Don't have an account? Sign Up"} */}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                autoFocus
+                />
 
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
-  );
+                <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                />
+
+                {/* <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+                /> */}
+
+                <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                >
+                Sign In
+                </Button>
+
+                <Grid container>
+                <Grid item xs>
+                    <Link href="#" variant="body2">
+                    {/* Forgot password? */}
+                    </Link>
+                </Grid>
+
+                <Grid item>
+                    <Link href="#" variant="body2" onClick={()=>{setSignUp(true)}}>
+                    {"Don't have an account? Sign Up"}
+                    </Link>
+                </Grid>
+                </Grid>
+            </Box>
+            </Box>
+
+            <Copyright sx={{ mt: 8, mb: 4 }} />
+        </Container>
+        </ThemeProvider>
+    );
 }

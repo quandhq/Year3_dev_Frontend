@@ -25,10 +25,7 @@ import AQI from "../../components/AQI";
 import SetTimer from "../../components/SetTimer";
 import ActuatorStatus from "../../components/Actuatortatus";
 
-
-
 const Dashboard = () => {
-    // const backend_host = "27.71.227.1:800"
     const backend_host = host;
     const location = useLocation(); /*!< This is used to get the "state" component that is passed into <Link> */
     const data_passed_from_landingpage = location.state;
@@ -412,7 +409,7 @@ const Dashboard = () => {
                     xs={12}
                     sm={12}
                     md={12}
-                    lg={6}
+                    lg={8}
                     container="true"
                     display="flex"
                     direction="column"
@@ -434,8 +431,6 @@ const Dashboard = () => {
                         justify="center"
                     >
                         <Box mt="10px" mb="15px">
-
-                            <Header title="Set timer for air-conditioning:" fontSize="20px"/>
                             <SetTimer room_id={room_id}/>
                         </Box>
                     </Box>
@@ -446,7 +441,7 @@ const Dashboard = () => {
                     xs={12}
                     sm={12}
                     md={12}
-                    lg={6}
+                    lg={4}
                     container="true"
                     display="flex"
                     direction="column"

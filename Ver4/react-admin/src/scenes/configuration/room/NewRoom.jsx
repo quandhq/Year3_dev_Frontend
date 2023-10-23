@@ -8,6 +8,9 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 export default function NewRoom({setDataCreateRoom, dataCreateRoom}) {
   return (
@@ -31,20 +34,21 @@ export default function NewRoom({setDataCreateRoom, dataCreateRoom}) {
           />
         </Grid>
         <Grid item xs={12} sm={12}>
-            <FormControl>
-                <FormLabel id="demo-controlled-radio-buttons-group">Construction type</FormLabel>
-                <RadioGroup
-                    aria-labelledby="demo-controlled-radio-buttons-group"
-                    name="controlled-radio-buttons-group"
-                    row
+            <FormControl variant="standard" sx={{minWidth: 120 }}>
+                <InputLabel id="demo-simple-select-standard-label">Construction type</InputLabel>
+                <Select
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
                     value={dataCreateRoom.construction_name}
                     onChange={(e)=>setDataCreateRoom({...dataCreateRoom, construction_name: e.target.value})}
+                    label="Construction type"
                 >
-                    <FormControlLabel value="building" control={<Radio />} label="Building" />
-                    <FormControlLabel value="farm" control={<Radio />} label="Farm" />
-                </RadioGroup>
+                    <MenuItem value={"building"}>Building</MenuItem>
+                    <MenuItem value={"farm"}>Farm</MenuItem>
+                </Select>
             </FormControl>
         </Grid>
+
         <Grid item xs={12}>
           <TextField
             required

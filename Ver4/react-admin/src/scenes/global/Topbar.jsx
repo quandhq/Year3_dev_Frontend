@@ -17,7 +17,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 import logo from '../../assets/logo_lab.png'
 
-const Topbar = () => {
+const Topbar = ({setIsSignin}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
@@ -107,7 +107,11 @@ const Topbar = () => {
 				<Box display="flex"
 					justifyContent="center"
 					alignItems="center"
-					paddingLeft="5%">
+					paddingLeft="5%"
+                >
+                {
+                    localStorage.getItem("is_superuser").toString() === "1" 
+                    && 
 					<Link to="/configuration">
 						<IconButton >
 							<SettingsIcon style={{ fill: 'white' }}/>
@@ -119,6 +123,7 @@ const Topbar = () => {
 							</Typography>
 						</IconButton>	
 					</Link>
+                }
 				</Box>
 		</Box>
 
@@ -145,9 +150,20 @@ const Topbar = () => {
 						<PersonOutlinedIcon style={{ fill: 'white' }}/>
 					</IconButton>
 
-					<Typography variant="h5" color="white" display="inline">
-						Welcome {username}
+					<Typography variant="h5" color="white" display="inline" mr="10px">
+						Welcome {username},
 					</Typography>
+
+                    <Link color="white" display="inline" href="/"
+                         onClick={()=>{
+                            localStorage.clear();
+                            setIsSignin(false);
+                         }}
+                    >
+                        <Typography variant="h5" color="white" display="inline">
+						Sign out!
+					    </Typography>
+                    </Link>
 				</Box>
 
 				{/* <IconButton>

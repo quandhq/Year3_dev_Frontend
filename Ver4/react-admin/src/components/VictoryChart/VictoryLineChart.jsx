@@ -16,20 +16,15 @@ import { useState } from 'react';
  */
 const VictoryLineChart = ({data_x, data_y, option_data}) => 
 {
-    const [state, setState] = useState({});
 
     let data = [];
-    let test_data = []
-    let data_real = {x: [], y: []};
-    let value_x = [];
     let label_x;
     if(option_data === "now")
     {
         label_x = data_x.map((t)=>{
-                                    let unixTimestamp = t;
+                                    let unixTimestamp = t - 7*60*60;
                                     let date = new Date(unixTimestamp * 1000);
-                                    return `${date.getUTCDate()}/${date.getUTCMonth()}/${date.getFullYear()}-
-                                    ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}`; 
+                                    return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}-\n${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`; 
                                 });
     }
     else
@@ -51,6 +46,8 @@ const VictoryLineChart = ({data_x, data_y, option_data}) =>
     {
         data.push({x: label_x[i], y: data_y[i]});
     }
+    console.log(data_x[0])
+    console.log(data[0].x)
     
     let label_y = [];
     let value_y = [];
@@ -59,11 +56,6 @@ const VictoryLineChart = ({data_x, data_y, option_data}) =>
     {
         value_y.push(i*5);
         label_y.push(i*5);
-    }
-
-    function handleZoom(domain) 
-    {
-        setState({selectedDomain: domain});
     }
     
 
@@ -118,7 +110,7 @@ const VictoryLineChart = ({data_x, data_y, option_data}) =>
                 // ticks: {stroke: "grey", size: 5},
                 tickLabels: {fontSize: 4, padding: 10} //size of label of x-axis value and position of them
               }}
-            tickCount={15}   //number of label on x-axis
+            // tickCount={15}   //number of label on x-axis
             />
             <VictoryAxis
             // fixLabelOverlap={true}  

@@ -6,14 +6,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { host } from '../../App';
+import { host } from '../../../App';
 
 
-export default function DialogConfirmDelete({callbackSetSignIn, RoomConfigLoading, id}) 
+export default function DialogConfirmDeleteNode({callbackSetSignIn, NodeConfigLoading, id}) 
 {
-    const api = `http://${host}/api/configuration/room/command`;
+    const api = `http://${host}/api/configuration/node/command`;
 
-    const deleteRoom = async (url, access_token, id, RoomConfigLoading) => 
+    const deleteNode = async (url, access_token, id, NodeConfigLoading) => 
     {
         const headers = 
         {
@@ -31,17 +31,17 @@ export default function DialogConfirmDelete({callbackSetSignIn, RoomConfigLoadin
         {
             const data_response = await response.json();
             alert(data_response.Response)
-            RoomConfigLoading[1](!RoomConfigLoading[0]);
+            NodeConfigLoading[1](!NodeConfigLoading[0]);
         }
         else
         {
             const data_response = await response.json();
             alert(data_response.Response)
-            RoomConfigLoading[1](RoomConfigLoading[0]);
+            NodeConfigLoading[1](NodeConfigLoading[0]);
         }
     }
 
-    const verify_and_get_data = async (fetch_data_function, callbackSetSignIn, backend_host, url, id, RoomConfigLoading) => 
+    const verify_and_get_data = async (fetch_data_function, callbackSetSignIn, backend_host, url, id, NodeConfigLoading) => 
     {
 
         const token = {access_token: null, refresh_token: null}
@@ -129,7 +129,7 @@ export default function DialogConfirmDelete({callbackSetSignIn, RoomConfigLoadin
         {
             // const response = await fetch(url)
             // const data = await response.json()
-            fetch_data_function(url, token["access_token"], id, RoomConfigLoading)
+            fetch_data_function(url, token["access_token"], id, NodeConfigLoading)
         }
         else
         {
@@ -144,7 +144,7 @@ export default function DialogConfirmDelete({callbackSetSignIn, RoomConfigLoadin
             }
             if(verifyRefreshToken_response === true)
             {
-                fetch_data_function(url, token["access_token"], id, RoomConfigLoading);
+                fetch_data_function(url, token["access_token"], id, NodeConfigLoading);
             }
             else
             {
@@ -161,7 +161,7 @@ export default function DialogConfirmDelete({callbackSetSignIn, RoomConfigLoadin
     };
 
     const handleConfirm = () => {
-        verify_and_get_data(deleteRoom, callbackSetSignIn, host, api, id, RoomConfigLoading);
+        verify_and_get_data(deleteNode, callbackSetSignIn, host, api, id, NodeConfigLoading);
         setOpen(false);
     }
 
@@ -190,11 +190,11 @@ export default function DialogConfirmDelete({callbackSetSignIn, RoomConfigLoadin
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-            {"Confirm deleting this room record ?"}
+            {"Confirm deleting this node record ?"}
             </DialogTitle>
             <DialogContent>
             <DialogContentText id="alert-dialog-description">
-                Caution: All node data and sensor data belong to this room will be deleted as well !!!
+                Caution: All sensor data belong to this node will be deleted as well !!!
             </DialogContentText>
             </DialogContent>
             <DialogActions>
