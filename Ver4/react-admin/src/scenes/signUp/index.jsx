@@ -36,7 +36,6 @@ export default function SignUp({setSignUp}) {
 
     const create_user = async (data)=> 
     {
-        console.log(data);
         const api = `http://${host}/api/signup`;
         const fetch_option = 
         {
@@ -63,10 +62,7 @@ export default function SignUp({setSignUp}) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-        username: data.get('username'),
-        password: data.get('password'),
-        });
+
         if(data.get('password') !== data.get('password_verify'))
         {
             alert("Password and Verify Password must be the same!")

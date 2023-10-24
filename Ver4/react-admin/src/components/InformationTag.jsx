@@ -27,7 +27,6 @@ import motion_icon from "../assets/motion.svg";
 const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
     const backend_host = host;
     const api_informationtag = url;
-    console.log(host);
     
 
     const [isLoading, setIsLoading] = useState(true)
@@ -80,7 +79,18 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
 
     const get_information_data = async (url, access_token) => 
     {
-        const response = await fetch(url)
+        const headers = 
+        {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${access_token}`,
+        }
+        const option_fetch = 
+        {
+            "method": "GET",
+            "headers": headers,
+            "body": null,
+        }
+        const response = await fetch(url, option_fetch)
         const data = await response.json()
         if(data)
         {
@@ -145,7 +155,6 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
                 });
 
             getInfoData(newInfoData);
-            console.log(newInfoData)
             let newNodeData = {}
             newNodeData["sensor"] = data["node_info"]["sensor"]
             newNodeData["actuator"] = data["node_info"]["actuator"]
@@ -281,16 +290,13 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
             else
             {
                 setTimeout(()=>{
-                        console.log('This is in settime out of information tag'); 
                         verify_and_get_data(get_information_data, callbackSetSignIn, backend_host, api_informationtag); 
-                        console.log("Done getting data in useEffect of Informationtag")
                     }, time_delay)
             }
         }
         else
         {
             verify_and_get_data(get_information_data, callbackSetSignIn, backend_host, api_informationtag); 
-            console.log("information tag in NOT time delay")
         }
     },[])
 

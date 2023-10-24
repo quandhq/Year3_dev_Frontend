@@ -46,8 +46,6 @@ const VictoryLineChart = ({data_x, data_y, option_data}) =>
     {
         data.push({x: label_x[i], y: data_y[i]});
     }
-    console.log(data_x[0])
-    console.log(data[0].x)
     
     let label_y = [];
     let value_y = [];

@@ -36,7 +36,6 @@ const Dashboard = () => {
     const [id, setId] = useState(1);
     const [nodeIdFilter, setNodeIdFilter] = useState(0);
     const [optionData, setOptionData] = useState("now");        //change option to show different Chart
-    // const [optionChartData, setOptionChartData] = useState("day")   //change option to make different url
     const [optionChartData, setOptionChartData] = useState("now")
     const [unixTimestampStart, setUnixTimestampStart] = useState(0);
     const [unixTimestampEnd, setUnixTimestampEnd] = useState(0);
@@ -170,7 +169,7 @@ const Dashboard = () => {
                             // sx={{backgroundColor: colors.blueAccent[800]}} 
                             alignItems="center">
                                 
-                                <AQI room_id={room_id}/>
+                                <AQI room_id={room_id} callbackSetSignIn={callbackSetSignIn}/>
 
                         </Box>
                 </Grid>
@@ -335,7 +334,7 @@ const Dashboard = () => {
                                         <Box mt="10px">
 
                                         <Header title="Manual Control" fontSize="20px"/>
-                                        <Control room_id={room_id}/>
+                                        <Control room_id={room_id} callbackSetSignIn={callbackSetSignIn}/>
                                         </Box>
                                     </Box>
                             </Grid>  
@@ -431,7 +430,7 @@ const Dashboard = () => {
                         justify="center"
                     >
                         <Box mt="10px" mb="15px">
-                            <SetTimer room_id={room_id}/>
+                            <SetTimer room_id={room_id} callbackSetSignIn={callbackSetSignIn}/>
                         </Box>
                     </Box>
                     

@@ -13,104 +13,144 @@ import {Button} from "@mui/material";
 import SmallFilter from "./SmallFilter"
 
 const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, nodeIdFilter}) => {
-    console.log(host);
     const dict_filter = {"1D": 1, "1W": 2, "1M": 3, "6M": 4, "1Y": 5}
 
     const [isLoading, setIsLoading] = useState(true)
     const [numberOfData, setNumberOfData] = useState(1);
-    const [co2, getCo2] = useState([])
-    const [hum, getHum] = useState([])
-    const [temp, getTemp] = useState([])
-    const [time, getTime] = useState([])
     const [dataChart, setDataChart] = useState({co2: null, hum: null, temp: null, tvoc: null, light: null, dust: null, time: null})
     const para_filter_dict = {0: "all", 1: "temp", 2: "hum", 3: "co2", 4: "tvoc", 5: "light", 6: "dust"};
     const para_name = {0: "All", 1: "Temperature", 2: "Humidity", 3: "Co2", 4: "TVOC", 5: "Light", 6: "Dust"};
     const backend_host = host;
     const url = `http://${backend_host}/api/v1.1/monitor/data?room_id=${room_id}&filter=${numberOfData}&node_id=${nodeIdFilter}`;
 
-
-    const token = {access_token: null, refresh_token: null}
-    // const backend_host = host;
-    if(localStorage.getItem("access") !== null && localStorage.getItem("refresh") !== null)
+    const verify_and_get_data = async (fetch_data_function, callbackSetSignIn, backend_host, url) => 
     {
-        token.access_token = localStorage.getItem("access"); 
-        token.refresh_token = localStorage.getItem("refresh");
-    }
-    else
-    {
-        throw new Error("There isLoading no access token and refresh token ....");
-    }
 
-    const verifyAccessToken  = async () =>
-    {
-        //call the API to verify access-token
-        const verify_access_token_API_endpoint = `http://${backend_host}/api/token/verify`
-        const verify_access_token_API_data = 
+        const token = {access_token: null, refresh_token: null}
+        // const backend_host = host;
+        if(localStorage.getItem("access") !== null && localStorage.getItem("refresh") !== null)
         {
-            "token": token.access_token,
-        }
-        const verify_access_token_API_option = 
-        {
-            "method": "POST",
-            "headers": 
-            {
-                "Content-Type": "application/json",
-            },
-            "body": JSON.stringify(verify_access_token_API_data),
-
-        }
-        const verify_access_token_API_response = await fetch(verify_access_token_API_endpoint, 
-                                                            verify_access_token_API_option,);
-        if(verify_access_token_API_response.status !== 200)
-        {
-            return false;
-        }
-        return true;
-    }
-
-    /*
-    *brief: this function isLoading to verify the refresh-token and refresh the access-token if the refresh-token isLoading still valid
-    */
-    const verifyRefreshToken  = async () =>
-    {
-        //call the API to verify access-token
-        const verify_refresh_token_API_endpoint = `http://${backend_host}/api/token/refresh`
-        const verify_refresh_token_API_data = 
-        {
-            "refresh": token.refresh_token,
-        }
-        const verify_refresh_token_API_option = 
-        {
-            "method": "POST",
-            "headers": 
-            {
-                "Content-Type": "application/json",
-            },
-            "body": JSON.stringify(verify_refresh_token_API_data),
-
-        }
-        const verify_refresh_token_API_response = await fetch(verify_refresh_token_API_endpoint, 
-                                                                verify_refresh_token_API_option,);
-        const verify_refresh_token_API_response_data = await verify_refresh_token_API_response.json();
-        if(verify_refresh_token_API_response.status !== 200)
-        {
-            return false;
-        }
-        else if(verify_refresh_token_API_response.status === 200 &&  verify_refresh_token_API_response_data.hasOwnProperty("access"))
-        {
-            localStorage.setItem("access", verify_refresh_token_API_response_data["access"]);
-            localStorage.setItem("refresh", verify_refresh_token_API_response_data["refresh"]);
-            return true
+            token.access_token = localStorage.getItem("access"); 
+            token.refresh_token = localStorage.getItem("refresh");
         }
         else
         {
-            throw new Error("Can not get new access token ....");
+            throw new Error("There is no access token and refresh token ....");
         }
+
+        const verifyAccessToken  = async () =>
+        {
+            //call the API to verify access-token
+            const verify_access_token_API_endpoint = `http://${backend_host}/api/token/verify`
+            const verify_access_token_API_data = 
+            {
+                "token": token.access_token,
+            }
+            const verify_access_token_API_option = 
+            {
+                "method": "POST",
+                "headers": 
+                {
+                    "Content-Type": "application/json",
+                },
+                "body": JSON.stringify(verify_access_token_API_data),
+
+            }
+            const verify_access_token_API_response = await fetch(verify_access_token_API_endpoint, 
+                                                                verify_access_token_API_option,);
+            if(verify_access_token_API_response.status !== 200)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /*
+        *brief: this function is to verify the refresh-token and refresh the access-token if the refresh-token is still valid
+        */
+        const verifyRefreshToken  = async () =>
+        {
+            //call the API to verify access-token
+            const verify_refresh_token_API_endpoint = `http://${backend_host}/api/token/refresh`
+            const verify_refresh_token_API_data = 
+            {
+                "refresh": token.refresh_token,
+            }
+            const verify_refresh_token_API_option = 
+            {
+                "method": "POST",
+                "headers": 
+                {
+                    "Content-Type": "application/json",
+                },
+                "body": JSON.stringify(verify_refresh_token_API_data),
+
+            }
+            const verify_refresh_token_API_response = await fetch(verify_refresh_token_API_endpoint, 
+                                                                    verify_refresh_token_API_option,);
+            const verify_refresh_token_API_response_data = await verify_refresh_token_API_response.json();
+            if(verify_refresh_token_API_response.status !== 200)
+            {
+                return false;
+            }
+            else if(verify_refresh_token_API_response.status === 200 &&  verify_refresh_token_API_response_data.hasOwnProperty("access"))
+            {
+                localStorage.setItem("access", verify_refresh_token_API_response_data["access"]);
+                localStorage.setItem("refresh", verify_refresh_token_API_response_data["refresh"]);
+                return true
+            }
+            else
+            {
+                throw new Error("Can not get new access token ....");
+            }
+        }
+
+        const  verifyAccessToken_response = await verifyAccessToken();
+
+        if(verifyAccessToken_response === true)
+        {
+            // const response = await fetch(url)
+            // const data = await response.json()
+            fetch_data_function(url, token["access_token"])
+        }
+        else
+        {
+            let verifyRefreshToken_response = null;
+            try
+            {
+                verifyRefreshToken_response = await verifyRefreshToken();
+            }
+            catch(err)
+            {
+                alert(err);
+            }
+            if(verifyRefreshToken_response === true)
+            {
+                fetch_data_function(url, token["access_token"]);
+            }
+            else
+            {
+                callbackSetSignIn(false);
+            }
+        }
+
     }
 
     const get_chart_data = async (url, access_token) => 
     {
-        const response = await fetch(url);
+        const headers = 
+        {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${access_token}`,
+        }
+        const option_fetch = 
+        {
+            "method": "GET",
+            "headers": headers,
+            "body": null,
+        }
+
+        const response = await fetch(url, option_fetch);
         if(response.status === 200)
         {
             const data = await response.json();
@@ -128,11 +168,7 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, n
                     newDataChart[i] = [0];
                 }
             })
-            console.log("in data function");
-            console.log(url);
             setDataChart(newDataChart);
-            console.log(newDataChart);
-            console.log("-_________________________________________________________________________________");
             setIsLoading(false)
         }
         else
@@ -149,63 +185,27 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, n
         }
     }
 
-    const get_data = async (api) => 
-    {
-        const  verifyAccessToken_response = await verifyAccessToken();
 
-        if(verifyAccessToken_response === true)
-        {
-            // const response = await fetch(url)
-            // const data = await response.json()
-            get_chart_data(api, token["access_token"])
-        }
-        else
-        {
-            let verifyRefreshToken_response = null;
-            try
-            {
-                verifyRefreshToken_response = await verifyRefreshToken();
-            }
-            catch(err)
-            {
-                alert(err);
-            }
-            if(verifyRefreshToken_response === true)
-            {
-                get_chart_data(api, token["access_token"]);
-            }
-            else
-            {
-                callbackSetSignIn(false);
-            }
-        }
-    }
-
-    console.log(numberOfData);
 
     useEffect(() => {
-        console.log("This isLoading in Chart.jsx")
-        console.log(url)
-        get_data(url); 
+        
+        verify_and_get_data(get_chart_data, callbackSetSignIn, host, url);
         // if(optionData==="now")
         // {
         //     if(dataChart.co2 === null)
         //     {
-        //         console.log("This isLoading in Chart.jsx")
-        //         console.log(url)
-        //         get_data(url); 
+        //         verify_and_get_data(get_chart_data, callbackSetSignIn, host, url); 
         //     }
         //     else
         //     {
         //         setTimeout(() => {
-        //                         get_data(url); 
-        //                         console.log(hum, temp); 
+        //                         verify_and_get_data(get_chart_data, callbackSetSignIn, host, url); 
         //                     }, timedelay)
         //     }
         // }
         // else
         // {
-        //     get_data(url);
+        //     verify_and_get_data(get_chart_data, callbackSetSignIn, host, url);
         // }
     },[isLoading])
 

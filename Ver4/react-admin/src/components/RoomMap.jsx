@@ -41,7 +41,6 @@ const RoomMap = ({room_id, callbackSetSignIn}) =>
     {
         function render_size(room_x, room_y, node_x, node_y)
         {
-            console.log(room_x, room_y, node_x, node_y);
             // 1. Get the real percentage center out in x and y axis, negative mean that node is in the left or above, positive is in contrast
             const real_center_x = room_x/2;
             const real_center_y = room_y/2;
@@ -49,13 +48,11 @@ const RoomMap = ({room_id, callbackSetSignIn}) =>
             let real_percentage_y; 
             real_percentage_x = node_x <= real_center_x ? Math.round(-100*(real_center_x-node_x)/real_center_x) : Math.round(100*(node_x-real_center_x)/real_center_x);
             real_percentage_y = node_y >= real_center_y ? Math.round(-100*(node_y-real_center_y)/real_center_y) : Math.round(100*(real_center_y-node_y)/real_center_y);
-            console.log(real_percentage_x, real_percentage_y)
             // 2. Get the percentage of node when it is rendered, from left and from above, we adjust according to image_x and room_y
             let render_percentage_x;
             let render_percentage_y;
             render_percentage_x = real_percentage_x <= 0 ? Math.round((100 - (-1)*real_percentage_x)/2) : Math.round(50 + real_percentage_x/2);
             render_percentage_y = real_percentage_y <= 0 ? Math.round((100 - (-1)*real_percentage_y)/2) : Math.round(50 + real_percentage_y/2);
-            console.log(render_percentage_x, render_percentage_y);
             return {render_percentage_x, render_percentage_y}
         }
 
@@ -84,8 +81,6 @@ const RoomMap = ({room_id, callbackSetSignIn}) =>
         if(response && response.status === 200)
         {   
             data_response = await response.json();
-            console.log("data of positions");
-            console.log(data_response);
             const {boxWidth, boxHeigth, currentImageWidth, currentImageHeigth} = size_object;
             const {x_length, y_length} = data_response["room_size"];
             let node_array_to_iterate = []
@@ -100,7 +95,6 @@ const RoomMap = ({room_id, callbackSetSignIn}) =>
                 new_item["node_left"] = render_percentage_x;
                 new_item["node_above"] = render_percentage_y;
                 new_item["node_id"] = node["node_id"];
-                console.log(new_item);
                 new_nodePosition.push(new_item);
             });
             setNodePosition(new_nodePosition);
@@ -120,8 +114,6 @@ const RoomMap = ({room_id, callbackSetSignIn}) =>
         {
             // alert("Error: <<<<<< " + err);
         }
-
-        console.log(data_heatmap);
         loadImage(data_heatmap);
     }
 
@@ -219,14 +211,7 @@ const RoomMap = ({room_id, callbackSetSignIn}) =>
         else
         {
             let verifyRefreshToken_response = null;
-            try
-            {
-                verifyRefreshToken_response = await verifyRefreshToken();
-            }
-            catch(err)
-            {
-                console.log(err);
-            }
+            verifyRefreshToken_response = await verifyRefreshToken();
             if(verifyRefreshToken_response === true)
             {
                 fetch_data_function(api_to_fetch, token["access_token"], size_object, loadImage);
@@ -323,8 +308,6 @@ const RoomMap = ({room_id, callbackSetSignIn}) =>
             data: points,
         };
 
-        console.log("((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((")
-        console.log(data)
     
         heatmapInstance.setData(data);
         };

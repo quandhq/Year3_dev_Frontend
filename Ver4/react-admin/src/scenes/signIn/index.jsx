@@ -33,7 +33,6 @@ const theme = createTheme();
 export default function SignIn({setSignUp}) 
 {
     // const backend_host = "27.71.227.1:800";
-    console.log(host)
     const backend_host = host;
 
 
@@ -64,7 +63,6 @@ export default function SignIn({setSignUp})
         }
         const get_authentication_API_response = await fetch(get_authentication_API_endpoint, get_authentication_API_option);
         const get_authentication_API_response_data = await get_authentication_API_response.json();
-        console.log(get_authentication_API_response_data);
         if(get_authentication_API_response.status !== 200)
         {
         return false;
@@ -88,11 +86,7 @@ export default function SignIn({setSignUp})
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log(data)
-        console.log({
-        username: data.get('username'),
-        password: data.get('password'),
-        });
+
         localStorage.setItem("username", data.get('username'))
         let isAuthenticated = null;
         try
