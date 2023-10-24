@@ -75,7 +75,7 @@ const Landing = () => {
     {
         const headers = {
             'Content-Type':'application/json',
-            // "Authorization": `Bearer ${access_token}`
+            "Authorization": `Bearer ${access_token}`
             };
         const option_room_data = {
             'method':'GET',

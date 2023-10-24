@@ -24,7 +24,7 @@ export default function FilterNode({setNodeIdFilter, apiInformatiionTag, callbac
 		const headers = 
 		{
 			"Content-Type": "application/json",
-			// "Authorization": `Bearer ${access_token}`, 	//!< do not need to get authorization yet. in back end all APIS are public
+			"Authorization": `Bearer ${access_token}`, 	//!< do not need to get authorization yet. in back end all APIS are public
 		}
 
 		const option_request = 
