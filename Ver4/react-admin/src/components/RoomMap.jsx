@@ -19,7 +19,7 @@ const RoomMap = ({room_id, callbackSetSignIn}) =>
     const [nodePosition, setNodePosition] = useState([]);
     const [buttonStatus, setButtonStatus] = useState({});
     const [popUpText, setPopUpText] = useState(null);
-   
+    
     /**
      * @brief nodePosition is an array of all node in this room with informations,
      *        the information will contains whether it is sensor or actuator, the positions

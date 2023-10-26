@@ -14,6 +14,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useContext } from 'react';
 import { host, UserContext } from '../../App';
+import { localStorageAvailable } from '@mui/x-data-grid/utils/utils';
+import { useEffect, useState } from 'react';
 
 function Copyright(props) {
 	return (
@@ -30,10 +32,109 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignIn({setSignUp}) 
+export default function SignIn({setSignUp, setIsSignin}) 
 {
     // const backend_host = "27.71.227.1:800";
+    const [isLoading, setIsLoading] = useState(true);
+    
+    
     const backend_host = host;
+    const checkIfAlreadySignIn = () => 
+    {
+        if(localStorage.getItem("access") !== null && localStorage.getItem("refresh") !== null)
+        {
+            const token = {"access_token": localStorage.getItem("access"), "refresh_token": localStorage.getItem("refresh")};
+
+
+            const verifyAccessToken  = async () =>
+            {
+                //call the API to verify access-token
+                const verify_access_token_API_endpoint = `http://${backend_host}/api/token/verify`;
+                const verify_access_token_API_data = 
+                {
+                    "token": token.access_token,
+                }
+                const verify_access_token_API_option = 
+                {
+                    "method": "POST",
+                    "headers": 
+                    {
+                        "Content-Type": "application/json",
+                    },
+                    "body": JSON.stringify(verify_access_token_API_data),
+
+                }
+                const verify_access_token_API_response = await fetch(verify_access_token_API_endpoint, 
+                                                                    verify_access_token_API_option,);
+                if(verify_access_token_API_response.status !== 200)
+                {
+                    return false;
+                }
+                return true;
+            }
+
+            /*
+            *brief: this function is to verify the refresh-token and refresh the access-token if the refresh-token is still valid
+            */
+            const verifyRefreshToken  = async () =>
+            {
+                //call the API to verify access-token
+                const verify_refresh_token_API_endpoint = `http://${backend_host}/api/token/refresh`
+                const verify_refresh_token_API_data = 
+                {
+                    "refresh": token.refresh_token,
+                }
+                const verify_refresh_token_API_option = 
+                {
+                    "method": "POST",
+                    "headers": 
+                    {
+                        "Content-Type": "application/json",
+                    },
+                    "body": JSON.stringify(verify_refresh_token_API_data),
+
+                }
+                const verify_refresh_token_API_response = await fetch(verify_refresh_token_API_endpoint, 
+                                                                        verify_refresh_token_API_option,);
+                const verify_refresh_token_API_response_data = await verify_refresh_token_API_response.json();
+                if(verify_refresh_token_API_response.status !== 200)
+                {
+                    return false;
+                }
+                else if(verify_refresh_token_API_response.status === 200 &&  verify_refresh_token_API_response_data.hasOwnProperty("access"))
+                {
+                    localStorage.setItem("access", verify_refresh_token_API_response_data["access"]);
+                    localStorage.setItem("refresh", verify_refresh_token_API_response_data["refresh"]);
+                    return true
+                }
+                else
+                {
+                    throw new Error("Can not get new access token ....");
+                }
+            }
+
+            if(verifyAccessToken())
+            {
+                setIsSignin(true);
+            }
+            else
+            {
+                if(verifyRefreshToken())
+                {
+                    setIsSignin(true);
+                }
+                else
+                {
+                    setIsLoading(false);
+                }
+            }
+
+        }
+        else
+        {
+            setIsLoading(false);
+        }
+    }
 
 
 
@@ -108,7 +209,17 @@ export default function SignIn({setSignUp})
         }
     };
 
+    useEffect(()=>{
+        checkIfAlreadySignIn();
+    }, []);
+
     return (
+        <>
+        {
+        !isLoading 
+        
+        &&
+
         <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -185,5 +296,7 @@ export default function SignIn({setSignUp})
             <Copyright sx={{ mt: 8, mb: 4 }} />
         </Container>
         </ThemeProvider>
+    }
+    </>
     );
 }
