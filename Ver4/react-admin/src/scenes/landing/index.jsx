@@ -246,9 +246,7 @@ const Landing = () => {
             {/* <Box mb="50px"> */}
 
                 <Box display="flex" justifyContent="center" alignItems="center">
-                    <h1>
-                        Project Smart farm and building
-                    </h1>
+                    <Header title="Dashboard" fontSize="60px"/>
                 </Box>
                 <Box display="flex" justifyContent="center" alignItems="center" >
                     
@@ -266,7 +264,7 @@ const Landing = () => {
                         voluptatem consectetur accusantium ducimus tenetur vero fugit voluptas amet sequi.
                     </p> */}
 
-                    <Box
+                    {/* <Box
                         sx={{
                             // position: 'relative',
                             // backgroundColor: 'grey.800',
@@ -277,36 +275,13 @@ const Landing = () => {
                             // backgroundImage: "logo_lab",
                         }}
                         >
-                        {/* Increase the priority of the hero background image */}
                         {<img src={logo_lab} alt="NOT FOUND" />}
-                    
-                        {/* <Grid container>
-                            <Grid item md={6}>
-                            <Box
-                                sx={{
-                                position: 'relative',
-                                p: { xs: 3, md: 6 },
-                                pr: { md: 0 },
-                                }}
-                            >
-                                <Typography component="h1" variant="h3" color="inherit" gutterBottom>
-                                "..................."
-                                </Typography>
-                                <Typography variant="h5" color="inherit" paragraph>
-                                "..................."
-                                </Typography>
-                                <Link variant="subtitle1" href="#">
-                                "..................."
-                                </Link>
-                            </Box>
-                            </Grid>
-                        </Grid> */}
 
-                        </Box>
+                    </Box> */}
                 </Box>
 
                    {/* Readmore button  */}
-                <Box display="flex" justifyContent="center" alignItems="center">
+                {/* <Box display="flex" justifyContent="center" alignItems="center">
                     <Link to="/about">
                                     <Button
                                         sx={{
@@ -321,7 +296,7 @@ const Landing = () => {
                                         Read more   
                                     </Button>
                     </Link> 
-                </Box>  
+                </Box>   */}
             {/* </Box> */}
             </Container>
             {/* End HEADER */}

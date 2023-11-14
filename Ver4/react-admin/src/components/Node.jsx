@@ -12,7 +12,8 @@ export default function Node({node})
     return (
         <Button
             style={{position: "absolute", 
-                    left: `${node["node_left"]}%`,top: `${node["node_above"]}%`,  
+                    left: `${(node["node_left"] <= 50 ? node["node_left"] + 7 : node["node_left"] - 7)}%`,
+                    top: `${(node["node_above"] <= 50 ? node["node_above"] : node["node_above"] - 7)}%`,  
                     transform: `translate(-${node["node_left"]}%, -${node["node_above"]}%)`,     //!< translate(left, top)
                     borderRadius: "50%", 
                     width: "50px", height: "60px", backgroundColor: node["function"] === "sensor" ? "red" : "orange", 

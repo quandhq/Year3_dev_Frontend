@@ -1,11 +1,11 @@
-import Header from "./Header";
+import Header from "../Header";
 import { Box } from "@mui/material";
-import plan from "../assets/plan.svg";
+import plan from "../../assets/plan.svg";
 import {Button, useMediaQuery} from "@mui/material";
-import { host } from "../App";
+import { host } from "../../App";
 import { React, useState, useEffect, useRef } from "react";
 import h337 from "heatmap.js";
-import Node from "./Node";
+import Node from "../Node";
 
 /**
  * @brief This component RoomMap will render out the image room with all node 
@@ -16,9 +16,7 @@ const RoomMap = ({room_id, callbackSetSignIn}) =>
 {
     const [imageWidth, setImageWidth] = useState(0);
     const boxRef = useRef(null);
-    const [nodePosition, setNodePosition] = useState([]);
-    const [buttonStatus, setButtonStatus] = useState({});
-    const [popUpText, setPopUpText] = useState(null);
+    const [nodePosition, setNodePosition] = useState(null);
     
     /**
      * @brief nodePosition is an array of all node in this room with informations,
@@ -235,9 +233,9 @@ const RoomMap = ({room_id, callbackSetSignIn}) =>
           let width;
     
           if (windowWidth >= 1280) {
-            width = 400; // Adjust the width for large screens
+            width = 350; // Adjust the width for large screens
           } else if (windowWidth >= 960) {
-            width = 400; // Adjust the width for medium screens
+            width = 350; // Adjust the width for medium screens
           } else {
             width = 300; // Adjust the width for small screens
           }

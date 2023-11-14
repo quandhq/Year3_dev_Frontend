@@ -2,29 +2,28 @@ import { useState, useEffect } from "react";
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 import { host } from "../App";
-import Grid from "@mui/material";
-import TextField from "@mui/material/TextField";
-import Header from "./Header";
+import { createContext } from "react";
 
-const SetTimer = ({room_id, callbackSetSignIn}) => 
+
+const ActuatorStatus = ({room_id, setActuatorStatus, callbackSetSignIn}) => 
 {
-    const [time, setTime] = useState(0);
-    const [temperature, setTemperature] = useState(0);
-    const url = `http://${host}/api/room/set_timer?room_id=${room_id}`;
+    const [status, setStatus] = useState(null);
+    const url = `http://${host}/api/actuator_status?room_id=${room_id}`;
+    const url_set_command = `http://${host}/api/actuator_command`;
+    const [isLoading, setIsLoading] = useState(true);
+    const [flip, setFlip] = useState(true);
 
-    const set_timer_function = async (url, access_token) => 
+    const get_status = async (url, access_token) => 
     {
         const headers = {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${access_token}`,
         }
-        const data = {"time":  time, "temperature": temperature}
         const fetch_option = {
-            "method": "POST",
+            "method": "GET",
             "headers": headers,
-            "body": JSON.stringify(data),
+            "body": null,
         };
         let response;
         let data_response;
@@ -35,11 +34,58 @@ const SetTimer = ({room_id, callbackSetSignIn}) =>
         }
         catch(err)
         {
-            console.log("Error while setting actuator timer! Error Code: " + err );
+            console.log("Error while getting actuator status! Error Code: " + err );
         }
         if(response.status == 200)
         {
-            alert("Successfully set timer!")
+            if(data_response.speed > 0)
+            {
+                setStatus(1);
+                setActuatorStatus(1);
+                console.log(status);
+                setIsLoading(false);
+            }
+            else
+            {
+                setStatus(0);
+                setActuatorStatus(0);
+                console.log(status);
+                setIsLoading(false);
+            }
+        }
+        else
+        {
+            alert("Some error happened with Backend! Error: " + data_response["Response"])
+            setStatus(0);
+        }
+
+    }
+
+    const send_actuator_command = async (url, access_token, command) => 
+    {
+        const headers = {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${access_token}`,
+        }
+        const fetch_option = {
+            "method": "POST",
+            "headers": headers,
+            "body": JSON.stringify({"command": command, "room_id": room_id}),
+        };
+        let response;
+        let data_response;
+        try
+        {
+            response = await fetch(url, fetch_option);
+            data_response = await response.json();
+        }
+        catch(err)
+        {
+            console.log("Error while getting actuator status! Error Code: " + err );
+        }
+        if(response.status == 200)
+        {
+            alert("Result:" + data_response["Response"]);
         }
         else
         {
@@ -48,7 +94,7 @@ const SetTimer = ({room_id, callbackSetSignIn}) =>
 
     }
 
-    const verify_and_get_data = async (fetch_data_function, callbackSetSignIn, backend_host, url) => 
+    const verify_and_get_data = async (fetch_data_function, callbackSetSignIn, backend_host, url, command) => 
     {
 
         const token = {access_token: null, refresh_token: null}
@@ -136,7 +182,14 @@ const SetTimer = ({room_id, callbackSetSignIn}) =>
         {
             // const response = await fetch(url)
             // const data = await response.json()
-            fetch_data_function(url, token["access_token"])
+            if(url === url_set_command)
+            {
+                fetch_data_function(url, token["access_token"], command);
+            }
+            else
+            {
+                fetch_data_function(url, token["access_token"])
+            }
         }
         else
         {
@@ -151,7 +204,14 @@ const SetTimer = ({room_id, callbackSetSignIn}) =>
             }
             if(verifyRefreshToken_response === true)
             {
-                fetch_data_function(url, token["access_token"]);
+                if(url === url_set_command)
+                {
+                    fetch_data_function(url, token["access_token"], command);
+                }
+                else
+                {
+                    fetch_data_function(url, token["access_token"])
+                }
             }
             else
             {
@@ -161,52 +221,49 @@ const SetTimer = ({room_id, callbackSetSignIn}) =>
 
     }
 
+
+
+    setInterval(async () => verify_and_get_data(get_status, callbackSetSignIn, host, url), 10000);
+
+    // useEffect(()=>{
+    //     if(status === null)
+    //     {
+    //         verify_and_get_data(get_status, callbackSetSignIn, host, url);
+    //     }
+    //     else
+    //     {
+    //         const timer = setTimeout(()=>{
+    //             verify_and_get_data(get_status, callbackSetSignIn, host, url);
+    //         }, 2000);
+    //         return () => clearTimeout(timer);
+    //     }
+    // });
+
+
     return (
+        <>
+        {
+        isLoading ?
+        <h1>Loading ...</h1>
+        :
         <Box
-            display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" 
-            // gap="30px"
-        >
-            <Box m="10px"/>
-            <Box>
+            display="flex" flexDirection="column" alignItems="center" justifyContent="center" 
+            >
                 <Box
-                    mb="5px"
                     sx={{
-                        fontSize: "18px",
-                        fontWeight: 600,
-                        }}
-                > Time </Box>
-                <MobileDateTimePicker onChange={(new_value)=>{
-                                            setTime(Date.parse(new_value)/1000 + 7*60*60);
-                                        }
-                                    }
-                />
-            </Box>
-            <Box m="10px"/>
-            <Box>
-                <Box
-                    mb="5px"
-                    sx={{
-                        fontSize: "18px",
-                        fontWeight: 600,
-                        }}
-                > Temperature
+                        width: '80px',
+                        height: '80px',
+                        borderRadius: '50%',
+                        border: "solid 2px",
+                        backgroundColor: status == 0 ? 'red' : "green",
+                    }}
+                    display="flex" flexDirection="row" alignItems="center" justifyContent="center"      
+                >
+                    <h1>{status == 0 ? "Off" : "On"}</h1>
                 </Box>
-                <TextField
-                    required
-                    id="temperature"
-                    name="temperature"
-                    label="Temperature"
-                    fullWidth
-                    autoComplete="temperature"
-                    variant="outlined"
-                    // value={dataCreateNode.x_axis}
-                    onInput={(e)=>{e.target.value = e.target.value.replace(/[^0-9]/g, '')}}
-                    onChange={(e)=>setTemperature(e.target.value)}
-                />
-            </Box>
-            <Box m="10px"/>
-            <Box>
-                <Box m="25px" />
+                <Box m="5px" />
+                {
+                status === 0 ?
                 <Button
                     sx={{
                         backgroundColor: "black",
@@ -215,23 +272,39 @@ const SetTimer = ({room_id, callbackSetSignIn}) =>
                         padding: "8px 18px",
                         }}
                     variant="contained"
-                    onClick={()=>{
-                        if(time <= (new Date()).getTime()/1000 + 7*60*60 + 1*60)
-                        {
-                            alert("Timer is not valid! Only accept time 1 minute at least beyond current time!");
+                    onClick={
+                        () => { 
+                            verify_and_get_data(send_actuator_command, callbackSetSignIn, host, url_set_command, 1);
                         }
-                        else
-                        {
-                            verify_and_get_data(set_timer_function, callbackSetSignIn, host, url);
-                            alert("Timer accepted!")
-                        }
-                    }}
+                    }
                 >
-                    Submit
+                    {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
+                    Turn On
                 </Button>
+                :
+                <Button
+                    sx={{
+                        backgroundColor: "black",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        padding: "8px 18px",
+                        }}
+                    variant="contained"
+                    onClick={() => { 
+                        verify_and_get_data(send_actuator_command, callbackSetSignIn, host, url_set_command, 0);
+                    }
+                    }
+                >
+                    {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
+                    Turn off
+                </Button>
+                }
             </Box>
-        </Box>
+        }
+        </>
+            
+        
     );
 }
 
-export default SetTimer;
+export default ActuatorStatus;

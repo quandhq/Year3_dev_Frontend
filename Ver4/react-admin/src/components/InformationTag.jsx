@@ -30,12 +30,8 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
     
 
     const [isLoading, setIsLoading] = useState(true)
-    const [co2, getCo2] = useState(null)
-    const [hum, getHum] = useState(null)
-    const [temp, getTemp] = useState(null)
-    const [time, getTime] = useState(null)
-    const [infoData, getInfoData] = useState([])
-    const [nodeData, getNodeData] = useState([])
+    const [infoData, getInfoData] = useState(null);
+    const [nodeData, getNodeData] = useState(null);
 
     const iconMap = {
         temp: (
@@ -94,13 +90,13 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
         const data = await response.json()
         if(data)
         {
-            if(response.status === 200)
-            {
-                getCo2(data.co2)
-                getHum(data.hum)
-                getTemp(data.temp)
-                getTime(data.time)
-            }
+            // if(response.status === 200)
+            // {
+            //     getCo2(data.co2)
+            //     getHum(data.hum)
+            //     getTemp(data.temp)
+            //     getTime(data.time)
+            // }
             
             let newInfoData = []
             
@@ -132,7 +128,7 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
                     else if (data.hasOwnProperty(each_key) && each_key !== "motion")
                     // if (data.hasOwnProperty(each_key) && data[each_key][data[each_key].length-1] !== 0) 
                     {
-                        if(data[each_key][data[each_key].length-1] > 0)
+                        if(data[each_key][data[each_key].length-1] > -1)
                         {
 
                             newInfoData.push({
@@ -283,22 +279,23 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
     useEffect(() => {
         if(time_delay !== 0)
         {
-            if(co2 === null)            //!< this is for the total component always render the first time and then the next time will be setTimeOut
+            if(infoData === null)            //!< this is for the total component always render the first time and then the next time will be setTimeOut
             {
                 verify_and_get_data(get_information_data, callbackSetSignIn, backend_host, api_informationtag); 
             }
             else
             {
-                setTimeout(()=>{
+                const timer = setTimeout(()=>{
                         verify_and_get_data(get_information_data, callbackSetSignIn, backend_host, api_informationtag); 
-                    }, time_delay)
+                    }, time_delay);
+                return () => clearTimeout(timer);
             }
         }
         else
         {
             verify_and_get_data(get_information_data, callbackSetSignIn, backend_host, api_informationtag); 
         }
-    },[])
+    },[infoData, nodeData]);
 
 
 
@@ -315,17 +312,19 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
             :
             <Box 
                 m="30px"
-                
+                width="100%"
             >
-                <Box>
                     <Box display="flex" justifyContent="center">
-                        <Header title="Information" fontSize="22px"/>
+                        <Header title="Information" fontSize="30px"/>
                     </Box>
+
+                    <Box m="20px"/>
+
                     <Box display="flex" 
                          marginLeft={{ xs: "5px", md: "40px", lg: "60px" }} // Adjust margins based on screen size
                          marginRight={{ xs: "5px", md: "40px", lg: "60px"}} // Adjust margins based on screen size
                     >
-                            <Header title="Current conditions:" fontSize="18px"/>
+                            <Header title="Current conditions:" fontSize="25px"/>
                     </Box>
                     {/* Current condition enviroment */}
                     <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" 
@@ -342,7 +341,7 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
                                                 // backgroundColor: "black",
                                                 // padding: "5px 8px",
                                                 // "min-width": "30px",
-                                                fontSize: "18px",
+                                                fontSize: "20px",
                                                 fontWeight: 500,
                                                 }}>
                                                     {`${each_element_in_infoData["title"]}`}
@@ -372,13 +371,17 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
                         }
 
                     </Box>
+
+                    <Box m="20px"/>
+
                     {/* Nodes avvailable */}
                     <Box display="flex" 
                          marginLeft={{ xs: "5px", md: "40px", lg: "60px" }} // Adjust margins based on screen size
                          marginRight={{ xs: "5px", md: "40px", lg: "60px"}} // Adjust margins based on screen size
                     >
-                            <Header title="Nodes available:" fontSize="18px"/>
+                            <Header title="Nodes available:" fontSize="25px"/>
                     </Box>
+
                     {/* Current condition enviroment */}
                     <Box>
                     {
@@ -409,7 +412,7 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
                                             // backgroundColor: "black",
                                             // padding: "5px 8px",
                                             // "min-width": "30px",
-                                            fontSize: "18px",
+                                            fontSize: "20px",
                                             fontWeight: 500,
                                             }}>
                                                 {`${sensor_content.slice(0, -2)}`}
@@ -431,7 +434,6 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
                     </Box>
                     
                 </Box>
-            </Box>
 
             
             }

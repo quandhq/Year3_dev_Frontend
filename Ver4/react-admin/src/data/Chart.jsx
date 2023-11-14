@@ -10,9 +10,12 @@ import VictoryLineChart from "../components/VictoryChart/VictoryLineChart"
 import Header from "../components/Header"
 import VictoryBarChartV2 from "../components/VictoryChart/VictoryBarChartVert2"
 import {Button} from "@mui/material";
-import SmallFilter from "./SmallFilter"
+import SmallFilter from "./SmallFilter";
+import Container from "@mui/material/Container";
+import FilterNode from "../components/RoomMap/FilterNode";
+import FilterParameter from "../components/RoomMap/FilterParameter";
 
-const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, nodeIdFilter}) => {
+const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, apiInformationTag}) => {
     const dict_filter = {"1D": 1, "1W": 2, "1M": 3, "6M": 4, "1Y": 5}
 
     const [isLoading, setIsLoading] = useState(true)
@@ -21,7 +24,10 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, n
     const para_filter_dict = {0: "all", 1: "temp", 2: "hum", 3: "co2", 4: "tvoc", 5: "light", 6: "dust"};
     const para_name = {0: "All", 1: "Temperature", 2: "Humidity", 3: "Co2", 4: "TVOC", 5: "Light", 6: "Dust"};
     const backend_host = host;
+    const [paraFilter, setParaFilter] = useState(1);
+    const [nodeIdFilter, setNodeIdFilter] = useState(0);
     const url = `http://${backend_host}/api/v1.1/monitor/data?room_id=${room_id}&filter=${numberOfData}&node_id=${nodeIdFilter}`;
+
 
     const verify_and_get_data = async (fetch_data_function, callbackSetSignIn, backend_host, url) => 
     {
@@ -188,8 +194,24 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, n
 
 
     useEffect(() => {
-        
-        verify_and_get_data(get_chart_data, callbackSetSignIn, host, url);
+        if(timedelay === 0)
+        {
+            verify_and_get_data(get_chart_data, callbackSetSignIn, host, url);
+        }
+        else
+        {
+            if(dataChart.temp === null)
+            {
+                verify_and_get_data(get_chart_data, callbackSetSignIn, host, url);
+            }
+            else
+            {
+                const timer = setTimeout(()=>{
+                    verify_and_get_data(get_chart_data, callbackSetSignIn, host, url);
+                }, timedelay);
+                return () => clearTimeout(timer);
+            }
+        }
         // if(optionData==="now")
         // {
         //     if(dataChart.co2 === null)
@@ -207,12 +229,106 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, paraFilter, n
         // {
         //     verify_and_get_data(get_chart_data, callbackSetSignIn, host, url);
         // }
-    },[isLoading])
+    },[isLoading, dataChart])
 
     
 
     return (
         <>
+        {/* Container of filterNode */}
+        <Grid
+            container
+        >
+            <Grid
+                item={true}
+                xs={12}
+                sm={12}
+                lg={6}
+                display="flex"
+                direction="column"
+                alignItems="center"
+                justify="center"
+                        
+            >
+                
+                    <Box
+                        display="flex" 
+                        flexDirection="column"
+                        justifyContent="center" 
+                    >
+                        <Box>
+                            <Header title={"Filtered by sensor id: "} fontSize={"20px"} />
+                        </Box>
+                        <Box
+                            display="flex" 
+                            flexDirection="row"
+                            // justifyContent="center" 
+                            alignItems="center"
+                            ml="40px"
+                            mt="6px"
+                        >
+                            <FilterNode  setNodeIdFilter={setNodeIdFilter}
+                                        apiInformationTag={apiInformationTag} 
+                                        callbackSetSignIn={callbackSetSignIn}
+                                        backend_host={backend_host}
+                                        setIsLoadingChart={setIsLoading}
+                            />
+                            
+                        </Box>
+                    </Box>
+
+            </Grid>
+
+            <Grid
+                paddingLeft="10px"
+                item={true}
+                xs={12}
+                sm={12}
+                lg={6}
+                display="flex"
+                direction="column"
+                alignItems="center"
+                justify="center"
+                        
+            >
+                {/* Container of filterParameter */}
+                
+                    <Box
+                        display="flex" 
+                        flexDirection="column"
+                        justifyContent="center" 
+                    >
+                        <Box>
+                            <Header title={"Filtered by enviroment parameter: "} fontSize={"20px"} />
+                        </Box>
+                        <Box
+                            display="flex" 
+                            flexDirection="row"
+                            // justifyContent="center" 
+                            alignItems="center"
+                            ml="40px"
+                            mt="6px"
+                        >
+                            <FilterParameter  
+                                setParaFilter={setParaFilter}
+                                apiInformatiionTag={apiInformationTag} 
+                                callbackSetSignIn={callbackSetSignIn}
+                                backend_host={backend_host}
+                                setIsLoadingChart={setIsLoading}
+                            />
+                            <Box m={1} />
+                        </Box>
+                    </Box>
+
+            </Grid>
+
+        </Grid>
+
+
+        <Box m="20px"/>
+        
+
+        
         <SmallFilter  setNumberOfData={setNumberOfData} setDataChart={setDataChart} setIsLoading={setIsLoading}/>
         {
             isLoading ? 

@@ -5,9 +5,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
-import { tokens } from '../theme';
+import { tokens } from '../../theme';
 
-const FilterParameter = ({setParaFilter, apiInformatiionTag, callbackSetSignIn, backend_host}) => 
+const FilterParameter = ({setParaFilter, apiInformatiionTag, callbackSetSignIn, backend_host, setIsLoadingChart}) => 
 {
 	const theme = useTheme();
     const colors = tokens(theme.palette.mode);

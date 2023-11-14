@@ -9,7 +9,7 @@ import { json } from "react-router-dom";
 import { Slider } from '@mui/material';
 import { host } from "../../App";
 
-const Control = ({room_id, callbackSetSignIn}) =>
+const Control = ({room_id, callbackSetSignIn, actuatorStatus}) =>
 {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -229,7 +229,8 @@ const Control = ({room_id, callbackSetSignIn}) =>
                     >
                                 +
                     </Button> */}
-
+                    {
+                    actuatorStatus !== 0 ? 
                     <Button
                         sx={{
                             backgroundColor: "black",
@@ -245,6 +246,10 @@ const Control = ({room_id, callbackSetSignIn}) =>
                         {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
                         Submit
                     </Button>
+                    :
+                    <></>
+                    }
+                    
 
                     {/* <Button
                         sx={{

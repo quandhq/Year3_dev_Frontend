@@ -18,12 +18,12 @@ import Chart from "../../data/Chart";
 import {host} from "../../App";
 import InformationTag from "../../components/InformationTag";
 import { useLocation } from "react-router-dom"; 
-import RoomMap from "../../components/RoomMap";
-import FilterNode from "../../components/FilterNode";
-import FilterParameter from "../../components/FilterParameter";
+import RoomMap from "../../components/RoomMap/RoomMap";
+import FilterNode from "../../components/RoomMap/FilterNode";
+import FilterParameter from "../../components/RoomMap/FilterParameter";
 import AQI from "../../components/AQI";
 import SetTimer from "../../components/SetTimer";
-import ActuatorStatus from "../../components/Actuatortatus";
+import ActuatorStatus from "../../components/ActuatorStatus";
 
 const Dashboard = () => {
     const backend_host = host;
@@ -34,20 +34,19 @@ const Dashboard = () => {
     const colors = tokens(theme.palette.mode);
     const callbackSetSignIn = useContext(UserContext);
     const [id, setId] = useState(1);
-    const [nodeIdFilter, setNodeIdFilter] = useState(0);
     const [optionData, setOptionData] = useState("now");        //change option to show different Chart
     const [optionChartData, setOptionChartData] = useState("now")
     const [unixTimestampStart, setUnixTimestampStart] = useState(0);
     const [unixTimestampEnd, setUnixTimestampEnd] = useState(0);
     const apiRealtimeChart = `http://${backend_host}/api/v1.1/monitor/data?room_id=${room_id}`; 
 
-    const apiHistoryChart = `http://${backend_host}/api/v1.1/monitor/data/history?room_id=${room_id}&node_id=${nodeIdFilter}&time_start=${unixTimestampStart}&time_end=${unixTimestampEnd}&option=${optionChartData}`;
-    const [apiHistoryChartState, setApiHistoryChartState] = useState(apiHistoryChart);
+    // const apiHistoryChart = `http://${backend_host}/api/v1.1/monitor/data/history?room_id=${room_id}&node_id=${nodeIdFilter}&time_start=${unixTimestampStart}&time_end=${unixTimestampEnd}&option=${optionChartData}`;
+    // const [apiHistoryChartState, setApiHistoryChartState] = useState(apiHistoryChart);
     const apiInformationTag = `http://${backend_host}/api/room/information_tag?room_id=${room_id}`;
     
-    const [paraFilter, setParaFilter] = useState(1);
+    
 
-    const para_filter_dict = {0: "all", 1: "temp", 2: "hum", 3: "co2", 4: "tvoc", 5: "light"};
+    const [actuatorStatus, setActuatorStatus] = useState(0);
     
 
 
@@ -184,7 +183,8 @@ const Dashboard = () => {
         <Container maxWidth="xl">
             {/* Container of Information, overall quality, controlling, image of room  */}
             <Grid
-                container={true}
+                container
+                alignItems="stretch"
                 spacing={0}
                 style={{
                         display: "flex", 
@@ -203,10 +203,10 @@ const Dashboard = () => {
                     md={12}
                     lg={8}
                     container="true"
-                    display="flex"
-                    direction="column"
-                    width="100%"
-                    height="100%"
+                    // display="flex"
+                    // direction="column"
+                    // width="100%"
+                    // height="100%"
                     // alignItems="center"
                     // justifyItems="center"
 
@@ -248,18 +248,21 @@ const Dashboard = () => {
                         sx={{boxShadow: 1,
                             borderRadius: '5px', 
                             backgroundColor: "white"}}
+                        display="flex"
+                        alignItems="center"
+                        justifyItems="center"    
                         >
 
                         
                                 <InformationTag url={apiInformationTag} 
                                     callbackSetSignIn={callbackSetSignIn} 
-                                    time_delay={0}/>
+                                    time_delay={5000}/>
                                 
                     </Box>
                     
 
                     {/* Controling */}
-                    <Box mt="20px"
+                    {/* <Box mt="20px"
 
                     >
                     
@@ -268,14 +271,13 @@ const Dashboard = () => {
                             spacing={1}
                             // style={{display: "flex", height: "100%"}}
                         >
-                            {/* auto control */}
                                 <Grid
                                 paddingRight="10px"
                                     item={true}
                                     xs={12}
                                     sm={12}
                                     md={12}
-                                    lg={8}
+                                    lg={12}
                                     display="flex"
                                     flexDirection="column"
                                     alignItems="center"
@@ -308,38 +310,9 @@ const Dashboard = () => {
 
                                 </Grid>
                                 
-                                <Grid
-                                    paddingLeft="10px"
-                                    item={true}
-                                    xs={12}
-                                    sm={12}
-                                    lg={4}
-                                    display="flex"
-                                    direction="column"
-                                    alignItems="center"
-                                    justify="center"
-                                    
-                                >
-                                    <Box 
-                                        sx={{boxShadow: 1,
-                                            borderRadius: '5px', 
-                                            backgroundColor: "white"}}
-                                        width="100%"
-                                        height="100%"
-                                        display="flex"
-                                        flexDirection="column"
-                                        alignItems="center"
-                                        justify="center"
-                                    >
-                                        <Box mt="10px">
-
-                                        <Header title="Manual Control" fontSize="20px"/>
-                                        <Control room_id={room_id} callbackSetSignIn={callbackSetSignIn}/>
-                                        </Box>
-                                    </Box>
-                            </Grid>  
+                                  
                         </Grid>
-                    </Box>
+                    </Box> */}
 
                 </Grid>
 
@@ -395,28 +368,24 @@ const Dashboard = () => {
             </Box> */}
             <Grid
                 container
+                alignItems="stretch"
                 style={{
                         display: "flex", 
                         height: "100%", 
                         // backgroundColor: "red"
                         marginTop: '20px',
                     }}
-                justify="space-between" alignItems="center"
+                justify="space-between" 
             >
                 <Grid
                     paddingRight="10px"
                     xs={12}
                     sm={12}
                     md={12}
-                    lg={8}
+                    lg={6}
                     container="true"
                     display="flex"
                     direction="column"
-                    width="100%"
-                    height="100%"
-
-                    
-
                 >
                     <Box 
                         sx={{boxShadow: 1,
@@ -427,30 +396,53 @@ const Dashboard = () => {
                         display="flex"
                         flexDirection="column"
                         alignItems="center"
-                        justify="center"
+                        justifyContent="center"
                     >
                         <Box mt="10px" mb="15px">
+                            <Header title="Air-conditioning timer:" fontSize="20px"/>
                             <SetTimer room_id={room_id} callbackSetSignIn={callbackSetSignIn}/>
                         </Box>
                     </Box>
                     
                 </Grid>
                 <Grid
+                        paddingLeft="10px"
+                        item={true}
+                        xs={12}
+                        sm={12}
+                        lg={3}
+                        display="flex"
+                        direction="column"
+                        alignItems="center"
+                        justify="center"
+                        
+                    >
+                        <Box 
+                            sx={{boxShadow: 1,
+                                borderRadius: '5px', 
+                                backgroundColor: "white"}}
+                            width="100%"
+                            height="100%"
+                            display="flex"
+                            flexDirection="column"
+                            alignItems="center"
+                            justifyContent="center"
+                        >
+                            <Box mt="10px" mb="10px">
+                                <Header title="Manual Control" fontSize="20px"/>
+                                <Control room_id={room_id} callbackSetSignIn={callbackSetSignIn} actuatorStatus={actuatorStatus}/>
+                            </Box>
+                        </Box>
+                </Grid>
+                <Grid
                     paddingLeft="10px"
                     xs={12}
                     sm={12}
                     md={12}
-                    lg={4}
+                    lg={3}
                     container="true"
                     display="flex"
                     direction="column"
-                    width="100%"
-                    height="100%"
-                    // alignItems="center"
-                    // justifyItems="center"
-
-                    
-
                 >
                     <Box
                         sx={{boxShadow: 1,
@@ -461,17 +453,17 @@ const Dashboard = () => {
                         display="flex"
                         flexDirection="column"
                         alignItems="center"
-                        justify="center"
+                        justifyContent="center"
                     >
                         <Box mt="10px" mb="15px"
                         display="flex"
-                        flexDirection="row"
+                        flexDirection="column"
                         alignItems="center"
                         justify="center">
 
                             <Header title="Actuator Status:" fontSize="20px"/>
                             <Box m="10px" />
-                            <ActuatorStatus room_id={room_id} />
+                            <ActuatorStatus room_id={room_id} setActuatorStatus={setActuatorStatus} callbackSetSignIn={callbackSetSignIn}/>
                         </Box>
                     </Box>
 
@@ -664,66 +656,7 @@ const Dashboard = () => {
                 </Box> */}
                 {/* End option chase back */}
 
-                {/* Container of filterNode */}
-                <Container maxWidth="lg"
-                    sx={{ marginTop: '20px' }}
-                > 
-                    <Box
-                        display="flex" 
-                        flexDirection="column"
-                        justifyContent="center" 
-                    >
-                        <Box>
-                            <Header title={"Filtered by sensor id: "} fontSize={"20px"} />
-                        </Box>
-                        <Box
-                            display="flex" 
-                            flexDirection="row"
-                            // justifyContent="center" 
-                            alignItems="center"
-                            ml="40px"
-                            mt="6px"
-                        >
-                            <FilterNode  setNodeIdFilter={setNodeIdFilter}
-                                        apiInformatiionTag={apiInformationTag} 
-                                        callbackSetSignIn={callbackSetSignIn}
-                                        backend_host={backend_host}
-                            />
-                            
-                        </Box>
-                    </Box>
-                </Container>
-
-                {/* Container of filterParameter */}
-                <Container maxWidth="lg"
-                    sx={{ marginTop: '20px' }}
-                > 
-                    <Box
-                        display="flex" 
-                        flexDirection="column"
-                        justifyContent="center" 
-                    >
-                        <Box>
-                            <Header title={"Filtered by enviroment parameter: "} fontSize={"20px"} />
-                        </Box>
-                        <Box
-                            display="flex" 
-                            flexDirection="row"
-                            // justifyContent="center" 
-                            alignItems="center"
-                            ml="40px"
-                            mt="6px"
-                        >
-                            <FilterParameter  
-                                setParaFilter={setParaFilter}
-                                apiInformatiionTag={apiInformationTag} 
-                                callbackSetSignIn={callbackSetSignIn}
-                                backend_host={backend_host}
-                            />
-                            <Box m={1} />
-                        </Box>
-                    </Box>
-                </Container>
+                
 
                 {/* Container of Chart */}
                 <Grid
@@ -740,10 +673,9 @@ const Dashboard = () => {
                                 <Chart 
                                         room_id={room_id}
                                         callbackSetSignIn={callbackSetSignIn} 
-                                        timedelay={60000} 
+                                        timedelay={1000} 
                                         optionData={optionChartData}
-                                        paraFilter={paraFilter}
-                                        nodeIdFilter={nodeIdFilter}
+                                        apiInformationTag={apiInformationTag}
                                 />
                                 :
                                 <Chart 
@@ -751,8 +683,7 @@ const Dashboard = () => {
                                         callbackSetSignIn={callbackSetSignIn} 
                                         timedelay={0} 
                                         optionData={optionChartData}
-                                        paraFilter={paraFilter}
-                                        nodeIdFilter={nodeIdFilter}
+                                        apiInformationTag={apiInformationTag}
                                 />
                             }
                             </>

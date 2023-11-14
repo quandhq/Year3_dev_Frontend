@@ -4,9 +4,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
-import { tokens } from '../theme';
+import { tokens } from '../../theme';
 
-export default function FilterNode({setNodeIdFilter, apiInformatiionTag, callbackSetSignIn, backend_host}) {
+export default function FilterNode({setNodeIdFilter, apiInformationTag, callbackSetSignIn, backend_host, setIsLoadingChart}) {
 	const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 	const [isLoading, setIsLoading] = useState(true);
@@ -179,7 +179,7 @@ export default function FilterNode({setNodeIdFilter, apiInformatiionTag, callbac
 
 
   useEffect(()=>{
-		verify_and_get_data(get_sensor_node_info, callbackSetSignIn, backend_host, apiInformatiionTag);
+		verify_and_get_data(get_sensor_node_info, callbackSetSignIn, backend_host, apiInformationTag);
   },[])
 
   return (
@@ -251,6 +251,7 @@ export default function FilterNode({setNodeIdFilter, apiInformatiionTag, callbac
 				onClick={()=>{
 					setNodeIdFilter(sensorNodeIdState);
 					// setApi(`http://${backend_host}/api/get/daily_data/${id}`)
+					setIsLoadingChart(true);
 				}}
 			>
 				Submit
