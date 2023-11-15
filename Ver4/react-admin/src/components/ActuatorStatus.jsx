@@ -55,8 +55,9 @@ const ActuatorStatus = ({room_id, setActuatorStatus, callbackSetSignIn}) =>
         }
         else
         {
-            alert("Some error happened with Backend! Error: " + data_response["Response"])
+            console.log("Some error happened with Backend!")
             setStatus(0);
+            setIsLoading(false);
         }
 
     }
