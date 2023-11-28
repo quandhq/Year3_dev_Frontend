@@ -223,6 +223,7 @@ export default function NodeConfig({roomIdForNodeConfig, setConfig, roomSize}) {
                                 <TableCell sx={{"font-weight": "600", "font-size": "15px"}}>Position x</TableCell>
                                 <TableCell sx={{"font-weight": "600", "font-size": "15px"}}>Position y</TableCell>
                                 <TableCell sx={{"font-weight": "600", "font-size": "15px"}}>Funtion</TableCell>
+                                <TableCell sx={{"font-weight": "600", "font-size": "15px"}}>Mac Address</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -232,6 +233,8 @@ export default function NodeConfig({roomIdForNodeConfig, setConfig, roomSize}) {
                                 <TableCell sx={{"font-weight": "400", "font-size": "13px"}}>{row.x_axis}</TableCell>
                                 <TableCell sx={{"font-weight": "400", "font-size": "13px"}}>{row.y_axis}</TableCell>
                                 <TableCell sx={{"font-weight": "400", "font-size": "13px"}}>{row.function}</TableCell>
+                                <TableCell sx={{"font-weight": "400", "font-size": "13px"}}>{row.mac}</TableCell>
+
                                 
                                 <TableCell 
                                 sx={{

@@ -18,7 +18,7 @@ export default function ConfirmNode({dataCreateNode}) {
             required
             id="node_id"
             name="node_id"
-            label="Node id"
+            label="Node id (Node id will be updated later!)"
             fullWidth
             variant="standard"
             InputProps={{
@@ -71,6 +71,21 @@ export default function ConfirmNode({dataCreateNode}) {
                 readOnly: true,
               }}
             value={dataCreateNode.function}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            required
+            id="mac"
+            name="mac"
+            label="Mac address"
+            fullWidth
+            autoComplete="mac"
+            variant="standard"
+            InputProps={{
+                readOnly: true,
+              }}
+            value={dataCreateNode.mac}
           />
         </Grid>
       </Grid>

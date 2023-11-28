@@ -24,7 +24,7 @@ export default function NewNode({setDataCreateNode, dataCreateNode}) {
                 required
                 id="node_id"
                 name="node_id"
-                label="Node id"
+                label="Node id (Node id will be updated later!)"
                 fullWidth
                 autoComplete="room_id"
                 variant="standard"
@@ -72,9 +72,25 @@ export default function NewNode({setDataCreateNode, dataCreateNode}) {
                         label="Function"
                     >
                         <MenuItem value={"sensor"}>Sensor</MenuItem>
-                        <MenuItem value={"actuator"}>Actuator</MenuItem>
+                        <MenuItem value={"air"}>Air conditioning</MenuItem>
+                        <MenuItem value={"fan"}>Fan</MenuItem>
+
                     </Select>
                 </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+            <TextField
+                required
+                id="mac"
+                name="mac"
+                label="Mac address"
+                fullWidth
+                autoComplete="mac"
+                variant="standard"
+                value={dataCreateNode.mac}
+                // onInput={(e)=>{e.target.value = e.target.value.replace(/[^0-9]/g, '')}}
+                onChange={(e)=>setDataCreateNode({...dataCreateNode, mac: e.target.value})}
+            />
             </Grid>
         </Grid>
     </React.Fragment>

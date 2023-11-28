@@ -180,6 +180,7 @@ export default function NodeChange({configurationNodeAll, callbackSetSignIn, nod
                                                         "x_axis": null,
                                                         "y_axis": null,
                                                         "function": null,
+                                                        "mac": null,
                                                         });
     const [activeStep, setActiveStep] = React.useState(0);
     const name_lookup = {
@@ -187,6 +188,7 @@ export default function NodeChange({configurationNodeAll, callbackSetSignIn, nod
         "x_axis": "Position X",
         "y_axis": "Position Y",
         "function": "Function",
+        "mac": "Mac address",
     }
     const handleNext = () => {
         let flag = 1;
@@ -207,6 +209,18 @@ export default function NodeChange({configurationNodeAll, callbackSetSignIn, nod
                         if((configurationNodeAll[i].node_id).toString() === dataCreateNode[prop].toString())
                         {
                             alert("Node id've already existed!");
+                            flag = 0;
+                            break;
+                        }
+                    }
+                }
+                if(prop === "mac")
+                {
+                    for(let i=0; i<configurationNodeAll.length; ++i)
+                    {
+                        if((configurationNodeAll[i].node_id).toString() === dataCreateNode[prop].toString())
+                        {
+                            alert("Mac address've already existed!");
                             flag = 0;
                             break;
                         }

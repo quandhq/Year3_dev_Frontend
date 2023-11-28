@@ -1,14 +1,10 @@
 import { useState , createContext} from "react";
 import { Routes, Route } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
-import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
-// import Pie from "./scenes/pie";
-// import FAQ from "./scenes/faq";
 import Landing from "./scenes/landing";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
-import Welcome from "./scenes/welcome";
 import SignIn from "./scenes/signIn";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -27,9 +23,7 @@ export const  UserContext = createContext();
 function App() {
     const [isSignIn, setIsSignin] = useState(debug_mode);		//set true for debungging
     const [signUp, setSignUp] = useState(false);
-    const [isSuperuser, setIsSuperuser] = useState(false);
     const [theme, colorMode] = useMode();
-    const [isSidebar, setIsSidebar] = useState(true);
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
         <UserContext.Provider value={setIsSignin}>
@@ -53,8 +47,6 @@ function App() {
                             <Route path="" element={<Landing />} />
                             <Route path="/landing/dashboard" element={<Dashboard/>} />
                             <Route path="/landing" element={<Landing />} />
-                            <Route path="/about" element={<About />} />
-                            <Route path="/contact" element={<Contact />} />
                             {
                                 localStorage.getItem("is_superuser").toString() === "1"
                                 &&
