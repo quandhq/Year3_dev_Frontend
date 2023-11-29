@@ -78,7 +78,7 @@ export default function ConfirmNode({dataCreateNode}) {
             required
             id="mac"
             name="mac"
-            label="Mac address"
+            label="Mac address (Mac address must be unique from all nodes!)"
             fullWidth
             autoComplete="mac"
             variant="standard"
