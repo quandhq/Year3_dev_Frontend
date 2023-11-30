@@ -33,6 +33,13 @@ export default function NodeConfig({roomIdForNodeConfig, setConfig, roomSize}) {
     const api = `http://${host}/api/configuration/node/command?room_id=${roomIdForNodeConfig}`
     const [configurationNodeAll, setConfigurationNodeAll] = useState([]);
     const [isLoadingNodeConfig, setIsLoadingNodeConfig] = useState(true);
+
+    const dict_function = {
+        "sensor": "Sensor",
+        "air": "Air conditioner",
+        "fan": "Fan",
+    }
+
     const getConfigurationNodeAllData = async (url, access_token) => 
     {
 
@@ -224,6 +231,7 @@ export default function NodeConfig({roomIdForNodeConfig, setConfig, roomSize}) {
                                 <TableCell sx={{"font-weight": "600", "font-size": "15px"}}>Position y</TableCell>
                                 <TableCell sx={{"font-weight": "600", "font-size": "15px"}}>Funtion</TableCell>
                                 <TableCell sx={{"font-weight": "600", "font-size": "15px"}}>Mac Address</TableCell>
+                                <TableCell sx={{"font-weight": "600", "font-size": "15px"}}>Status</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -232,8 +240,10 @@ export default function NodeConfig({roomIdForNodeConfig, setConfig, roomSize}) {
                                 <TableCell sx={{"font-weight": "400", "font-size": "13px"}}>{row.node_id}</TableCell>
                                 <TableCell sx={{"font-weight": "400", "font-size": "13px"}}>{row.x_axis}</TableCell>
                                 <TableCell sx={{"font-weight": "400", "font-size": "13px"}}>{row.y_axis}</TableCell>
-                                <TableCell sx={{"font-weight": "400", "font-size": "13px"}}>{row.function}</TableCell>
+                                <TableCell sx={{"font-weight": "400", "font-size": "13px"}}>{dict_function[row.function]}</TableCell>
                                 <TableCell sx={{"font-weight": "400", "font-size": "13px"}}>{row.mac}</TableCell>
+                                <TableCell sx={{"font-weight": "400", "font-size": "13px"}}>{row.status === "sync" ? "Active" : "Deleted"}</TableCell>
+
 
                                 
                                 <TableCell 
@@ -259,7 +269,12 @@ export default function NodeConfig({roomIdForNodeConfig, setConfig, roomSize}) {
                                           },
                                         }}
                                 >
-                                    <DialogConfirmDeleteNode callbackSetSignIn={callbackSetSignIn} NodeConfigLoading={{0: isLoadingNodeConfig, 1: setIsLoadingNodeConfig}} id={row.id}/>
+                                    {
+                                        row.status === "sync" ?
+                                        <DialogConfirmDeleteNode callbackSetSignIn={callbackSetSignIn} NodeConfigLoading={{0: isLoadingNodeConfig, 1: setIsLoadingNodeConfig}} id={row.id}/>
+                                        :
+                                        <></>
+                                    }
                                 </TableCell>
                             </TableRow>
                         ))}
