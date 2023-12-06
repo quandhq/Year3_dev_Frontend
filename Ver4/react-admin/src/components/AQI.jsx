@@ -132,7 +132,8 @@ const AQI = ({room_id, callbackSetSignIn}) =>
                 }
             }
             
-            new_data["hourly"] = data.hourly
+            new_data["hourly"] = data.hourly;
+            new_data["time"] = data.time;
             setAqi(new_data);
             // alert(aqi["level"])
             setDial(data["hourly"], new_data["level"]);
@@ -306,6 +307,19 @@ const AQI = ({room_id, callbackSetSignIn}) =>
                     <label class="label" id="meter-label"
 
                     >{aqi["level"]}</label>
+                    <br/>
+                    <span id='aqiwgtutime' style={{ fontSize: '12px', fontWeight: 'light'}}>
+                       Updated on {
+                                (()=>{
+                                    const new_time = aqi["time"];
+                                    const utcDate = new Date(new_time * 1000); // Convert seconds to milliseconds
+                                    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'};
+                                    const formattedDateTime = utcDate.toLocaleDateString('en-US', options);
+
+                                    return formattedDateTime;
+                                    })()   //run this function
+                            }
+                    </span>
                 </div>
                     
                     

@@ -24,6 +24,7 @@ import FilterParameter from "../../components/RoomMap/FilterParameter";
 import AQI from "../../components/AQI";
 import SetTimer from "../../components/SetTimer";
 import ActuatorStatus from "../../components/ActuatorStatus";
+import AqiRef from "../../components/AqiRef/AqiRef";
 
 const Dashboard = () => {
     const backend_host = host;
@@ -195,13 +196,48 @@ const Dashboard = () => {
 
 
             >
+                <Grid
+                    paddingRight="10px"
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    lg={4}
+                    container="true"
+                    // display="flex"
+                    // direction="column"
+                    // width="100%"
+                    // height="100%"
+                    // alignItems="center"
+                    // justifyItems="center"
+
+                    
+
+                >
+                    <Box 
+                        sx={{boxShadow: 1,
+                            borderRadius: '5px', 
+                            backgroundColor: "white"}}
+                        width="100%"
+                        height="100%"
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
+                        // justify="center"
+
+                            justifyContent="center"
+                    >
+                            <AqiRef callbackSetSignIn={callbackSetSignIn} time_delay={60000}/>
+                        </Box>
+
+                    
+                </Grid>
                 {/* Container of everything except image of room, this is set to the most left */}
                 <Grid
                     paddingRight="10px"
                     xs={12}
                     sm={12}
                     md={12}
-                    lg={8}
+                    lg={4}
                     container="true"
                     // display="flex"
                     // direction="column"
@@ -240,7 +276,7 @@ const Dashboard = () => {
                     </Grid> */}
                     {/* Information */}
                     
-                    <Box
+                    {/* <Box
                         width="100%"
                         // ml="80px"
                         // mt="20px"
@@ -251,7 +287,20 @@ const Dashboard = () => {
                         display="flex"
                         alignItems="center"
                         justifyItems="center"    
-                        >
+                        > */}
+                    <Box 
+                        sx={{boxShadow: 1,
+                            borderRadius: '5px', 
+                            backgroundColor: "white"}}
+                        width="100%"
+                        height="100%"
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
+                        justify="center"
+
+                            justifyContent="center"
+                    >
 
                         
                                 <InformationTag url={apiInformationTag} 
