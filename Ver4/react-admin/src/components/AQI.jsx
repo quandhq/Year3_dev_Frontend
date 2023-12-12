@@ -139,6 +139,14 @@ const AQI = ({room_id, callbackSetSignIn}) =>
             setDial(data["hourly"], new_data["level"]);
             // alert(data["hourly"])
         }
+        else
+        {
+            const data = await response.json();
+            let new_data = {};
+            new_data["time"] = 0;
+            setAqi(new_data);   
+            console.log(`Error code ${response.status}: ${data["Response"]} `);
+        }
     }
 
     const verify_and_get_data = async (fetch_data_function, callbackSetSignIn, backend_host, url) => 
@@ -308,18 +316,25 @@ const AQI = ({room_id, callbackSetSignIn}) =>
 
                     >{aqi["level"]}</label>
                     <br/>
-                    <span id='aqiwgtutime' style={{ fontSize: '12px', fontWeight: 'light'}}>
-                       Updated on {
-                                (()=>{
-                                    const new_time = aqi["time"];
-                                    const utcDate = new Date(new_time * 1000); // Convert seconds to milliseconds
-                                    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'};
-                                    const formattedDateTime = utcDate.toLocaleDateString('en-US', options);
+                    {
+                        aqi["time"] != 0 ?
+                        <span id='aqiwgtutime' style={{ fontSize: '12px', fontWeight: 'light'}}>
+                        Updated on {
+                                    (()=>{
+                                        const new_time = aqi["time"];
+                                        const utcDate = new Date(new_time * 1000); // Convert seconds to milliseconds
+                                        const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'};
+                                        const formattedDateTime = utcDate.toLocaleDateString('en-US', options);
 
-                                    return formattedDateTime;
-                                    })()   //run this function
-                            }
-                    </span>
+                                        return formattedDateTime;
+                                        })()   //run this function
+                                }
+                        </span>
+                        :
+                        <span id='aqiwgtutime' style={{ fontSize: '12px', fontWeight: 'light'}}>
+                            No data available!
+                        </span>
+                    }
                 </div>
                     
                     

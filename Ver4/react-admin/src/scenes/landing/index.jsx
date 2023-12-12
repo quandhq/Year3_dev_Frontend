@@ -19,11 +19,11 @@ import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-import logo_lab from "../../assets/logo_lab.png"
-import {host, UserContext} from "../../App"
-import room1_building from "../../assets/room1_building_cropped.svg"
-import room1 from "../../assets/room1.png"
-import plan from "../../assets/plan.svg"
+import logo_lab from "../../assets/logo_lab.png";
+import {host, UserContext} from "../../App";
+import room1_building from "../../assets/room1_building_cropped.svg";
+import room1 from "../../assets/room1.png";
+import plan from "../../assets/plan.svg";
 
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -68,8 +68,8 @@ const Landing = () => {
         4: room1_building,
     }
 
-    const backend_host = host 
-    const api_room_data = `http://${backend_host}/api/room`
+    const backend_host = host;
+    const api_room_data = `http://${backend_host}/api/room`;
 
     const get_room_data = async (url, access_token) => 
     {
@@ -372,8 +372,8 @@ const Landing = () => {
                                     <Button 
                                         size="small"
                                         sx={{
-                                            backgroundColor: colors.blueAccent[700],
-                                            color: colors.grey[100],
+                                            backgroundColor: "black",
+                                            color: "white",
                                             fontSize: "12px",
                                             fontWeight: "bold",
                                             padding: "5px 8px",

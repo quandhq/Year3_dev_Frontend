@@ -4,11 +4,14 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { host } from "../App";
 import { createContext } from "react";
+import Slider from '@mui/material/Slider';
+import Header from "./Header";
 
 
 const ActuatorStatus = ({room_id, setActuatorStatus, callbackSetSignIn}) => 
 {
     const [status, setStatus] = useState(null);
+    const [speed, setSpeed] = useState(0);
     const url = `http://${host}/api/actuator_status?room_id=${room_id}`;
     const url_set_command = `http://${host}/api/actuator_command`;
     const [isLoading, setIsLoading] = useState(true);
@@ -42,6 +45,7 @@ const ActuatorStatus = ({room_id, setActuatorStatus, callbackSetSignIn}) =>
             {
                 setStatus(1);
                 setActuatorStatus(1);
+                setSpeed(data_response.speed);
                 console.log(status);
                 setIsLoading(false);
             }
@@ -49,6 +53,7 @@ const ActuatorStatus = ({room_id, setActuatorStatus, callbackSetSignIn}) =>
             {
                 setStatus(0);
                 setActuatorStatus(0);
+                setSpeed(0);
                 console.log(status);
                 setIsLoading(false);
             }
@@ -97,7 +102,6 @@ const ActuatorStatus = ({room_id, setActuatorStatus, callbackSetSignIn}) =>
 
     const verify_and_get_data = async (fetch_data_function, callbackSetSignIn, backend_host, url, command) => 
     {
-
         const token = {access_token: null, refresh_token: null}
         // const backend_host = host;
         if(localStorage.getItem("access") !== null && localStorage.getItem("refresh") !== null)
@@ -143,7 +147,7 @@ const ActuatorStatus = ({room_id, setActuatorStatus, callbackSetSignIn}) =>
         const verifyRefreshToken  = async () =>
         {
             //call the API to verify access-token
-            const verify_refresh_token_API_endpoint = `http://${backend_host}/api/token/refresh`
+            const verify_refresh_token_API_endpoint = `http://${backend_host}/api/token/refresh`;
             const verify_refresh_token_API_data = 
             {
                 "refresh": token.refresh_token,
@@ -248,63 +252,95 @@ const ActuatorStatus = ({room_id, setActuatorStatus, callbackSetSignIn}) =>
         <h1>Loading ...</h1>
         :
         <Box
-            display="flex" flexDirection="column" alignItems="center" justifyContent="center" 
-            >
-                <Box
-                    sx={{
-                        width: '80px',
-                        height: '80px',
-                        borderRadius: '50%',
-                        border: "solid 2px",
-                        backgroundColor: status == 0 ? 'red' : "green",
-                    }}
-                    display="flex" flexDirection="row" alignItems="center" justifyContent="center"      
+            display = "flex"
+            flexDirection= "row"
+        >
+
+        
+            <Box
+                display="flex" flexDirection="column" alignItems="center" justifyContent="center" 
                 >
-                    <h1>{status == 0 ? "Off" : "On"}</h1>
-                </Box>
-                <Box m="5px" />
-                {
-                status === 0 ?
-                <Button
-                    sx={{
-                        backgroundColor: "black",
-                        fontSize: "14px",
-                        fontWeight: "bold",
-                        padding: "8px 18px",
+                    <Box
+                        sx={{
+                            width: '80px',
+                            height: '80px',
+                            borderRadius: '50%',
+                            border: "solid 2px",
+                            backgroundColor: status == 0 ? 'red' : "green",
                         }}
-                    variant="contained"
-                    onClick={
-                        () => { 
-                            verify_and_get_data(send_actuator_command, callbackSetSignIn, host, url_set_command, 1);
+                        display="flex" flexDirection="row" alignItems="center" justifyContent="center"      
+                    >
+                        <h1>{status == 0 ? "Off" : "On"}</h1>
+                    </Box>
+                    <Box m="5px" />
+                    {
+                    status === 0 ?
+                    <Button
+                        sx={{
+                            backgroundColor: "black",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                            padding: "8px 18px",
+                            
+                            }}
+
+                            
+                        variant="contained"
+                        onClick={
+                            () => { 
+                                verify_and_get_data(send_actuator_command, callbackSetSignIn, host, url_set_command, 1);
+                            }
                         }
+                    >
+                        {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
+                        Turn On
+                    </Button>
+                    :
+                    <Button
+                        sx={{
+                            backgroundColor: "black",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                            padding: "8px 18px",
+                            }}
+                        variant="contained"
+                        onClick={() => { 
+                            verify_and_get_data(send_actuator_command, callbackSetSignIn, host, url_set_command, 0);
+                        }
+                        }
+                    >
+                        {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
+                        Turn off
+                    </Button>
                     }
+                </Box>
+
+                <Box m="15px"/>
+
+                <Box sx={{ height: 150 }}
+                    display="flex"
+                    flexDirection="row"
+                    alignItems="center"
                 >
-                    {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
-                    Turn On
-                </Button>
-                :
-                <Button
+                <Slider
                     sx={{
-                        backgroundColor: "black",
-                        fontSize: "14px",
-                        fontWeight: "bold",
-                        padding: "8px 18px",
-                        }}
-                    variant="contained"
-                    onClick={() => { 
-                        verify_and_get_data(send_actuator_command, callbackSetSignIn, host, url_set_command, 0);
-                    }
-                    }
-                >
-                    {/* <DownloadOutlinedIcon sx={{ mr: "10px" }} /> */}
-                    Turn off
-                </Button>
-                }
+                    '& input[type="range"]': {
+                        WebkitAppearance: 'slider-vertical',
+                    },
+                    }}
+                    orientation="vertical"
+                    defaultValue={speed}
+                    aria-label="Temperature"
+                    valueLabelDisplay="auto"
+                    disabled
+                    // onKeyDown={preventHorizontalKeyboardNavigation}
+                />
+                <Header title="Speed" fontSize="15px"/>
+
+                </Box>
             </Box>
         }
         </>
-            
-        
     );
 }
 

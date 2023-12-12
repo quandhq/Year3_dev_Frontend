@@ -319,7 +319,9 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
             :
             <div>
                 <Box display="flex" flexDirection="column" justifyContent="center" >
-                    <span colSpan="2" style={{ textAlign: 'center', fontWeight: 'bold', width: '300px', fontSize: "20px" }} align="center" nowrap="true">Room information</span>
+                    <span colSpan="2" style={{ textAlign: 'center', fontWeight: 'bold', width: '300px', fontSize: "28px" }} align="center" nowrap="true">
+                        Room information
+                    </span>
                     <div style={{ fontSize: '16px', fontWeight: 'light' }}>
                     <span id='aqiwgtutime'>
                         Updated on {
@@ -338,6 +340,9 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
                         checkWidgetUpdateTime(1701738000, ' on Tuesday, Dec 5th 2023, 10:00 am', 'aqiwgtutime');
                     } catch (e) {}
                     </script> */}
+
+                    <Box m="20px" />
+
                 </div>
                     <span colSpan="2" style={{ textAlign: 'left', fontWeight: 'bold', width: '300px', fontSize: "15px" }} align="center" nowrap="true">
                         {(()=>{
@@ -355,7 +360,8 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
                     </span>
                 </Box>
             
-                
+            <Box m="20px" />
+
         <Box display="flex" justifyContent="center">
             
                 
