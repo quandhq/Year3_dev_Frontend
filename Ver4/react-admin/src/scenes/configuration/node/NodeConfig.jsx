@@ -245,7 +245,6 @@ export default function NodeConfig({roomIdForNodeConfig, setConfig, roomSize}) {
                                 <TableCell sx={{"font-weight": "400", "font-size": "13px"}}>{row.status === "sync" ? "Active" : "Deleted"}</TableCell>
 
 
-                                
                                 <TableCell 
                                 sx={{
                                     width: { xs:"100px", sm: "100px", md: "100px", lg: "100px" },

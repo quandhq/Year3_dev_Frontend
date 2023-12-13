@@ -21,11 +21,12 @@ import dust_icon from "../assets/dust.svg";
 import sound_icon from "../assets/sound.svg";
 import light_icon from "../assets/light.svg";
 import motion_icon from "../assets/motion.svg";
+import AQI from './AQI';
 
 
 
 
-const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
+const InformationTag = ({url, callbackSetSignIn, time_delay, room_id}) => {
     const backend_host = host;
     const api_informationtag = url;
     
@@ -177,7 +178,6 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
 
     const verify_and_get_data = async (fetch_data_function, callbackSetSignIn, backend_host) => 
     {
-
         const token = {access_token: null, refresh_token: null}
         // const backend_host = host;
         if(localStorage.getItem("access") !== null && localStorage.getItem("refresh") !== null)
@@ -318,49 +318,116 @@ const InformationTag = ({url, callbackSetSignIn, time_delay}) => {
             <h1>Loading...</h1>
             :
             <div>
-                <Box display="flex" flexDirection="column" justifyContent="center" >
-                    <span colSpan="2" style={{ textAlign: 'center', fontWeight: 'bold', width: '300px', fontSize: "28px" }} align="center" nowrap="true">
-                        Room information
-                    </span>
-                    <div style={{ fontSize: '16px', fontWeight: 'light' }}>
-                    <span id='aqiwgtutime'>
-                        Updated on {
-                                (()=>{
-                                    const new_time = infoData["time"];
-                                    const utcDate = new Date(new_time * 1000); // Convert seconds to milliseconds
-                                    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'};
-                                    const formattedDateTime = utcDate.toLocaleDateString('en-US', options);
+                <Box
+                    alignItems="left"
+                >
+                        <div className='aqiwidget aqiwidget-xxl' style={{ height: '420px; overflow: hidden;' }}>
+                            <div className='aqiwidget-table-x' style={{ width: '460px;' }}>
+                            <div style={{ textAlign: 'left; padding: 1px; padding-left: 5px; padding-right: 5px; line-height: 1.15;' }}>
 
-                                    return formattedDateTime;
-                                    })()   //run this function
-                            }
-                    </span>
-                    {/* <script>
-                    try {
-                        checkWidgetUpdateTime(1701738000, ' on Tuesday, Dec 5th 2023, 10:00 am', 'aqiwgtutime');
-                    } catch (e) {}
-                    </script> */}
+                            <Box>
+                                 
 
-                    <Box m="20px" />
+                            <table style={{ border: '0px solid black; valign: top; padding: 0px; margin: 0px; border-spacing: 0px; width: 100%;' }}>
+                                <tr>
+                                    <td nowrap="true">
+                                    <div className='aqiwgt-table-title' id='aqiwgttitle' style={{ width: '370px; overflow: hidden;' }}>
+                                        <span style={{ fontSize: '15px;' }}>
+                                        {/* <a href='https://aqicn.org/city/vietnam/hanoi/' title='Hanoi (Hà Nội)' className='aqihreftarget' id='aqiwgttitle1'> */}
+                                            <b>Room AQI</b>
+                                        {/* </a> */}
+                                        : 
+                                        </span>
+                                    </div>
+                                    </td>
+                                   
+                                    <td className='aqiwgtsharebtn' style={{ verticalAlign: 'text-top;min-width:22px;' }}>
+                                    
+                                    </td>
+                                    
+                                    </tr>
+                                </table>
+                            </Box>
+                            </div>
+                            </div>
+                        </div>
+                        </Box>
+                
+                
+                <AQI room_id={room_id} callbackSetSignIn={callbackSetSignIn} />
 
-                </div>
-                    <span colSpan="2" style={{ textAlign: 'left', fontWeight: 'bold', width: '300px', fontSize: "15px" }} align="center" nowrap="true">
-                        {(()=>{
-                            let data = "Sensor id: ";
-                            nodeData["sensor"].forEach((e)=>{data += e["node_id"]; data+= ", "})
-                            return data;
-                        })()}
-                    </span>
-                    <span colSpan="2" style={{ textAlign: 'left', fontWeight: 'bold', width: '300px', fontSize: "15px" }} align="center" nowrap="true">
-                        {(()=>{
-                            let data = "Actuator id: ";
-                            nodeData["actuator"].forEach((e)=>{data += e["node_id"]; data+= ", "})
-                            return data;
-                        })()}
-                    </span>
+
+                <Box
+
+                        >
+                    
+
+
+                    <div className='aqiwidget aqiwidget-xxl' style={{ height: '420px; overflow: hidden;' }}>
+                            <div className='aqiwidget-table-x' style={{ width: '460px;' }}>
+                            <div style={{ textAlign: 'left; padding: 1px; padding-left: 5px; padding-right: 5px; line-height: 1.15;' }}>
+
+                            <Box>
+                                 
+
+                            <table style={{ border: '0px solid black; valign: top; padding: 0px; margin: 0px; border-spacing: 0px; width: 100%;' }}>
+                                <tr>
+                                    <td nowrap="true">
+                                    <div className='aqiwgt-table-title' id='aqiwgttitle' style={{ width: '370px; overflow: hidden;' }}>
+                                        <span style={{ fontSize: '15px;' }}>
+                                        {/* <a href='https://aqicn.org/city/vietnam/hanoi/' title='Hanoi (Hà Nội)' className='aqihreftarget' id='aqiwgttitle1'> */}
+                                            <b>Room Information </b>
+                                        {/* </a> */}
+                                        : 
+                                        </span>
+                                        <span id='aqiwgtutime'>
+                                            Updated on {
+                                                    (()=>{
+                                                        const new_time = infoData["time"] - 7*60*60;
+                                                        const utcDate = new Date(new_time * 1000); // Convert seconds to milliseconds
+                                                        const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'};
+                                                        const formattedDateTime = utcDate.toLocaleDateString('en-US', options);
+
+                                                        return formattedDateTime;
+                                                        })()   //run this function
+                                                }
+                                        </span>
+                                    </div>
+                                    </td>
+                                   
+                                    <td className='aqiwgtsharebtn' style={{ verticalAlign: 'text-top;min-width:22px;' }}>
+                                    
+                                    </td>
+                                    
+                                    </tr>
+                                </table>
+                            </Box>
+                            </div>
+                            </div>
+                        </div>
+                        <Box display="flex" flexDirection="column" justifyContent="center" 
+                        alignItems="center"
+                        // justify="center"
+                        >
+                                <span colSpan="2" style={{ textAlign: 'left', fontWeight: 'bold', width: '300px', fontSize: "15px" }} align="center" nowrap="true">
+                                    {(()=>{
+                                        let data = "Sensor id: ";
+                                        nodeData["sensor"].forEach((e)=>{data += e["node_id"]; data+= ", "})
+                                        return data;
+                                    })()}
+                                </span>
+                                <span colSpan="2" style={{ textAlign: 'left', fontWeight: 'bold', width: '300px', fontSize: "15px" }} align="center" nowrap="true">
+                                    {(()=>{
+                                        let data = "Actuator id: ";
+                                        nodeData["actuator"].forEach((e)=>{data += e["node_id"]; data+= ", "})
+                                        return data;
+                                    })()}
+                                </span>
+                            
+                        </Box>
+
                 </Box>
             
-            <Box m="20px" />
 
         <Box display="flex" justifyContent="center">
             

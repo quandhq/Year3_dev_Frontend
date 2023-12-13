@@ -74,7 +74,7 @@ const RoomMap = ({room_id, callbackSetSignIn}) =>
         }
         catch(err)
         {
-            alert("Error happend while getting data. Error: " + err);
+            console.log("Error happend while getting data. Error: " + err);
         }
         if(response && response.status === 200)
         {   
@@ -302,7 +302,7 @@ const RoomMap = ({room_id, callbackSetSignIn}) =>
         }
     
         let data = {
-            max: max,
+            max: 40,
             data: points,
         };
 

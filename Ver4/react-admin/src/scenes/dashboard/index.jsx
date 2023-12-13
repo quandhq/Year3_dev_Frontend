@@ -117,7 +117,7 @@ const Dashboard = () => {
         m="10px"
     >
         {/* COntainer of Header Dashboard and onverall condition */}
-        <Container
+        {/* <Container
         >
             <Grid
                 container="true"
@@ -129,7 +129,6 @@ const Dashboard = () => {
                 
 
             >
-                {/* empty Box  */}
                 <Grid
                     item="true"
                     xs={12}
@@ -139,7 +138,6 @@ const Dashboard = () => {
                 >
 
                 </Grid>
-                {/* Header Dashboard */}
                 <Grid
                     item="true"
                     xs={12}
@@ -174,14 +172,17 @@ const Dashboard = () => {
                         </Box>
                 </Grid>
             </Grid>
-        </Container>
+        </Container> */}
 
         <Box m={4}/>
 
         
 
         {/* Container of all componment */}
-        <Container maxWidth="xl">
+        <Container 
+            maxWidth="xl"
+        >
+        {/* <Box> */}
             {/* Container of Information, overall quality, controlling, image of room  */}
             <Grid
                 container
@@ -197,7 +198,7 @@ const Dashboard = () => {
 
             >
                 <Grid
-                    paddingRight="10px"
+                    p="10px"
                     xs={12}
                     sm={12}
                     md={12}
@@ -233,7 +234,7 @@ const Dashboard = () => {
                 </Grid>
                 {/* Container of everything except image of room, this is set to the most left */}
                 <Grid
-                    paddingRight="10px"
+                    p="10px"
                     xs={12}
                     sm={12}
                     md={12}
@@ -289,23 +290,35 @@ const Dashboard = () => {
                         justifyItems="center"    
                         > */}
                     <Box 
+                        // sx={{boxShadow: 1,
+                        //     borderRadius: '5px', 
+                        //     backgroundColor: "white"}}
+                        // width="100%"
+                        // height="100%"
+                        // display="flex"
+                        // flexDirection="column"
+                        // alignItems="center"
+                        // justify="center"
+
+                        //     justifyContent="center"
                         sx={{boxShadow: 1,
                             borderRadius: '5px', 
                             backgroundColor: "white"}}
                         width="100%"
                         height="100%"
-                        display="flex"
-                        flexDirection="column"
-                        alignItems="center"
-                        justify="center"
+                        // display="flex"
+                        // flexDirection="column"
+                        // alignItems="center"
+                        // // justify="center"
 
-                            justifyContent="center"
+                        //     justifyContent="center"
                     >
 
                         
                                 <InformationTag url={apiInformationTag} 
                                     callbackSetSignIn={callbackSetSignIn} 
-                                    time_delay={5000}/>
+                                    time_delay={5000}
+                                    room_id={room_id}/>
                                 
                     </Box>
                     
@@ -367,7 +380,7 @@ const Dashboard = () => {
 
                 {/* Container of image */}
                 <Grid 
-                    paddingLeft="10px"
+                    p="10px"
                     xs={12}
                     sm={12}
                     md={12}
@@ -427,7 +440,7 @@ const Dashboard = () => {
                 justify="space-between" 
             >
                 <Grid
-                    paddingRight="10px"
+                    p="10px"
                     xs={12}
                     sm={12}
                     md={12}
@@ -455,7 +468,7 @@ const Dashboard = () => {
                     
                 </Grid>
                 <Grid
-                        paddingLeft="10px"
+                        p="10px"
                         item={true}
                         xs={12}
                         sm={12}
@@ -484,7 +497,7 @@ const Dashboard = () => {
                         </Box>
                 </Grid>
                 <Grid
-                    paddingLeft="10px"
+                    p="10px"
                     xs={12}
                     sm={12}
                     md={12}
@@ -521,7 +534,8 @@ const Dashboard = () => {
 
             <Box 
             sx={{
-                marginTop: '20px',
+                p: "20px",
+                marginTop: '10px',
                 boxShadow: 1,
                 borderRadius: '5px', 
                 backgroundColor: "white"}}
@@ -739,11 +753,12 @@ const Dashboard = () => {
                 </Grid>
 
                 </Box>
-            </Box>
+            {/* </Box> */}
+            {/* </Container> */}
                                     
-            </Container>
+            </Box>
                 
-        {/* </Container>     */}
+        </Container>    
     </Box>
     </>
     );

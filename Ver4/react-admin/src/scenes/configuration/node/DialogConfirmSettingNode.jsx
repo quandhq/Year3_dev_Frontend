@@ -243,18 +243,7 @@ export default function DialogConfirmSettingNode({callbackSetSignIn,
                     flag = 0;
                     break;
                 }
-                if(prop === "node_id")
-                {
-                    for(let i=0; i<remain_node_id_configurationNodeAll.length; ++i)
-                    {
-                        if((remain_node_id_configurationNodeAll[i]).toString() === dataNodeSetting[prop].toString())
-                        {
-                            alert("Node id've already existed!");
-                            flag = 0;
-                            break;
-                        }
-                    }
-                }
+                
                 if(prop === "x_axis")
                 {
                     if(parseInt(dataNodeSetting[prop]) < 0 || parseInt(dataNodeSetting[prop]) > roomSize.x)

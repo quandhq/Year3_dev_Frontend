@@ -368,7 +368,7 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, apiInformatio
                                 style={{width: "100%"}}
                             // backgroundColor={colors.primary[400]}
                             >
-                                <Header title={para_name[1]} fontSize="20px" />
+                                {/* <Header title={para_name[1]} fontSize="20px" />
                                 <Box
                                     item
                                     style={{
@@ -378,7 +378,7 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, apiInformatio
                                 // backgroundColor={colors.primary[400]}
                                 >
                                     <VictoryBarChartV2 data_x={dataChart["time"]} data_y={dataChart[para_filter_dict[1]]} option_data={optionData}/>
-                                </Box>
+                                </Box> */}
                             </Grid>
 
                             <Box m={2} />

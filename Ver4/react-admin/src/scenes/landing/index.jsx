@@ -245,9 +245,9 @@ const Landing = () => {
             <Container sx={{ py: 1 }} maxWidth="lg">
             {/* <Box mb="50px"> */}
 
-                <Box display="flex" justifyContent="center" alignItems="center">
+                {/* <Box display="flex" justifyContent="center" alignItems="center">
                     <Header title="Dashboard" fontSize="60px"/>
-                </Box>
+                </Box> */}
                 <Box display="flex" justifyContent="center" alignItems="center" >
                     
                     {/* <p sx={{

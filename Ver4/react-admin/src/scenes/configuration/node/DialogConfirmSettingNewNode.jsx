@@ -20,7 +20,7 @@ export default function DialogConfirmSettingNewNode({dataNodeSetting, setDataNod
             Setting
         </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={12}>
+        {/* <Grid item xs={12} sm={12}>
           <TextField
             required
             id="node_id"
@@ -33,7 +33,7 @@ export default function DialogConfirmSettingNewNode({dataNodeSetting, setDataNod
             onInput={(e)=>{e.target.value = e.target.value.replace(/[^0-9]/g, '')}}
             onChange={(e)=>setDataNodeSetting({...dataNodeSetting, node_id: e.target.value})}
           />
-        </Grid>
+        </Grid> */}
         
         <Grid item xs={12}>
           <TextField
@@ -74,7 +74,8 @@ export default function DialogConfirmSettingNewNode({dataNodeSetting, setDataNod
                     label="Function"
                 >
                     <MenuItem value={"sensor"}>Sensor</MenuItem>
-                    <MenuItem value={"actuator"}>Actuator</MenuItem>
+                    <MenuItem value={"air"}>Air conditioning</MenuItem>
+                    <MenuItem value={"fan"}>Fan</MenuItem>
                 </Select>
             </FormControl>
         </Grid>

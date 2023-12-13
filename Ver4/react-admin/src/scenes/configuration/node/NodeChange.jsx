@@ -176,7 +176,7 @@ export default function NodeChange({configurationNodeAll, callbackSetSignIn, nod
 
     }
     const [dataCreateNode, setDataCreateNode] = useState({
-                                                        "node_id": null, 
+                                                        "node_id": 100, 
                                                         "x_axis": null,
                                                         "y_axis": null,
                                                         "function": null,
@@ -201,18 +201,6 @@ export default function NodeChange({configurationNodeAll, callbackSetSignIn, nod
                     alert(`You have to fill in ${name_lookup[prop]}!`);
                     flag = 0;
                     break;
-                }
-                if(prop === "node_id")
-                {
-                    for(let i=0; i<configurationNodeAll.length; ++i)
-                    {
-                        if((configurationNodeAll[i].node_id).toString() === dataCreateNode[prop].toString())
-                        {
-                            alert("Node id've already existed!");
-                            flag = 0;
-                            break;
-                        }
-                    }
                 }
                 if(prop === "mac")
                 {

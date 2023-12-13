@@ -13,7 +13,7 @@ export default function ConfirmNode({dataCreateNode}) {
   return (
     <React.Fragment>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={12}>
+        {/* <Grid item xs={12} sm={12}>
           <TextField
             required
             id="node_id"
@@ -26,7 +26,7 @@ export default function ConfirmNode({dataCreateNode}) {
               }}
             value={dataCreateNode.node_id}
           />
-        </Grid>
+        </Grid> */}
         
         <Grid item xs={12}>
           <TextField
