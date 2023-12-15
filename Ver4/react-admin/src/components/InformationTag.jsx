@@ -317,9 +317,14 @@ const InformationTag = ({url, callbackSetSignIn, time_delay, room_id}) => {
             isLoading ?
             <h1>Loading...</h1>
             :
-            <div>
+            <Box>
+            <div className='aqiwidget aqiwidget-xxl' style={{ height: '420px; overflow: hidden;' }}>
+                            <div className='aqiwidget-table-x' style={{ width: '460px;' }}>
+                            <div style={{ textAlign: 'left; padding: 1px; padding-left: 5px; padding-right: 5px; line-height: 1.15;' }}>
+
+            
+
                 <Box
-                    alignItems="left"
                 >
                         <div className='aqiwidget aqiwidget-xxl' style={{ height: '420px; overflow: hidden;' }}>
                             <div className='aqiwidget-table-x' style={{ width: '460px;' }}>
@@ -589,7 +594,10 @@ const InformationTag = ({url, callbackSetSignIn, time_delay, room_id}) => {
             
             </table>
         </Box>
-        </div>                                
+        </div>
+        </div>
+        </div>
+        </Box>
         }
         </>
 

@@ -21,7 +21,6 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import logo_lab from "../../assets/logo_lab.png";
 import {host, UserContext} from "../../App";
-import room1_building from "../../assets/room1_building_cropped.svg";
 import room1 from "../../assets/room1.png";
 import plan from "../../assets/plan.svg";
 
@@ -64,8 +63,8 @@ const Landing = () => {
     {
         1: plan,
         2: plan,
-        3: room1_building,
-        4: room1_building,
+        3: room1,
+        4: room1,
     }
 
     const backend_host = host;

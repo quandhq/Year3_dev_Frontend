@@ -283,7 +283,7 @@ export default function AqiRef({callbackSetSignIn, time_delay})
                                     >
                                         <div className='aqivalue' id='aqiwgtvalue' style={{ 
                                             fontSize: '80px', 
-                                            backgroundColor: '#ffde33', 
+                                            backgroundColor:  `${data["rating"]["color"]}`, 
                                             color: '#000000', 
                                             }} 
                                             
@@ -585,7 +585,7 @@ export default function AqiRef({callbackSetSignIn, time_delay})
                                                 </div>
                                             </div>
                                         </div>
-                                    </Box>
+                    </Box>
             }
         </>
     );
