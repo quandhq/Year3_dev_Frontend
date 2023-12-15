@@ -503,7 +503,7 @@ const Chart = ({room_id, callbackSetSignIn, timedelay, optionData, apiInformatio
 
                             <Grid
                                 xs={12}
-                                sm={12}
+                                sm={12}t 
                                 md={12}
                                 lg={12}
                                 item
