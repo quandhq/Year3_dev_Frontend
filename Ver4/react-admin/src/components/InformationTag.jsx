@@ -172,7 +172,7 @@ const InformationTag = ({url, callbackSetSignIn, time_delay, room_id}) => {
         }
         else
         {
-            alert("Some error happened, try to reload page!");
+            console.log("Some error happened, try to reload page!");
         }
     }
 

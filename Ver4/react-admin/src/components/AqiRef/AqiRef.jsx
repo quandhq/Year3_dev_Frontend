@@ -79,7 +79,13 @@ export default function AqiRef({callbackSetSignIn, time_delay})
         }
         else
         {
-            setData([]);
+            let new_data;
+            new_data["rating"] = 
+                {
+                    "color": "white",
+                    "rate": "No data",
+                }
+            setData(new_data);
         }
         setIsLoading(false);
     }

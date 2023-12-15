@@ -43,7 +43,7 @@ const SetTimer = ({room_id, callbackSetSignIn}) =>
         }
         else
         {
-            alert("Some error happened with Backend! Error: " + data_response["Response"])
+            console.log("Some error happened with Backend! Error: " + data_response["Response"])
         }
 
     }
