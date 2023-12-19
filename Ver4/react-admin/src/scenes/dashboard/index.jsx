@@ -9,7 +9,7 @@ import { useState, useContext } from "react";
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 
-import Control  from "../../components/GaugeChart/Control";
+import Control  from "../../components/Actuator/GaugeChart/Control";
 import { UserContext } from "../../App";
 import ControlPanel from "../../components/ControlPanel/ControlPanel";
 import MultipleYAxis from "../../components/ApexChart/MixChartApex";
@@ -22,9 +22,10 @@ import RoomMap from "../../components/RoomMap/RoomMap";
 import FilterNode from "../../components/RoomMap/FilterNode";
 import FilterParameter from "../../components/RoomMap/FilterParameter";
 import AQI from "../../components/AQI";
-import SetTimer from "../../components/SetTimer";
-import ActuatorStatus from "../../components/ActuatorStatus";
+import SetTimer from "../../components/Actuator/SetTimer";
+import ActuatorStatus from "../../components/Actuator/ActuatorStatus";
 import AqiRef from "../../components/AqiRef/AqiRef";
+import Actuator from "../../components/Actuator/Actuator";
 
 const Dashboard = () => {
     const backend_host = host;
@@ -44,10 +45,9 @@ const Dashboard = () => {
     // const apiHistoryChart = `http://${backend_host}/api/v1.1/monitor/data/history?room_id=${room_id}&node_id=${nodeIdFilter}&time_start=${unixTimestampStart}&time_end=${unixTimestampEnd}&option=${optionChartData}`;
     // const [apiHistoryChartState, setApiHistoryChartState] = useState(apiHistoryChart);
     const apiInformationTag = `http://${backend_host}/api/room/information_tag?room_id=${room_id}`;
-    
-    
-
     const [actuatorStatus, setActuatorStatus] = useState(0);
+
+    const [actuatorInfoOfRoom, setActuatorInfoOfRoom] = useState([]);
     
 
 
@@ -318,7 +318,8 @@ const Dashboard = () => {
                                 <InformationTag url={apiInformationTag} 
                                     callbackSetSignIn={callbackSetSignIn} 
                                     time_delay={5000}
-                                    room_id={room_id}/>
+                                    room_id={room_id}
+                                    setActuatorInfoOfRoom={setActuatorInfoOfRoom}/>
                                 
                     </Box>
                     
@@ -418,6 +419,15 @@ const Dashboard = () => {
                 
             > */}
 
+
+            <div>
+                <Actuator 
+                    room_id={room_id} 
+                    actuatorInfoOfRoom={actuatorInfoOfRoom}
+                    callbackSetSignIn={callbackSetSignIn}
+                    />
+            </div>
+
             {/* Container of set timer */}
             {/* <Box 
                 sx={{
@@ -428,109 +438,7 @@ const Dashboard = () => {
                     >
                 <SetTimer room_id={room_id}/>
             </Box> */}
-            <Grid
-                container
-                alignItems="stretch"
-                style={{
-                        display: "flex", 
-                        height: "100%", 
-                        // backgroundColor: "red"
-                        marginTop: '20px',
-                    }}
-                justify="space-between" 
-            >
-                <Grid
-                    p="10px"
-                    xs={12}
-                    sm={12}
-                    md={12}
-                    lg={6}
-                    container="true"
-                    display="flex"
-                    direction="column"
-                >
-                    <Box 
-                        sx={{boxShadow: 1,
-                            borderRadius: '5px', 
-                            backgroundColor: "white"}}
-                        width="100%"
-                        height="100%"
-                        display="flex"
-                        flexDirection="column"
-                        alignItems="center"
-                        justifyContent="center"
-                    >
-                        <Box mt="10px" mb="15px">
-                            <Header title="Air-conditioning timer:" fontSize="20px"/>
-                            <SetTimer room_id={room_id} callbackSetSignIn={callbackSetSignIn}/>
-                        </Box>
-                    </Box>
-                    
-                </Grid>
-                <Grid
-                        p="10px"
-                        item={true}
-                        xs={12}
-                        sm={12}
-                        lg={3}
-                        display="flex"
-                        direction="column"
-                        alignItems="center"
-                        justify="center"
-                        
-                    >
-                        <Box 
-                            sx={{boxShadow: 1,
-                                borderRadius: '5px', 
-                                backgroundColor: "white"}}
-                            width="100%"
-                            height="100%"
-                            display="flex"
-                            flexDirection="column"
-                            alignItems="center"
-                            justifyContent="center"
-                        >
-                            <Box mt="10px" mb="10px">
-                                <Header title="Manual Control" fontSize="20px"/>
-                                <Control room_id={room_id} callbackSetSignIn={callbackSetSignIn} actuatorStatus={actuatorStatus}/>
-                            </Box>
-                        </Box>
-                </Grid>
-                <Grid
-                    p="10px"
-                    xs={12}
-                    sm={12}
-                    md={12}
-                    lg={3}
-                    container="true"
-                    display="flex"
-                    direction="column"
-                >
-                    <Box
-                        sx={{boxShadow: 1,
-                            borderRadius: '5px', 
-                            backgroundColor: "white"}}
-                        width="100%"
-                        height="100%"
-                        display="flex"
-                        flexDirection="column"
-                        alignItems="center"
-                        justifyContent="center"
-                    >
-                        <Box mt="10px" mb="15px"
-                        display="flex"
-                        flexDirection="column"
-                        alignItems="center"
-                        justify="center">
-
-                            <Header title="Actuator Status:" fontSize="20px"/>
-                            <Box m="10px" />
-                            <ActuatorStatus room_id={room_id} setActuatorStatus={setActuatorStatus} callbackSetSignIn={callbackSetSignIn}/>
-                        </Box>
-                    </Box>
-
-                </Grid>
-            </Grid>
+            
 
             <Box 
             sx={{

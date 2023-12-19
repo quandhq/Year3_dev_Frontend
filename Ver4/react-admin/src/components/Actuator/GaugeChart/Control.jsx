@@ -3,11 +3,11 @@ import GaugeChart from "react-gauge-chart";
 import { useState } from "react";
 import { memo } from "react";
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
-import { tokens } from "../../theme";
-import Header from "../Header";
+import { tokens } from "../../../theme";
+import Header from "../../Header";
 import { json } from "react-router-dom";
 import { Slider } from '@mui/material';
-import { host } from "../../App";
+import { host } from "../../../App";
 
 const Control = ({room_id, callbackSetSignIn, actuatorStatus}) =>
 {

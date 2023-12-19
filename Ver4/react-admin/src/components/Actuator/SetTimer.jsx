@@ -3,24 +3,40 @@ import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
-import { host } from "../App";
+import { host } from "../../App";
 import Grid from "@mui/material";
 import TextField from "@mui/material/TextField";
-import Header from "./Header";
+import Header from "../Header";
 
-const SetTimer = ({room_id, callbackSetSignIn}) => 
+const SetTimer = ({actuatorStatus,
+    room_id,
+    callbackSetSignIn,
+    node_id,}) => 
 {
-    const [time, setTime] = useState(0);
-    const [temperature, setTemperature] = useState(0);
-    const url = `http://${host}/api/room/set_timer?room_id=${room_id}`;
+    const [startTimeInSetTimer, setStartTimeInSetTimer] = useState(null);
+    const [endTimeInSetTimer, setEndTimeInSetTimer] = useState(null);
+    // const [temperature, setTemperature] = useState(0);
 
-    const set_timer_function = async (url, access_token) => 
+    const url = `http://${host}/api/actuator_command`;
+
+
+    const setActuatorCommandFunction = async (url, access_token) => 
     {
         const headers = {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${access_token}`,
         }
-        const data = {"time":  time, "temperature": temperature}
+        const data = { 
+            "operator": 1, 
+            "info": { 
+              "room_id": 2, 
+              "node_id": 1, 
+              "power": 1, 
+              "temp": 25, 
+              "start_time": null, 
+              "end_time": null, 
+            } 
+          } 
         const fetch_option = {
             "method": "POST",
             "headers": headers,
@@ -160,29 +176,77 @@ const SetTimer = ({room_id, callbackSetSignIn}) =>
         }
 
     }
+    
 
     return (
+
+    <Box
+        // display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" 
+        width="100%"
+        height="100%"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+    >    
         <Box
+            // display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" 
+            width="100%"
+            height="100%"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+        >
+
+            <Header title="Air-conditioning start timer:" fontSize="20px"/>
+
+            <Box
             display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" 
             // gap="30px"
-        >
-            <Box m="10px"/>
-            <Box>
-                <Box
-                    mb="5px"
-                    sx={{
-                        fontSize: "18px",
-                        fontWeight: 600,
-                        }}
-                > Time </Box>
+            // width="100%"
+            // height="100%"
+            // display="flex"
+            // flexDirection="column"
+            // alignItems="center"
+            // justifyContent="center"
+            >
                 <MobileDateTimePicker onChange={(new_value)=>{
-                                            setTime(Date.parse(new_value)/1000 + 7*60*60);
+                                            setStartTimeInSetTimer(Date.parse(new_value)/1000 + 7*60*60);
                                         }
                                     }
                 />
+                    <Box m="25px" />
+                    {
+                    actuatorStatus === 0 ?
+                    <Button
+                        sx={{
+                            backgroundColor: "black",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                            padding: "8px 18px",
+                            }}
+                        variant="contained"
+                        onClick={()=>{
+                            if(startTimeInSetTimer <= (new Date()).getTime()/1000 + 7*60*60 + 1*60)
+                            {
+                                alert("Start time is not valid! Only accept time 1 minute at least beyond current time!");
+                            }
+                            else
+                            {
+                                setStartTime(startTimeInSetTimer);
+                                alert("Start timer accepted!")
+                            }
+                        }}
+                    >
+                        Submit
+                    </Button>
+                    :
+                    <h3>Actuator is ON</h3>
+                    }
             </Box>
             <Box m="10px"/>
-            <Box>
+            {/* <Box>
                 <Box
                     mb="5px"
                     sx={{
@@ -203,34 +267,98 @@ const SetTimer = ({room_id, callbackSetSignIn}) =>
                     onInput={(e)=>{e.target.value = e.target.value.replace(/[^0-9]/g, '')}}
                     onChange={(e)=>setTemperature(e.target.value)}
                 />
+            </Box> */}
+
+            <Box m="10px"/>
+            
+        </Box>
+
+        <Box
+            // display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" 
+            width="100%"
+            height="100%"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+        >
+
+            <Header title="Air-conditioning end timer:" fontSize="20px"/>
+
+            <Box
+                display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" 
+            >
+                <MobileDateTimePicker onChange={(new_value)=>{
+                                            setEndTimeInSetTimer(Date.parse(new_value)/1000 + 7*60*60);
+                                        }
+                                    }
+                />
+
+                <Box m="10px"/>
+                
+                {
+                    actuatorStatus === 1 ?
+                    <Button
+                        sx={{
+                            backgroundColor: "black",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                            padding: "8px 18px",
+                            }}
+                        variant="contained"
+                        onClick={()=>{
+                            if(endTimeInSetTimer <= (new Date()).getTime()/1000 + 7*60*60 + 1*60)
+                            {
+                                alert("End time is not valid! Only accept time 1 minute at least beyond current time!");
+                            }
+                            else
+                            {
+                                setEndTime(endTimeInSetTimer);
+                                alert("End timer accepted!");
+                            }
+                        }}
+                    >
+                        Submit
+                    </Button>
+                    :
+                    <h3>Actuator is OFF</h3>
+                }
             </Box>
+
             <Box m="10px"/>
             <Box>
                 <Box m="25px" />
-                <Button
-                    sx={{
-                        backgroundColor: "black",
-                        fontSize: "14px",
-                        fontWeight: "bold",
-                        padding: "8px 18px",
+                {
+                    actuatorStatus === 1 ?
+                    <Button
+                        sx={{
+                            backgroundColor: "black",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                            padding: "8px 18px",
+                            }}
+                        variant="contained"
+                        onClick={()=>{
+                            if(endTimeInSetTimer <= (new Date()).getTime()/1000 + 7*60*60 + 1*60)
+                            {
+                                alert("End time is not valid! Only accept time 1 minute at least beyond current time!");
+                            }
+                            else
+                            {
+                                setEndTime(endTimeInSetTimer);
+                                alert("End timer accepted!");
+                            }
                         }}
-                    variant="contained"
-                    onClick={()=>{
-                        if(time <= (new Date()).getTime()/1000 + 7*60*60 + 1*60)
-                        {
-                            alert("Timer is not valid! Only accept time 1 minute at least beyond current time!");
-                        }
-                        else
-                        {
-                            verify_and_get_data(set_timer_function, callbackSetSignIn, host, url);
-                            alert("Timer accepted!")
-                        }
-                    }}
-                >
-                    Submit
-                </Button>
+                    >
+                        Submit
+                    </Button>
+                    :
+                    <></>
+                }
             </Box>
+            
         </Box>
+    </Box>    
     );
 }
 

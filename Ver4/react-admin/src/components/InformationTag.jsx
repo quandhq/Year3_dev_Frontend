@@ -26,7 +26,7 @@ import AQI from './AQI';
 
 
 
-const InformationTag = ({url, callbackSetSignIn, time_delay, room_id}) => {
+const InformationTag = ({url, callbackSetSignIn, time_delay, room_id, setActuatorInfoOfRoom}) => {
     const backend_host = host;
     const api_informationtag = url;
     
@@ -163,12 +163,14 @@ const InformationTag = ({url, callbackSetSignIn, time_delay, room_id}) => {
 
             newInfoData["time"] = parseInt(data["time"]);
             getInfoData(newInfoData);
-            console.log(newInfoData)
-            let newNodeData = {}
-            newNodeData["sensor"] = data["node_info"]["sensor"]
-            newNodeData["actuator"] = data["node_info"]["actuator"]
-            getNodeData(newNodeData)
-            setIsLoading(false)
+            console.log(newInfoData);
+            let newNodeData = {};
+            newNodeData["sensor"] = data["node_info"]["sensor"];
+            newNodeData["actuator"] = data["node_info"]["actuator"];
+            setActuatorInfoOfRoom(newNodeData["actuator"]);
+            console.log(newNodeData["actuator"]);
+            getNodeData(newNodeData);
+            setIsLoading(false);
         }
         else
         {

@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { host } from "../App";
+import { host } from "../../App";
 import { createContext } from "react";
 import Slider from '@mui/material/Slider';
-import Header from "./Header";
+import Header from "../Header";
 
 
-const ActuatorStatus = ({room_id, setActuatorStatus, callbackSetSignIn}) => 
+const ActuatorStatus = ({room_id, setActuatorStatus, callbackSetSignIn,
+    node_id,}) => 
 {
     const [status, setStatus] = useState(null);
     const [speed, setSpeed] = useState(0);
