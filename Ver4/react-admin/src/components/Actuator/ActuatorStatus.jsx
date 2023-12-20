@@ -9,11 +9,11 @@ import Header from "../Header";
 
 
 const ActuatorStatus = ({room_id, setActuatorStatus, callbackSetSignIn,
-    node_id,}) => 
+    node_id, actuatorStatus}) => 
 {
     const [status, setStatus] = useState(null);
     const [speed, setSpeed] = useState(0);
-    const url = `http://${host}/api/actuator_status?room_id=${room_id}`;
+    const url = `http://${host}/api/actuator_status?room_id=${room_id}&node_id=${node_id}`;
     const url_set_command = `http://${host}/api/actuator_command`;
     const [isLoading, setIsLoading] = useState(true);
     const [flip, setFlip] = useState(true);
@@ -42,18 +42,29 @@ const ActuatorStatus = ({room_id, setActuatorStatus, callbackSetSignIn,
         }
         if(response.status == 200)
         {
-            if(data_response.speed > 0)
+            if(data_response["Response"]["speed"] > 0 || data_response["Response"]["temp"] > 0)
             {
                 setStatus(1);
-                setActuatorStatus(1);
-                setSpeed(data_response.speed);
+                let newActuatorStatus = actuatorStatus;
+                newActuatorStatus[node_id] = 1;
+                setActuatorStatus(newActuatorStatus);
+                if(data_response["Response"]["speed"] > 0)
+                {
+                    setSpeed(data_response["Response"]["speed"]);
+                }
+                else if(data_response["Response"]["temp"] > 0)
+                {
+                    setSpeed(data_response["Response"]["temp"]);
+                }
                 console.log(status);
                 setIsLoading(false);
             }
             else
             {
                 setStatus(0);
-                setActuatorStatus(0);
+                let newActuatorStatus = actuatorStatus;
+                newActuatorStatus[node_id] = 0;
+                setActuatorStatus(newActuatorStatus);
                 setSpeed(0);
                 console.log(status);
                 setIsLoading(false);
@@ -74,10 +85,21 @@ const ActuatorStatus = ({room_id, setActuatorStatus, callbackSetSignIn,
             "Content-Type": "application/json",
             "Authorization": `Bearer ${access_token}`,
         }
+        const data = { 
+            "operator": 1, 
+            "info": { 
+              "room_id": room_id, 
+              "node_id": node_id, 
+              "power": command, 
+              "temp": null, 
+              "start_time": null, 
+              "end_time": null, 
+            } 
+        } 
         const fetch_option = {
             "method": "POST",
             "headers": headers,
-            "body": JSON.stringify({"command": command, "room_id": room_id}),
+            "body": JSON.stringify(data),
         };
         let response;
         let data_response;
@@ -92,7 +114,8 @@ const ActuatorStatus = ({room_id, setActuatorStatus, callbackSetSignIn,
         }
         if(response.status == 200)
         {
-            alert("Result:" + data_response["Response"]);
+            console.log("Result:" + data_response["Response"]);
+            alert("Sent!");
         }
         else
         {
@@ -336,7 +359,7 @@ const ActuatorStatus = ({room_id, setActuatorStatus, callbackSetSignIn,
                     disabled
                     // onKeyDown={preventHorizontalKeyboardNavigation}
                 />
-                <Header title="Speed" fontSize="15px"/>
+                <Header title={`Speed/Temperature: ${speed}`} fontSize="15px"/>
 
                 </Box>
             </Box>

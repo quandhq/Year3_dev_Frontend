@@ -168,6 +168,7 @@ const InformationTag = ({url, callbackSetSignIn, time_delay, room_id, setActuato
             newNodeData["sensor"] = data["node_info"]["sensor"];
             newNodeData["actuator"] = data["node_info"]["actuator"];
             setActuatorInfoOfRoom(newNodeData["actuator"]);
+            console.log("THIS IS FROM INFORMATION TAG");
             console.log(newNodeData["actuator"]);
             getNodeData(newNodeData);
             setIsLoading(false);

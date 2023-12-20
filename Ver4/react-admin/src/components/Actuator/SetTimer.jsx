@@ -13,6 +13,9 @@ const SetTimer = ({actuatorStatus,
     callbackSetSignIn,
     node_id,}) => 
 {
+    console.log("HERE");
+    console.log(actuatorStatus);
+    console.log(actuatorStatus[node_id]);
     const [startTimeInSetTimer, setStartTimeInSetTimer] = useState(null);
     const [endTimeInSetTimer, setEndTimeInSetTimer] = useState(null);
     // const [temperature, setTemperature] = useState(0);
@@ -29,12 +32,12 @@ const SetTimer = ({actuatorStatus,
         const data = { 
             "operator": 1, 
             "info": { 
-              "room_id": 2, 
-              "node_id": 1, 
-              "power": 1, 
-              "temp": 25, 
-              "start_time": null, 
-              "end_time": null, 
+              "room_id": room_id, 
+              "node_id": node_id, 
+              "power": null, 
+              "temp": null, 
+              "start_time": startTimeInSetTimer, 
+              "end_time": endTimeInSetTimer, 
             } 
           } 
         const fetch_option = {
@@ -218,7 +221,7 @@ const SetTimer = ({actuatorStatus,
                 />
                     <Box m="25px" />
                     {
-                    actuatorStatus === 0 ?
+                    actuatorStatus[node_id] === 0 ?
                     <Button
                         sx={{
                             backgroundColor: "black",
@@ -234,7 +237,7 @@ const SetTimer = ({actuatorStatus,
                             }
                             else
                             {
-                                setStartTime(startTimeInSetTimer);
+                                verify_and_get_data(setActuatorCommandFunction, callbackSetSignIn, host, url);
                                 alert("Start timer accepted!")
                             }
                         }}
@@ -297,7 +300,7 @@ const SetTimer = ({actuatorStatus,
                 <Box m="10px"/>
                 
                 {
-                    actuatorStatus === 1 ?
+                    actuatorStatus[node_id] === 1 ?
                     <Button
                         sx={{
                             backgroundColor: "black",
@@ -313,7 +316,7 @@ const SetTimer = ({actuatorStatus,
                             }
                             else
                             {
-                                setEndTime(endTimeInSetTimer);
+                                verify_and_get_data(setActuatorCommandFunction, callbackSetSignIn, host, url);
                                 alert("End timer accepted!");
                             }
                         }}
@@ -322,38 +325,6 @@ const SetTimer = ({actuatorStatus,
                     </Button>
                     :
                     <h3>Actuator is OFF</h3>
-                }
-            </Box>
-
-            <Box m="10px"/>
-            <Box>
-                <Box m="25px" />
-                {
-                    actuatorStatus === 1 ?
-                    <Button
-                        sx={{
-                            backgroundColor: "black",
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                            padding: "8px 18px",
-                            }}
-                        variant="contained"
-                        onClick={()=>{
-                            if(endTimeInSetTimer <= (new Date()).getTime()/1000 + 7*60*60 + 1*60)
-                            {
-                                alert("End time is not valid! Only accept time 1 minute at least beyond current time!");
-                            }
-                            else
-                            {
-                                setEndTime(endTimeInSetTimer);
-                                alert("End timer accepted!");
-                            }
-                        }}
-                    >
-                        Submit
-                    </Button>
-                    :
-                    <></>
                 }
             </Box>
             

@@ -423,7 +423,6 @@ const Dashboard = () => {
             <div>
                 <Actuator 
                     room_id={room_id} 
-                    actuatorInfoOfRoom={actuatorInfoOfRoom}
                     callbackSetSignIn={callbackSetSignIn}
                     />
             </div>
