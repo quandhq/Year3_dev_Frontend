@@ -13,6 +13,7 @@ import About from "./scenes/about";
 import Contact from "./scenes/contact";
 import Configuration from "./scenes/configuration/Configuration";
 import SignUp from "./scenes/signUp";
+import Weatherdata from "./scenes/weatherdata/Weatherdata";
 
 const debug_mode = false;
 // export const host = "27.71.227.1:8002";
@@ -52,6 +53,7 @@ function App() {
                                 &&
                                 <Route path="/configuration" element={<Configuration />} />
                             }
+                            <Route path="/weatherdata" element={<Weatherdata/>} />
                         </Routes>
 
                         <Footer/>
