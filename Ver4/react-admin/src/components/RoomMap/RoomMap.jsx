@@ -1,6 +1,10 @@
 import Header from "../Header";
 import { Box } from "@mui/material";
 import plan from "../../assets/plan.svg";
+import plan_409 from "../../assets/409.svg";
+import plan_410 from "../../assets/410.svg";
+import plan_411 from "../../assets/411.svg";
+
 import {Button, useMediaQuery} from "@mui/material";
 import { host } from "../../App";
 import { React, useState, useEffect, useRef } from "react";
@@ -32,6 +36,14 @@ const RoomMap = ({room_id, callbackSetSignIn}) =>
     const backend_host = host;
     const api_to_fetch = `http://${backend_host}/api/room/information_tag?room_id=${room_id}`;
     const api_to_fetch_heatmap_data = `http://${backend_host}/api/room/kriging?room_id=${room_id}`;
+
+
+    const dict_plan = {
+        1: plan_409,
+        2: plan_410,
+        3: plan_409,
+        4: plan_411,
+    }
 
 
 
@@ -350,7 +362,7 @@ const RoomMap = ({room_id, callbackSetSignIn}) =>
                 >
                     <img
                         alt="profile-room"
-                        src={plan}
+                        src={dict_plan[room_id]}
                         style={{ 
                             width: `${imageWidth}px`,
                             cursor: "pointer", borderRadius: "0%" 

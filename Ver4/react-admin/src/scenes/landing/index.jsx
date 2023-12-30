@@ -24,6 +24,10 @@ import {host, UserContext} from "../../App";
 import room1 from "../../assets/room1.png";
 import plan from "../../assets/plan.svg";
 
+import plan_409 from "../../assets/409.svg";
+import plan_410 from "../../assets/410.svg";
+import plan_411 from "../../assets/411.svg";
+
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
@@ -61,10 +65,10 @@ const Landing = () => {
     const [isLoading, setIsLoading] = useState(true);
     const image_room = 
     {
-        1: plan,
-        2: plan,
-        3: room1,
-        4: room1,
+        1: plan_409,
+        2: plan_410,
+        3: plan_411,
+        4: plan_409,
     }
 
     const backend_host = host;
