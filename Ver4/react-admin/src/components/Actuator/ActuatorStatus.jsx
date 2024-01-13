@@ -91,9 +91,9 @@ const ActuatorStatus = ({room_id, setActuatorStatus, callbackSetSignIn,
               "room_id": room_id, 
               "node_id": node_id, 
               "power": command, 
-              "temp": null, 
-              "start_time": null, 
-              "end_time": null, 
+              "temp": 25, 
+              "start_time": -1, 
+              "end_time": -1, 
             } 
         } 
         const fetch_option = {

@@ -100,7 +100,7 @@ const Landing = () => {
                         const key = `room_${room["id"]}_${room["construction_name"]}`;
                         new_room_data.push({
                             "name": `room ${room["room_id"]} ${room["construction_name"]}`,
-                            "image": image_room[room["id"]],
+                            "image": image_room[room["room_id"]],
                             "room_id": room["room_id"],
                             "info": room["information"]
                         })
