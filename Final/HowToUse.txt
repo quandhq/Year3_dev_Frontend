@@ -1,0 +1,4 @@
+1. download folder "final"
+2. cd into folder "final/react-admin"
+3. install all packages required that lies in file "package.json"
+4. use npm to start application

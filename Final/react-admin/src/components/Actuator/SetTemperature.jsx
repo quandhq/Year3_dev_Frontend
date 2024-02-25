@@ -145,8 +145,6 @@ export default function SetTemperature({actuatorStatus, node_id, callbackSetSign
 
         if(verifyAccessToken_response === true)
         {
-            // const response = await fetch(url)
-            // const data = await response.json()
             fetch_data_function(url, token["access_token"])
         }
         else
@@ -175,7 +173,6 @@ export default function SetTemperature({actuatorStatus, node_id, callbackSetSign
 
     return (
         <Box
-            // display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" 
             width="100%"
             height="100%"
             display="flex"
@@ -195,7 +192,6 @@ export default function SetTemperature({actuatorStatus, node_id, callbackSetSign
                     fullWidth
                     autoComplete="temperature"
                     variant="outlined"
-                    // value={dataCreateNode.x_axis}
                     onInput={(e)=>{e.target.value = e.target.value.replace(/[^0-9]/g, '')}}
                     onChange={(e)=>setTemperatureInSetTemperature(e.target.value)}
                 />

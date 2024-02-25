@@ -8,9 +8,16 @@ import Grid from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Header from "../Header";
 
-export default function SetTemperature({actuatorStatus, node_id, callbackSetSignIn, room_id}) 
+const SetTimer = ({actuatorStatus,
+    room_id,
+    callbackSetSignIn,
+    node_id,}) => 
 {
-    const [temperatureInSetTemperature, setTemperatureInSetTemperature] = useState(null);
+    console.log("HERE");
+    console.log(actuatorStatus);
+    console.log(actuatorStatus[node_id]);
+    const [startTimeInSetTimer, setStartTimeInSetTimer] = useState(null);
+    const [endTimeInSetTimer, setEndTimeInSetTimer] = useState(null);
 
     const url = `http://${host}/api/actuator_command`;
 
@@ -26,10 +33,10 @@ export default function SetTemperature({actuatorStatus, node_id, callbackSetSign
             "info": { 
               "room_id": room_id, 
               "node_id": node_id, 
-              "power": 1, 
-              "temp": temperatureInSetTemperature, 
-              "start_time": null, 
-              "end_time": null, 
+              "power": null, 
+              "temp": null, 
+              "start_time": startTimeInSetTimer, 
+              "end_time": endTimeInSetTimer, 
             } 
           } 
         const fetch_option = {
@@ -50,7 +57,7 @@ export default function SetTemperature({actuatorStatus, node_id, callbackSetSign
         }
         if(response.status == 200)
         {
-            alert("Successfully set temperature!")
+            alert("Successfully set timer!")
         }
         else
         {
@@ -63,7 +70,6 @@ export default function SetTemperature({actuatorStatus, node_id, callbackSetSign
     {
 
         const token = {access_token: null, refresh_token: null}
-        // const backend_host = host;
         if(localStorage.getItem("access") !== null && localStorage.getItem("refresh") !== null)
         {
             token.access_token = localStorage.getItem("access"); 
@@ -145,8 +151,6 @@ export default function SetTemperature({actuatorStatus, node_id, callbackSetSign
 
         if(verifyAccessToken_response === true)
         {
-            // const response = await fetch(url)
-            // const data = await response.json()
             fetch_data_function(url, token["access_token"])
         }
         else
@@ -174,8 +178,16 @@ export default function SetTemperature({actuatorStatus, node_id, callbackSetSign
     
 
     return (
+
+    <Box
+        width="100%"
+        height="100%"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+    >    
         <Box
-            // display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" 
             width="100%"
             height="100%"
             display="flex"
@@ -183,26 +195,75 @@ export default function SetTemperature({actuatorStatus, node_id, callbackSetSign
             alignItems="center"
             justifyContent="center"
         >
-            <Header title="Set temperature:" fontSize="20px"/>
 
-            <Box m="10px"/>
-            <Box>
-                <TextField
-                    required
-                    id="temperature"
-                    name="temperature"
-                    label="Temperature"
-                    fullWidth
-                    autoComplete="temperature"
-                    variant="outlined"
-                    // value={dataCreateNode.x_axis}
-                    onInput={(e)=>{e.target.value = e.target.value.replace(/[^0-9]/g, '')}}
-                    onChange={(e)=>setTemperatureInSetTemperature(e.target.value)}
+            <Header title="Air-conditioning start timer:" fontSize="20px"/>
+
+            <Box
+            display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" 
+            >
+                <MobileDateTimePicker onChange={(new_value)=>{
+                                            setStartTimeInSetTimer(Date.parse(new_value)/1000 + 7*60*60);
+                                        }
+                                    }
                 />
+                    <Box m="25px" />
+                    {
+                    actuatorStatus[node_id] === 0 ?
+                    <Button
+                        sx={{
+                            backgroundColor: "black",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                            padding: "8px 18px",
+                            }}
+                        variant="contained"
+                        onClick={()=>{
+                            if(startTimeInSetTimer <= (new Date()).getTime()/1000 + 7*60*60 + 1*60)
+                            {
+                                alert("Start time is not valid! Only accept time 1 minute at least beyond current time!");
+                            }
+                            else
+                            {
+                                verify_and_get_data(setActuatorCommandFunction, callbackSetSignIn, host, url);
+                                alert("Start timer accepted!")
+                            }
+                        }}
+                    >
+                        Submit
+                    </Button>
+                    :
+                    <h3>Actuator is ON</h3>
+                    }
             </Box>
+            <Box m="10px"/>
+            
 
             <Box m="10px"/>
-            <Box>
+            
+        </Box>
+
+        <Box
+            width="100%"
+            height="100%"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+        >
+
+            <Header title="Air-conditioning end timer:" fontSize="20px"/>
+
+            <Box
+                display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" 
+            >
+                <MobileDateTimePicker onChange={(new_value)=>{
+                                            setEndTimeInSetTimer(Date.parse(new_value)/1000 + 7*60*60);
+                                        }
+                                    }
+                />
+
+                <Box m="10px"/>
+                
                 {
                     actuatorStatus[node_id] === 1 ?
                     <Button
@@ -214,18 +275,14 @@ export default function SetTemperature({actuatorStatus, node_id, callbackSetSign
                             }}
                         variant="contained"
                         onClick={()=>{
-                            if(temperatureInSetTemperature >= 31)
+                            if(endTimeInSetTimer <= (new Date()).getTime()/1000 + 7*60*60 + 1*60)
                             {
-                                alert("Temperature must be less than 31!");
-                            }
-                            else if(temperatureInSetTemperature <=15)
-                            {
-                                alert("Temperature must be greater than 15!");
+                                alert("End time is not valid! Only accept time 1 minute at least beyond current time!");
                             }
                             else
                             {
                                 verify_and_get_data(setActuatorCommandFunction, callbackSetSignIn, host, url);
-                                alert("Temperature accepted!");
+                                alert("End timer accepted!");
                             }
                         }}
                     >
@@ -237,5 +294,8 @@ export default function SetTemperature({actuatorStatus, node_id, callbackSetSign
             </Box>
             
         </Box>
+    </Box>    
     );
 }
+
+export default SetTimer;
